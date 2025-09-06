@@ -43,8 +43,6 @@ export default defineUserConfig({
   theme: defaultTheme({
     hostname: 'https://clustta.com',
     logo: '/images/hero.png',
-    // repo: 'vuepress/core',
-    // docsRepo: 'vuepress/docs',
     docsDir: 'docs',
 
     // theme-level locales config
