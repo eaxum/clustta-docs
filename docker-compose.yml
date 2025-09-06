@@ -1,0 +1,25 @@
+version: "3.5"
+
+services:
+  clustta_docs:
+    image: clustta_docs:latest
+    container_name: clustta_docs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.clustta_docs.rule=Host(`docs.clustta.com`)"
+      - "traefik.http.services.clustta_docs.loadbalancer.server.port=80"
+      - "traefik.http.routers.clustta_docs.entrypoints=websecure"
+      - "traefik.http.routers.clustta_docs.tls.certresolver=myresolver"
+    networks:
+      - web
+    restart: always
+    environment:
+      DOCS_BASE_URL: https://docs.clustta.com
+      CLUSTTA_API_TARGET: https://api.clustta.com
+
+networks:
+  web:
+    name: clustta_web
