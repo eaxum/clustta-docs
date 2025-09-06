@@ -66,8 +66,10 @@ export default defineUserConfig({
     },
 
     themePlugins: {
-      // only enable git plugin in production mode
-      git: isProd,
+      // configure git plugin to disable lastUpdated but keep other features
+      git: isProd ? {
+        updatedTime: false,
+      } : false,
       // use shiki plugin in production mode instead
       prismjs: !isProd,
     },
