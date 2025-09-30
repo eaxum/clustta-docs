@@ -61,7 +61,7 @@ To add collaborators to a project, check out [Adding Collaborators to your proje
 ## 💻 The desktop application
 This interface lets you access, share, and manage all your project files locally on your computer.
 
-1. Install the Clustta desktop app from the the Apple(Coming Soon) or <a href="https://apps.microsoft.com/detail/9PNRGHGP3LGX?hl=en-us&gl=NG&ocid=pdpshare" target="_blank">Microsoft Store</a>.
+1. Install the Clustta desktop app from the <a href="https://apps.apple.com/us/app/clustta/id6748349288" target="_blank">Apple App Store</a> or <a href="https://apps.microsoft.com/detail/9PNRGHGP3LGX?hl=en-us&gl=NG&ocid=pdpshare" target="_blank">Microsoft Store</a>.
 2. If you've already created an account, log in with your details.
 
 <div align="center">
