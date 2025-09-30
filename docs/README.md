@@ -4,12 +4,16 @@ title: Home
 heroImage: /images/hero.png
 actions:
   - text: Get Started
-    link: /guide/getting-started.html
+    link: /guide/getting-started.md
     type: primary
 
   - text: Introduction
-    link: /guide/introduction.html
-    type: secondary
+    link: /guide/introduction.md
+    type: primary
+
+  - text: How it works
+    link: /guide/clustta-architecture.md
+    type: primary
 
 features:
   - title: File Management

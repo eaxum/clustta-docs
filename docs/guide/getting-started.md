@@ -6,7 +6,7 @@ You can access Clustta primarily through two interfaces:
 - The desktop application, available on the <a href="https://apps.microsoft.com/detail/9PNRGHGP3LGX?hl=en-us&gl=NG&ocid=pdpshare" target="_blank">Microsoft Store</a> and the <a href="https://apps.apple.com/us/app/clustta/id6748349288" target="_blank">Mac App Store</a>.
 
 
-## 🌍 The web dashboard 
+## 🌍 The web dashboard (🚧 Under construction)
 The web dashboard is an application you can access from any web browser at <a href="https://app.clustta.com" target="_blank">https://app.clustta.com</a>.
 Its your central hub for managing your personal account and studio. From here, you can:
 
