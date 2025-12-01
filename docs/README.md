@@ -11,10 +11,6 @@ actions:
     link: /guide/introduction.md
     type: primary
 
-  - text: How it works
-    link: /guide/clustta-architecture.md
-    type: primary
-
 features:
   - title: File Management
     details: Never mind finding files in the explorer. Clustta will track all of the projects and files you create such that it’s really easy to get to them even months after completion.

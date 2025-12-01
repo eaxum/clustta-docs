@@ -4,7 +4,7 @@ Welcome to Clustta, the revolutionary file manager designed specifically for cre
 
 With Clustta, you can say goodbye to lost files, fragmented projects, and tedious sharing methods, allowing you to focus on what you do best: creating.
 
-## 📦 Features
+## Features
 
 #### File Management: Your Creative Work, Centrally Organized
 Clustta acts as your ultimate creative hub, bringing all your projects and files into one intuitive space. Never again will you waste time searching through chaotic folders. Clustta intelligently tracks every project and file you create, making it incredibly easy to locate and access your work, even months or years after completion. Spend less time managing files and more time being creative.
@@ -24,13 +24,13 @@ Keep your to-do list in check and manage your tasks effectively. Clustta include
 #### Dependencies: Everything, Everywhere, Now in One Place
 Creative projects often rely on a multitude of resources – fonts, textures, sound files, and more. Clustta doesn't just manage your primary project files; it also tracks and versions the dependencies and resources you've used. This ensures that when you revisit a project, all its associated assets are readily available and in their correct versions, eliminating broken links and missing files.
 
-## ⚙️ How it works
+## How it works
 
 Clustta operates just like your native file browser, providing a familiar and intuitive interface. However, beneath the surface, it boasts an array of enhanced features that simplify version control, backups, and collaboration.
 
-At its core, Clustta utilizes a unique CLST file structure to efficiently store and manage your project data and checkpoints. While offering a user-friendly Graphical User Interface (GUI) for easy navigation and interaction, Clustta also leverages a semi-decentralized architecture. This means your data is not solely reliant on a single central server, enhancing data security, accessibility, and resilience. For a more detailed technical overview, please refer to [Clustta architecture](./clustta-architecture.md#overview).
+At its core, Clustta utilizes a unique CLST file structure to efficiently store and manage your project data and checkpoints. While offering a user-friendly Graphical User Interface (GUI) for easy navigation and interaction, Clustta also leverages a semi-decentralized architecture. This means your data is not solely reliant on a single central server, enhancing data security, accessibility, and resilience. 
 
-## ❓ Why Not ...?
+## Why Not ...?
 
 You might be familiar with other tools in the market. Here's why Clustta stands out for creative professionals:
 
