@@ -2,7 +2,7 @@
 
 ## 🤚 Layout & Interaction
 
-#### Stip view
+#### Strip view
 By default, items(Assets and Collections) in the browser are displayed as **Strips** to show vital information at a glance.
 
 <div align="center">
