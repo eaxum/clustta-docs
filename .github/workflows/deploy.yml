@@ -18,5 +18,4 @@ jobs:
         script: |
           cd clustta-docs/
           git pull https://${{ secrets.TOKEN }}@github.com/eaxum/clustta-docs.git main
-          docker compose down
           docker compose up -d --build
