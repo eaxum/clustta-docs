@@ -1,6 +1,6 @@
 # The Browser
 
-## 🤚 Layout & Interaction
+## <LucideIcon name="layout" :size="20" /> Layout & Interaction
 
 #### Strip view
 By default, items(Assets and Collections) in the browser are displayed as **Strips** to show vital information at a glance.
@@ -51,7 +51,7 @@ Drag and drop items over each other to move them and or make dependencies
 </div>
 <br>
 
-## 🧭 Navigation
+## <LucideIcon name="compass" :size="20" /> Navigation
 
 Clustta has a unique navigation system where to view or access the contents of a collection(folder), you can simply click on the **chevron** icon to the left of the collection to expose its contents. This way, you can have an overview of everything in a simple file tree view without going folders deep just to access files.
 

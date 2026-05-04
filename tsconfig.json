@@ -1,5 +1,4 @@
 {
-  "extends": "tsconfig-vuepress/base.json",
   "compilerOptions": {
     "lib": ["DOM", "ES2022"],
     "module": "ESNext",
@@ -7,6 +6,6 @@
     "target": "ES2022",
     "declaration": false
   },
-  "include": ["**/.vuepress/**/*"],
+  "include": ["docs/.vitepress/**/*"],
   "exclude": ["node_modules", ".cache", ".temp", "dist"]
 }

@@ -12,7 +12,7 @@ When you create a project, Clustta creates a **Working folder** on your filesyst
 
 <br>
 
-## 📂 Creating a Project
+## <LucideIcon name="folder-plus" :size="20" /> Creating a Project
 
 When you are logged in to Clustta, you'll be presented with an empty **Projects** page on your **Personal** studio.
 
@@ -48,7 +48,7 @@ If however, it's an **Online studio**, you can provide the **Working folder** lo
 
 <br>
 
-## 🚀 Launching Projects
+## <LucideIcon name="rocket" :size="20" /> Launching Projects
 Double-click the project launch it. 
 
 If this is an **Online Studio**, you will need to download the project first by clicking the **Download Project** button. You'll be asked to select your preferred working directory for the download project.

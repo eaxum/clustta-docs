@@ -23,7 +23,7 @@ In this section, we'll cover:
 
 ---
 
-## 📄 Asset Templates
+## <LucideIcon name="file-text" :size="20" /> Asset Templates
 
 Asset templates are a powerful feature in Clustta that allow you to pre-define and store starter files. Instead of repeatedly creating new files from scratch within your applications, you can leverage templates to instantly generate new assets with pre-configured content or settings.
 
@@ -52,7 +52,7 @@ To use the templates in your project, see [Creating Assets using templates](./th
 
 ---
 
-## 🤵 Collaborators
+## <LucideIcon name="user" :size="20" /> Collaborators
 
 Before adding collaborators to a project, you first need to add them to your studio via the Clustta web dashboard.
 If you haven't done that, check out [Adding Collaborators to your studio](./getting-started.md#adding-collaborators-to-your-studio).
@@ -69,7 +69,7 @@ You can add multiple users simultaneously instead of adding them one by one, str
 
 ---
 
-## ⚖️ Roles and Permissions
+## <LucideIcon name="scale" :size="20" /> Roles and Permissions
 
 Roles are fundamental to effective team dynamics, defining the responsibilities and access levels for each team member within your project.
 
@@ -78,25 +78,25 @@ Roles are fundamental to effective team dynamics, defining the responsibilities 
 1.  Switch to the **"Roles" tab** on the project configuration page.
 2.  Clustta provides six default roles to get you started. You have the flexibility to **add new roles** or **delete existing ones** as needed.
 3.  **Note:** The **"Admin" role** is a fixed role and cannot be deleted or modified to ensure core project management capabilities.
-4.  To **modify permissions** for an existing role, hover over the role name. A **pen icon (✏️)** will appear. Click this icon to open the permission editor.
+4.  To **modify permissions** for an existing role, hover over the role name. A **pen icon** will appear. Click this icon to open the permission editor.
 5.  After making your desired changes to the role's permissions, click **"Update"** to save your modifications.
 6.  To **create an entirely new role**, click the **"Add Role" button**.
 
 ---
 
-## 📜 Asset and Collection Types
+## <LucideIcon name="scroll-text" :size="20" /> Asset and Collection Types
 
 Asset and Collection types are powerful tools for categorizing your files (assets) and folders (collections), significantly improving organization, filtration, and search capabilities within your project.
 
 #### To manage asset and collection types:
 1.  Switch to either the **"Asset Types" tab** or the **"Collection Types" tab** on the project configuration page.
 2.  To **add a new type**, click on the **"Add" button**.
-3.  To **modify an existing type**, hover over the type name. A **pen icon (✏️)** will appear. Click this icon to edit the type.
+3.  To **modify an existing type**, hover over the type name. A **pen icon** will appear. Click this icon to edit the type.
 
 ---
 
 
-## ⚠️ Ignore List
+## <LucideIcon name="alert-triangle" :size="20" /> Ignore List
 
 The ignore list allows you to exclude specific files and or folders that are not relevant to your project from being tracked or versioned by Clustta. This helps keep your project clean and focused.
 

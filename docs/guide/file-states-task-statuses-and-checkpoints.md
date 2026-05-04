@@ -152,7 +152,7 @@ Your copy of the file is not the latest version. A collaborator has made changes
 **When this occurs:**
 - A teammate has shared updates to the asset
 
-**⚠️ Important**: Before updating, ensure you've saved any local changes or they may be overwritten.
+**Important**: Before updating, ensure you've saved any local changes or they may be overwritten.
 
 ---
 
@@ -178,19 +178,19 @@ Think of checkpoints as smart snapshots of your work that go far beyond simple f
 
 ---
 
-#### 📍 **Progress Tracking**
+#### <LucideIcon name="map-pin" :size="18" /> **Progress Tracking**
 
 Checkpoints let you mark significant milestones in your project. Whether you've completed a major section, tried a new approach, or reached a stable point, checkpoints give you the confidence to experiment knowing you can always return to a known good state.
 
 ---
 
-#### 🛡️ **File Protection**
+#### <LucideIcon name="shield" :size="18" /> **File Protection**
 
 If your file gets corrupted due to software crashes, power outages, or other technical issues, you won't lose your work. Clustta can instantly rollback to your last checkpoint, ensuring your creative efforts are always protected.
 
 ---
 
-#### ⚡ **Efficient Storage**
+#### <LucideIcon name="zap" :size="18" /> **Efficient Storage**
 
 Unlike traditional versioning (v1, v2, v3, etc.), checkpoints are not duplicates of the entire file. Clustta efficiently breaks down files and stacks new changes over each other, storing only what actually changed between versions.
 
@@ -210,7 +210,7 @@ Total: ~550MB
 
 ---
 
-#### 🚀 **Fast Collaboration**
+#### <LucideIcon name="rocket" :size="18" /> **Fast Collaboration**
 
 This efficient approach makes collaboration incredibly fast. When sharing files with teammates, you never have to download or upload entire files. Only the changes (deltas) are transferred, making even large creative files quick to sync across your team.
 

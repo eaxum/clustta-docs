@@ -6,7 +6,7 @@ Clustta is designed around security and efficiency of data transmission. By defa
 
 ---
 
-## 👥 Assignations
+## <LucideIcon name="users" :size="20" /> Assignations
 
 For a collaborator to have access to any assets, those assets must be 'assigned' to them. This system ensures clear ownership and prevents collaboration conflicts.
 
@@ -27,7 +27,7 @@ For a collaborator to have access to any assets, those assets must be 'assigned'
 
 ---
 
-## 🔗 Dependencies
+## <LucideIcon name="link" :size="20" /> Dependencies
 
 In many creative projects, completing one task requires access to other resources. Rather than assigning multiple individual tasks, Clustta uses a dependency system to grant access to all necessary resources efficiently.
 
@@ -42,11 +42,11 @@ In many creative projects, completing one task requires access to other resource
 ### Dependency Examples
 
 ```
-🎨 Main Design (assigned to Designer A)
-├── 📷 Product Photos (dependency)
-├── 🎨 Brand Guidelines (dependency)
-│   └── 🖼️ Logo Files (sub-dependency)
-└── 📝 Copy Document (dependency)
+Main Design (assigned to Designer A)
+├── Product Photos (dependency)
+├── Brand Guidelines (dependency)
+│   └── Logo Files (sub-dependency)
+└── Copy Document (dependency)
 ```
 
 When Designer A is assigned the Main Design task, they automatically get access to all the dependencies they need to complete their work.
@@ -60,7 +60,7 @@ When Designer A is assigned the Main Design task, they automatically get access 
 
 ---
 
-## 🔄 Syncing
+## <LucideIcon name="refresh-cw" :size="20" /> Syncing
 
 Clustta features a decentralized version control system that balances offline capability with team collaboration.
 
@@ -98,7 +98,7 @@ Clustta features a decentralized version control system that balances offline ca
 
 ---
 
-## 🚀 Quick Actions
+## <LucideIcon name="rocket" :size="20" /> Quick Actions
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|

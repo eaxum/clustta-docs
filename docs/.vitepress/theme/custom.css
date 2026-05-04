@@ -1,0 +1,130 @@
+/**
+ * Clustta docs custom theme
+ * Colors based on Clustta brand purple palette
+ */
+
+:root {
+  --vp-c-brand-1: #773baf;
+  --vp-c-brand-2: #984adf;
+  --vp-c-brand-3: #a65fe9;
+  --vp-c-brand-soft: rgba(119, 59, 175, 0.14);
+
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #fff;
+  --vp-button-brand-bg: #773baf;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: #fff;
+  --vp-button-brand-hover-bg: #984adf;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: #fff;
+  --vp-button-brand-active-bg: #6a2fa0;
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #773baf 30%, #a65fe9);
+}
+
+.dark {
+  --vp-c-brand-1: #a65fe9;
+  --vp-c-brand-2: #984adf;
+  --vp-c-brand-3: #773baf;
+  --vp-c-brand-soft: rgba(166, 95, 233, 0.14);
+}
+
+/* Remove divider lines between sidebar sections */
+.VPSidebarItem.level-0 + .VPSidebarItem.level-0 {
+  border-top: none !important;
+  padding-top: 0;
+}
+
+.VPSidebar .group + .group {
+  border-top: none !important;
+}
+
+/* Sidebar section titles */
+.VPSidebar .VPSidebarItem.level-0 > .item > .text {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vp-c-text-2);
+  margin-left: 12px;
+}
+
+/* Sidebar inline icons */
+.sidebar-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+  vertical-align: -2px;
+  opacity: 0.7;
+}
+
+.sidebar-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Sidebar link hover state */
+.VPSidebar .VPSidebarItem.level-1 > .item > .link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.dark .VPSidebar .VPSidebarItem.level-1 > .item > .link:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Sidebar active link with background */
+.VPSidebar .VPSidebarItem.level-1.is-active > .item > .link {
+  background-color: var(--vp-c-brand-soft);
+  border-radius: 12px;
+}
+
+/* Sidebar link padding */
+.VPSidebar .VPSidebarItem.level-1 > .item > .link {
+  padding: 0px 10px;
+}
+
+.VPSidebar .VPSidebarItem.is-active > .item > .link > .text {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+/* Custom scrollbar for sidebar */
+.VPSidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.VPSidebar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: var(--vp-c-divider);
+}
+
+.VPSidebar::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+/* Inline icon sizing for asset-state and task-status SVGs */
+.icon-24 {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Header with icon layout used in file-states page */
+.header-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-with-icon .header-text h4 {
+  margin: 0;
+}
+
+/* Constrain images inside docs to max width */
+div[align="center"] img {
+  max-width: 100%;
+  height: auto;
+}

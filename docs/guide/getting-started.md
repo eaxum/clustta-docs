@@ -6,8 +6,8 @@ You can access Clustta primarily through two interfaces:
 - The desktop application, available on the <a href="https://apps.microsoft.com/detail/9PNRGHGP3LGX?hl=en-us&gl=NG&ocid=pdpshare" target="_blank">Microsoft Store</a> and the <a href="https://apps.apple.com/us/app/clustta/id6748349288" target="_blank">Mac App Store</a>.
 
 
-## 🌍 The web dashboard (🚧 Under construction)
-The web dashboard is an application you can access from any web browser at <a href="https://app.clustta.com" target="_blank">https://app.clustta.com</a>.
+## <LucideIcon name="globe" :size="20" /> The web dashboard (Under construction)
+The web dashboard is an application you can access from any web browser at [app.clustta.com](https://app.clustta.com).
 Its your central hub for managing your personal account and studio. From here, you can:
 
 - Create and manage your personal account.
@@ -40,7 +40,7 @@ Studios are spaces for your projects and teams. You can have as many studios as 
 #### Adding Collaborators to your studio
 To collaborate with anyone on a Clustta project, you need to add them to your studio first before they can be available for addition to a project.
 
-::: note Note: Sign up required
+::: warning Sign up required
 Each collaborator needs to have signed up to Clustta before you can add them to the studio or project.
 :::
 
@@ -58,7 +58,7 @@ There are currently two types of roles you can assign to a collaborator on a stu
 
 To add collaborators to a project, check out [Adding Collaborators to your project](./project-settings.md#adding-collaborators-to-your-project).
 
-## 💻 The desktop application
+## <LucideIcon name="monitor" :size="20" /> The desktop application
 This interface lets you access, share, and manage all your project files locally on your computer.
 
 1. Install the Clustta desktop app from the <a href="https://apps.apple.com/us/app/clustta/id6748349288" target="_blank">Apple App Store</a> or <a href="https://apps.microsoft.com/detail/9PNRGHGP3LGX?hl=en-us&gl=NG&ocid=pdpshare" target="_blank">Microsoft Store</a>.

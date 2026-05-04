@@ -14,7 +14,7 @@ Files and folders in your native file browser are referred to as **Assets** and 
 <br>
 
 
-## 📄 Assets
+## <LucideIcon name="file-text" :size="20" /> Assets
 Think of an asset as anything you work with: a video, an image, a PDF, a Photoshop file (PSD), or even a Blender file (BLEND). It could also be a weblink that takes you to online tools like Canva, Figma, or Pinterest. 
 
 To make it easy to find what you need, assets can have extra information like **Tags** and **Types** to help you search and filter through everything.
@@ -120,7 +120,7 @@ Go to [the project settings](./project-settings.html#to-create-or-manage-asset-t
 
 <br>
 
-## 📁 Collections
+## <LucideIcon name="folder" :size="20" /> Collections
 Collections are basically folders for organizing your assets.
 
 Like assets, they can also have extra information like **Types** to help you search and filter while searching.

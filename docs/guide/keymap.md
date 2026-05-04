@@ -4,7 +4,7 @@
 
 ---
 
-## 📁 **File Management**
+## <LucideIcon name="folder" :size="20" /> **File Management**
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
@@ -13,7 +13,7 @@
 
 ---
 
-## ✏️ **Item Operations**
+## <LucideIcon name="pencil" :size="20" /> **Item Operations**
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
@@ -21,11 +21,11 @@
 | `Ctrl+F2` | **Edit Item** | Edit the selected item |
 | `↵ Return` | **Enter Item** | Enter or open the selected item |
 | `Delete` | **Free Item Space** | Free up space used by the item |
-| `Shift+Delete` | **Delete Item** | ⚠️ Permanently delete the selected item |
+| `Shift+Delete` | **Delete Item** | Permanently delete the selected item |
 
 ---
 
-## 🔍 **Navigation & Search**
+## <LucideIcon name="search" :size="20" /> **Navigation & Search**
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
@@ -34,7 +34,7 @@
 
 ---
 
-## ➕ **Content Creation**
+## <LucideIcon name="plus" :size="20" /> **Content Creation**
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
@@ -55,7 +55,7 @@
 
 --- -->
 
-## 💾 **Project Management**
+## <LucideIcon name="save" :size="20" /> **Project Management**
 
 | Shortcut | Action | Description |
 |----------|--------|-------------|
@@ -72,4 +72,4 @@
 
 --- -->
 
-*✨ **Pro Tip**: Print this reference and keep it handy while learning the shortcuts!*
+***Pro Tip**: Print this reference and keep it handy while learning the shortcuts!*
