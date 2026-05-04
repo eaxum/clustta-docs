@@ -48,7 +48,7 @@ When prompted to select a template from clustta, you can select this file and de
   <img src="/images/project-configuration/asset-templates.png" alt="Description">
 </div>
 
-To use the templates in your project, see [Creating Assets using templates](./the-file-browser.html#create-assets-using-templates).
+To use the templates in your project, see [Creating Assets using templates](./assets-and-collections.html#create-assets-using-templates).
 
 ---
 
