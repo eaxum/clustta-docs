@@ -28,6 +28,24 @@
   --vp-c-brand-2: #984adf;
   --vp-c-brand-3: #773baf;
   --vp-c-brand-soft: rgba(166, 95, 233, 0.14);
+
+  /* Background shades aligned with clustta-website palette */
+  --vp-c-bg: hsl(0, 0%, 4%);
+  --vp-c-bg-alt: hsl(0, 0%, 7%);
+  --vp-c-bg-elv: hsl(0, 0%, 10%);
+  --vp-c-bg-soft: hsl(0, 0%, 10%);
+
+  /* Sidebar / nav surfaces */
+  --vp-sidebar-bg-color: hsl(0, 0%, 4%);
+  --vp-nav-bg-color: hsl(0, 0%, 4%);
+
+  /* Code block surfaces */
+  --vp-code-block-bg: hsl(0, 0%, 7%);
+  --vp-code-bg: hsl(0, 0%, 13%);
+
+  /* Borders / dividers */
+  --vp-c-divider: rgba(255, 255, 255, 0.1);
+  --vp-c-gutter: hsl(0, 0%, 4%);
 }
 
 /* Remove divider lines between sidebar sections */
