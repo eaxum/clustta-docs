@@ -1,6 +1,6 @@
 # Ignore Patterns
 
-Not everything in your working folder belongs in version control. Engine-generated cache files, build intermediates, IDE metadata, swap files, OS junk — they pollute history, bloat sync, and add noise. Clustta lets you tell it to **ignore** specific patterns, much like `.gitignore`.
+Not everything in your working folder belongs in version control. Engine-generated cache files, build intermediates, IDE metadata, swap files, OS junk - they pollute history, bloat sync, and add noise. Clustta lets you tell it to **ignore** specific patterns, much like `.gitignore`.
 
 ## What gets ignored
 
@@ -10,7 +10,7 @@ When a path matches an ignore pattern, Clustta will:
 - Skip it during change detection
 - Never include it in checkpoints or sync
 
-The file still exists on your disk — Clustta just pretends it isn't there.
+The file still exists on your disk - Clustta just pretends it isn't there.
 
 ## Managing the ignore list
 
@@ -21,12 +21,14 @@ Add patterns one at a time:
 1. Type the path, name, or extension to ignore.
 2. Press Enter.
 
+You can also paste a **comma-separated list** of patterns (e.g. `.tmp, .bak, Thumbs.db, __pycache__`). Clustta will parse it and add each entry to the list.
+
 Patterns can be:
 
-- An **extension** — `.tmp`, `.bak`, `.swp`
-- A **filename** — `Thumbs.db`, `.DS_Store`
-- A **folder** — `__pycache__`, `Saved/`, `Intermediate/`
-- A **path with wildcards** — `*.log`, `Build/*.pdb`
+- An **extension** - `.tmp`, `.bak`, `.swp`
+- A **filename** - `Thumbs.db`, `.DS_Store`
+- A **folder** - `__pycache__`, `Saved/`, `Intermediate/`
+- A **path with wildcards** - `*.log`, `Build/*.pdb`
 
 Order doesn't matter. Patterns are evaluated against every detected path.
 
@@ -36,7 +38,7 @@ Order doesn't matter. Patterns are evaluated against every detected path.
 
 Clustta ships with curated ignore lists for common engines and tools so you don't have to build them from scratch:
 
-- **Unreal Engine** — Filters out `Binaries/`, `Intermediate/`, `Saved/`, `DerivedDataCache/`, `.vs/`, `.idea/`, generated `.pdb`/`.lib`/`.exp` files, and Unreal's many cache and IDE artifacts.
+- **Unreal Engine** - Filters out `Binaries/`, `Intermediate/`, `Saved/`, `DerivedDataCache/`, `.vs/`, `.idea/`, generated `.pdb`/`.lib`/`.exp` files, and Unreal's many cache and IDE artifacts.
 - More engine presets coming as users contribute them.
 
 You can apply a built-in list as a starting point and extend it from there.
@@ -50,7 +52,7 @@ You can apply a built-in list as a starting point and extend it from there.
 - OS noise (`.DS_Store`, `Thumbs.db`, `desktop.ini`)
 - Crash dumps, log files, temp files (`.tmp`, `.bak`, `.swp`, `.crash`)
 - Engine-derived data (`DerivedDataCache/`, `Library/` in Unity, `Saved/` in Unreal)
-- Renders that can be regenerated cheaply (debate-able — sometimes you want them)
+- Renders that can be regenerated cheaply (debate-able - sometimes you want them)
 
 ❌ **Don't ignore:**
 
@@ -61,7 +63,7 @@ You can apply a built-in list as a starting point and extend it from there.
 
 ## How patterns interact with collections and assets
 
-Ignore patterns are **path-based**. They don't depend on collection or asset metadata — Clustta just looks at the relative path of each detected file/folder against the working folder root.
+Ignore patterns are **path-based**. They don't depend on collection or asset metadata - Clustta just looks at the relative path of each detected file/folder against the working folder root.
 
 - Patterns apply to the entire project. There's no per-collection ignore right now.
 - Already-tracked files are **not retroactively ignored** by adding a new pattern. You'd need to delete them from the project first.

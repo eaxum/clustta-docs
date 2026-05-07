@@ -4,11 +4,11 @@ Clustta connects to your existing creative pipeline through two main mechanisms:
 
 ## Kitsu (CGWire)
 
-[Kitsu](https://www.cg-wire.com/kitsu) is the open-source production tracking platform from CGWire — widely used in animation studios. Clustta integrates with Kitsu so production metadata (statuses, assignments, assets) can stay in sync between the two systems.
+[Kitsu](https://www.cg-wire.com/kitsu) is the open-source production tracking platform from CGWire - widely used in animation studios. Clustta integrates with Kitsu so production metadata (statuses, assignments, assets) can stay in sync between the two systems.
 
 ### Why integrate
 
-If your studio already runs Kitsu for production tracking, you don't have to choose between Kitsu and Clustta — they coexist:
+If your studio already runs Kitsu for production tracking, you don't have to choose between Kitsu and Clustta - they coexist:
 
 - **Kitsu** continues to be your source of truth for production planning, scheduling, breakdowns, and reviews.
 - **Clustta** handles the actual file versioning, sync, and asset access on artists' machines.
@@ -36,7 +36,7 @@ Once connected:
 
 ## DCC Bridge
 
-The DCC Bridge is a **local HTTP REST server** built into the Clustta desktop client. It exposes project data — accounts, studios, projects, collections, assets, checkpoints — as REST endpoints so DCC tools can query and interact with Clustta programmatically.
+The DCC Bridge is a **local HTTP REST server** built into the Clustta desktop client. It exposes project data - accounts, studios, projects, collections, assets, checkpoints - as REST endpoints so DCC tools can query and interact with Clustta programmatically.
 
 ### Why a local HTTP API
 
@@ -45,13 +45,13 @@ DCC plugin development is normally painful: every tool has its own scripting lan
 - **Blender** can hit it from a Python addon
 - **Maya** from a `requests`-based script
 - **Unreal** from Blueprint or C++ HTTP nodes
-- **Houdini, Nuke, Substance** — anything that can make an HTTP request
+- **Houdini, Nuke, Substance** - anything that can make an HTTP request
 
 This means plugin developers don't need to link against Clustta's binary, navigate platform-specific IPC, or deal with our internal data formats. They get clean JSON over HTTP.
 
 ### Where it runs
 
-The bridge runs on `127.0.0.1` (loopback only — never exposed to the network) on a configurable local port. It comes up automatically when the Clustta desktop client is running.
+The bridge runs on `127.0.0.1:1173` (loopback only - never exposed to the network). It comes up automatically when the Clustta desktop client is running.
 
 ### What it exposes
 
@@ -62,21 +62,20 @@ Read-only endpoints for:
 - Projects in each studio
 - Collections and their nesting
 - Assets, including types, tags, statuses, assignees
-- Checkpoints — version history, authors, comments
+- Checkpoints - version history, authors, comments
 - Working folder paths so the plugin knows where files are on disk
 
 Write endpoints for common operations are being expanded; the current model favors *reading* project data and letting the user perform writes through the desktop UI.
 
 ### Authentication
 
-The bridge ties into the desktop app's logged-in session. If no user is signed in, the bridge returns 401. There's no separate token model — the local app is the source of trust.
+The bridge ties into the desktop app's logged-in session. If no user is signed in, the bridge returns 401. There's no separate token model - the local app is the source of trust.
 
 ### Building a plugin
 
 1. Make sure the desktop client is running.
-2. Discover the bridge port (advertised to local plugins via a known config file or environment variable).
-3. Hit `GET http://127.0.0.1:<port>/api/v1/projects` for example.
-4. Parse the JSON. Build your UI in the DCC tool. Use the data.
+2. Hit `GET http://127.0.0.1:1173/api/v1/projects` for example.
+3. Parse the JSON. Build your UI in the DCC tool. Use the data.
 
 A reference plugin and OpenAPI spec are in the works. For now, the [client repo](https://github.com/eaxum/clustta-client) under `internal/bridge` shows the available endpoints.
 

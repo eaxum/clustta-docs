@@ -2,7 +2,7 @@
 
 Run your own Clustta studio server. Your projects, your hardware, your control.
 
-This is the **Dedicated** studio mode — same Docker image we ship for Clustta Cloud, deployed on infrastructure you own. Self-hosting is fully supported, fully open-source, and a first-class deployment target.
+This is the **Dedicated** studio mode - same Docker image we ship for ClusttaCloud™, deployed on infrastructure you own. Self-hosting is fully supported, fully open-source, and a first-class deployment target.
 
 ## When you should self-host
 
@@ -14,7 +14,7 @@ Self-hosting makes sense if any of these apply:
 - You have predictable, large transfer volumes and want to avoid metered cloud bandwidth.
 - You're already running a homelab or VPS and prefer to keep services there.
 
-If none of those apply, [Clustta Cloud](./studios.md) is faster to set up and we run it for you.
+If none of those apply, [ClusttaCloud™](./studios.md) is faster to set up and we run it for you.
 
 ## What you'll need
 
@@ -35,7 +35,7 @@ The studio server can authenticate users two ways:
 | **Cloud-connected** | Clustta global auth server | Easiest. Users sign in with their existing Clustta accounts. The studio appears in their app's switcher automatically. |
 | **Private** | A local user database on your server | Fully air-gapped. Zero outbound dependency on Clustta. You manage your own users. |
 
-Both modes use the same Docker image — you toggle the difference with one env var (`PRIVATE`).
+Both modes use the same Docker image - you toggle the difference with one env var (`PRIVATE`).
 
 ---
 
@@ -51,12 +51,12 @@ curl -fsSL https://raw.githubusercontent.com/eaxum/clustta-studio/main/install.s
 
 | Flag | Description |
 |------|-------------|
-| `--private` | Skip Clustta Cloud setup (standalone/air-gapped mode) |
+| `--private` | Skip ClusttaCloud™ setup (standalone/air-gapped mode) |
 | `--traefik` | Include Traefik reverse proxy with auto-TLS |
 | `--dir PATH` | Custom install directory (default: `~/clustta-studio`) |
 | `--version VER` | Pin a specific image version (default: `latest`) |
 
-Example — private mode with Traefik (auto-HTTPS):
+Example - private mode with Traefik (auto-HTTPS):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/eaxum/clustta-studio/main/install.sh | bash -s -- --private --traefik
@@ -102,13 +102,13 @@ mkdir clustta-studio && cd clustta-studio
 
 Pick one of two Compose files:
 
-**Standalone** — no reverse proxy. Use this if you have your own nginx/Caddy in front, or you're on a LAN:
+**Standalone** - no reverse proxy. Use this if you have your own nginx/Caddy in front, or you're on a LAN:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/eaxum/clustta-studio/main/deploy/docker-compose.yml -o docker-compose.yml
 ```
 
-**With Traefik** — built-in reverse proxy with automatic Let's Encrypt TLS:
+**With Traefik** - built-in reverse proxy with automatic Let's Encrypt TLS:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/eaxum/clustta-studio/main/deploy/docker-compose.traefik.yml -o docker-compose.yml
@@ -126,7 +126,7 @@ SESSION_DB=/var/data/sessions.db
 PRIVATE=true
 ```
 
-If you want to **connect to Clustta Cloud** (so users can sign in with existing Clustta accounts), set `PRIVATE=false` and add:
+If you want to **connect to ClusttaCloud™** (so users can sign in with existing Clustta accounts), set `PRIVATE=false` and add:
 
 ```env
 CLUSTTA_STUDIO_API_KEY=YourStudioKey
@@ -187,8 +187,8 @@ Your studio now appears in the switcher and you can start creating projects.
 
 Two things to back up:
 
-- The `./data` directory — sessions, user database, server state.
-- The `./projects` directory — all `.clst` project files. **This is the irreplaceable part.**
+- The `./data` directory - sessions, user database, server state.
+- The `./projects` directory - all `.clst` project files. **This is the irreplaceable part.**
 
 A nightly `rsync` or `restic` snapshot of these two folders is enough for a complete disaster-recovery story. Because each project is a single SQLite file, backup is mechanically simple.
 
@@ -207,7 +207,7 @@ Studio server releases are backwards-compatible with current desktop clients wit
 | Symptom | Likely cause |
 |---------|--------------|
 | Client can't reach the server | Firewall, wrong URL, or DNS not pointing at the host |
-| TLS errors | Traefik couldn't reach Let's Encrypt — check ports 80/443 are open and your domain resolves |
+| TLS errors | Traefik couldn't reach Let's Encrypt - check ports 80/443 are open and your domain resolves |
 | Permission denied writing projects | Run `sudo chmod a+w ./projects/` |
 | Users can't sign in (cloud-connected) | `CLUSTTA_STUDIO_API_KEY` is wrong, or the Clustta global server can't reach your `CLUSTTA_SERVER_URL` |
 
@@ -215,5 +215,5 @@ For more, file an issue at [github.com/eaxum/clustta-studio](https://github.com/
 
 ## What's next
 
-- [Studios & Collaboration](./studios.md) — set up users and projects on your new server
-- [Architecture / Security](../architecture/security.md) — how data is protected on the wire and at rest
+- [Studios & Collaboration](./studios.md) - set up users and projects on your new server
+- [Architecture / Security](../architecture/security.md) - how data is protected on the wire and at rest

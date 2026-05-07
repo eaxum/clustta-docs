@@ -1,19 +1,19 @@
 # Sync & Conflict Resolution
 
-Sync is how local checkpoints become available to the rest of the team. Clustta's sync model is **explicit, selective, and conflict-aware** — your work is never silently overwritten, and you control exactly when changes are pushed and pulled.
+Sync is how local checkpoints become available to the rest of the team. Clustta's sync model is **explicit, selective, and conflict-aware** - your work is never silently overwritten, and you control exactly when changes are pushed and pulled.
 
 ## The model
 
-Clustta is **local-first**. Everything you do — creating assets, checkpointing, changing status, editing metadata — happens against your local `.clst` project file first. Nothing leaves your machine until you sync.
+Clustta is **local-first**. Everything you do - creating assets, checkpointing, changing status, editing metadata - happens against your local `.clst` project file first. Nothing leaves your machine until you sync.
 
 Sync moves data in both directions:
 
-- **Up** — your new local checkpoints, status changes, assignments, etc. are sent to the studio server.
-- **Down** — new checkpoints and metadata changes from teammates are pulled to your machine.
+- **Up** - your new local checkpoints, status changes, assignments, etc. are sent to the studio server.
+- **Down** - new checkpoints and metadata changes from teammates are pulled to your machine.
 
 Each sync is **selective**:
 
-- You only download the binary chunks for assets that are **assigned to you** or live in **Library** collections.
+- You only download the binary chunks for assets that are **assigned to you** or live in **Shared** collections.
 - Other people's work-in-progress files don't fill your disk.
 - Metadata syncs in full so you always see the project structure.
 
@@ -27,9 +27,9 @@ Three ways:
 
 The status indicator at the top of the app shows current sync state:
 
-- **Up to date** — local matches server
-- **Working / busy** — sync in progress
-- **Conflict** — needs your attention before sync can finish
+- **Up to date** - local matches server
+- **Working / busy** - sync in progress
+- **Conflict** - needs your attention before sync can finish
 
 <!-- TODO: screenshot of sync indicator -->
 
@@ -47,8 +47,8 @@ Manual sync means you push when you're at a good stopping point and pull when yo
 
 When you sync up:
 
-- **All new chunks** for any new checkpoints since the last sync (delta-only — chunks that already exist on the server are skipped)
-- **All metadata changes** — new assets, status changes, assignments, tags, dependencies, role updates, etc.
+- **All new chunks** for any new checkpoints since the last sync (delta-only - chunks that already exist on the server are skipped)
+- **All metadata changes** - new assets, status changes, assignments, tags, dependencies, role updates, etc.
 
 The transfer uses content-addressed storage, so chunks shared across files or between teammates are uploaded only once across the entire project.
 
@@ -106,7 +106,7 @@ Pick this when you and your teammate were working on the same conceptual asset a
 
 ## Conflict prevention
 
-Most conflicts are eliminated by the **single-assignee soft lock** — only the assignee can checkpoint, so the most common case (two people editing the same file) can't happen. Conflicts mostly arise from:
+Most conflicts are eliminated by the **single-assignee soft lock** - only the assignee can checkpoint, so the most common case (two people editing the same file) can't happen. Conflicts mostly arise from:
 
 - Two people independently creating a new asset with the same name in the same collection
 - Schema-level overlaps (same collection in same parent)
@@ -117,9 +117,9 @@ Both are easy to resolve, and Clustta never auto-decides for you.
 
 - **Sync after meaningful work**, not after every checkpoint. Local is fine for in-progress.
 - **Pull before starting** on a task you know teammates are also touching.
-- **Communicate naming** for new assets in shared spaces — eliminates rename conflicts.
-- **Use Library collections** for shared resources so everyone sees them without explicit assignment.
-- **Selective sync** keeps disks small — let the system download only what you actively need.
+- **Communicate naming** for new assets in shared spaces - eliminates rename conflicts.
+- **Use Shared collections** for shared resources so everyone sees them without explicit assignment.
+- **Selective sync** keeps disks small - let the system download only what you actively need.
 
 ## Quick reference
 

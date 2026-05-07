@@ -6,7 +6,7 @@ Assignments tell Clustta who owns a task. Statuses tell everyone where each task
 
 ### How they work
 
-- Only **Task** assets can be assigned. (Convert a Resource to a Task to assign it — see [Collections & Assets](./collections-and-assets.md).)
+- Only **Task** assets can be assigned. (Convert a Resource to a Task to assign it - see [Collections & Assets](./collections-and-assets.md).)
 - A task has **at most one assignee** at any time. This is intentional.
 - Only the assignee can create checkpoints on the task. We call this a **soft lock**.
 - Single ownership eliminates the entire category of "two artists worked on the same file in parallel" merge conflicts.
@@ -21,9 +21,9 @@ When you assign a task to a user, they get:
 
 Three ways:
 
-- **From the asset itself** — Click the assignee avatar/icon on the asset row.
-- **From the details pane** — Pick the assignee from the dropdown.
-- **From the Kanban board** — Click the assignee slot on the card.
+- **From the asset itself** - Click the assignee avatar/icon on the asset row.
+- **From the details pane** - Pick the assignee from the dropdown.
+- **From the Kanban board** - Click the assignee slot on the card.
 
 You'll see suggestions of project collaborators as you type.
 
@@ -49,15 +49,15 @@ Clustta ships with five statuses:
 | **WIP** | Work in progress | Checkpoint regularly; set to WFA when ready for review |
 | **WFA** | Waiting for approval (review) | Supervisor reviews; sets to Done or Retake |
 | **Retake** | Sent back with notes | Address notes, set back to WIP |
-| **Done** | Approved and complete | — |
+| **Done** | Approved and complete | - |
 
 Custom status names, colors, and short labels are on the roadmap.
 
 ### Setting status
 
-- **From the asset row** — Click the status pill.
-- **From the Kanban board** — Drag the card between columns.
-- **At checkpoint time** — The Create Checkpoint dialog includes a status picker. A common pattern is to checkpoint *and* move from WIP → WFA in one step.
+- **From the asset row** - Click the status pill.
+- **From the Kanban board** - Drag the card between columns.
+- **At checkpoint time** - The Create Checkpoint dialog includes a status picker. A common pattern is to checkpoint *and* move from WIP → WFA in one step.
 
 <!-- TODO: screenshot of status pill / Kanban drag -->
 
@@ -75,9 +75,9 @@ Switch the browser to **Kanban view** to see assets grouped into status columns.
 
 Useful built-in views:
 
-- **Default** — everything in the current collection
-- **My Tasks** — tasks assigned to you
-- **Assigned tasks** — every task that has any assignee (filter further by user)
+- **Default** - everything in the current collection
+- **My Tasks** - tasks assigned to you
+- **Assigned tasks** - every task that has any assignee (filter further by user)
 
 Combine with type/tag filters to slice however you need.
 

@@ -1,6 +1,6 @@
 # Security
 
-Protecting your intellectual property is one of the most important responsibilities Clustta takes on. This page lays out the controls and design choices that protect your data — at rest, on the wire, and in collaboration.
+Protecting your intellectual property is one of the most important responsibilities Clustta takes on. This page lays out the controls and design choices that protect your data - at rest, on the wire, and in collaboration.
 
 ## How Clustta protects your work
 
@@ -17,8 +17,8 @@ Clustta's security model rests on three pillars:
 Clustta is **fully functional offline**. Personal mode and Dedicated self-hosted studios don't require any outbound connection to Clustta's services.
 
 - **Personal projects** never leave your machine.
-- **Self-hosted studios in Private mode** have zero outbound dependency on Clustta. Air-gapped, behind a firewall, on a private LAN — all supported.
-- **Cloud and cloud-connected modes** opt in to using Clustta's services. Even then, file *contents* are stored in your studio's object storage bucket; Clustta's global server only handles identity, billing and routing.
+- **Self-hosted studios in Private mode** have zero outbound dependency on Clustta. Air-gapped, behind a firewall, on a private LAN - all supported.
+- **Cloud and cloud-connected modes** opt in to using Clustta's services. For ClusttaCloud™ studios, file *contents* live in Clustta's managed Cloudflare R2 infrastructure; Clustta's global server handles identity, billing and routing. Cloud-connected self-hosted studios authenticate via Clustta but keep their own object storage.
 
 If Clustta vanished tomorrow, every collaborator would still have a complete working copy of every project they've cloned.
 
@@ -30,9 +30,9 @@ Both the [client](https://github.com/eaxum/clustta-client) and [studio server](h
 
 Projects are single SQLite files. This makes them:
 
-- **Easy to back up and verify** — file hash, file copy, restore from copy.
-- **Easy to inspect** — open in any SQLite browser to confirm what's actually stored.
-- **Easy to delete completely** — one file, gone.
+- **Easy to back up and verify** - file hash, file copy, restore from copy.
+- **Easy to inspect** - open in any SQLite browser to confirm what's actually stored.
+- **Easy to delete completely** - one file, gone.
 
 There's no opaque cloud blob soup to reason about.
 
@@ -40,9 +40,9 @@ There's no opaque cloud blob soup to reason about.
 
 Every chunk is identified by SHA-256 hash. This gives you:
 
-- **Tamper detection** — A corrupted or modified chunk fails its hash check on read.
-- **Integrity guarantees** — Reconstructed files are verified against the recorded hash before being returned to the user.
-- **Predictable identity** — The same content always produces the same chunk; no hidden mutations.
+- **Tamper detection** - A corrupted or modified chunk fails its hash check on read.
+- **Integrity guarantees** - Reconstructed files are verified against the recorded hash before being returned to the user.
+- **Predictable identity** - The same content always produces the same chunk; no hidden mutations.
 
 ## Access controls
 
@@ -50,10 +50,10 @@ Every chunk is identified by SHA-256 hash. This gives you:
 
 Two supported modes:
 
-- **Cloud-connected** — Users sign in with their Clustta account. The global server issues a session token; the studio server validates it. Sessions are scoped per studio.
-- **Private mode** — The studio server holds its own user database. No outbound auth dependency. Suitable for air-gapped deployments.
+- **Cloud-connected** - Users sign in with their Clustta account. The global server issues a session token; the studio server validates it. Sessions are scoped per studio.
+- **Private mode** - The studio server holds its own user database. No outbound auth dependency. Suitable for air-gapped deployments.
 
-Sessions are stored client-side in the **OS keyring** (Windows Credential Manager, macOS Keychain, Linux Secret Service) — not in plaintext config files.
+Sessions are stored client-side in the **OS keyring** (Windows Credential Manager, macOS Keychain, Linux Secret Service) - not in plaintext config files.
 
 ### Per-project authorization
 
@@ -78,10 +78,10 @@ See [Roles & Permissions](../features/roles-and-permissions.md) for the full bre
 
 Clustta separates *what you can see* from *what you can do*:
 
-- **What you can see** is gated by **assignment** and **Library collections**. Even with broad role permissions, you can only see content assigned to you (recursively, through dependencies) or in collections marked as Library.
+- **What you can see** is gated by **assignment** and **Shared collections**. Even with broad role permissions, you can only see content assigned to you (recursively, through dependencies) or in collections marked as Shared. (Shared collections are still labelled `Library` in the underlying database.)
 - **What you can do** with what you can see is gated by **role permissions**.
 
-This means an artist with a permissive role still doesn't get to download every asset in the project — only the ones they're working on. Selective sync enforces the visibility rules at the bandwidth level too.
+This means an artist with a permissive role still doesn't get to download every asset in the project - only the ones they're working on. Selective sync enforces the visibility rules at the bandwidth level too.
 
 ### Single ownership for tasks
 
@@ -91,7 +91,7 @@ Only one user is assigned to a Task at a time, and only the assignee can create 
 
 ### TLS everywhere in production
 
-All client ↔ server communication should run over **HTTPS / TLS**. The Clustta Cloud and the recommended Traefik-based self-host deployment both terminate TLS using Let's Encrypt-issued certificates.
+All client ↔ server communication should run over **HTTPS / TLS**. The ClusttaCloud™ and the recommended Traefik-based self-host deployment both terminate TLS using Let's Encrypt-issued certificates.
 
 For self-hosted standalone deployments without Traefik, run a TLS-terminating reverse proxy (nginx, Caddy) in front. Production studio servers should never accept plaintext HTTP from the public internet.
 
@@ -101,7 +101,7 @@ For Cloud studios, chunk uploads and downloads use **presigned URLs** to Cloudfl
 
 - URLs are scoped to one operation (upload or download) and one chunk.
 - URLs have short expiry windows (typically minutes).
-- Direct client ↔ R2 transfer means the studio server never proxies file contents — reducing both attack surface and bandwidth bottlenecks.
+- Direct client ↔ R2 transfer means the studio server never proxies file contents - reducing both attack surface and bandwidth bottlenecks.
 
 ### Share links
 
@@ -119,7 +119,7 @@ Treat share links as you would treat passwords: don't post them in public channe
 ### Local
 
 - The local `.clst` SQLite file lives in your user data directory.
-- Working files live in the user-chosen working folder — these are regular files Clustta tracks but doesn't encrypt (your DCC tool needs to read them).
+- Working files live in the user-chosen working folder - these are regular files Clustta tracks but doesn't encrypt (your DCC tool needs to read them).
 - Sessions and credentials live in the OS keyring.
 
 If your local disk is encrypted (FileVault, BitLocker, LUKS), all of this is encrypted at rest. We strongly recommend full-disk encryption for any device storing studio work.
@@ -127,16 +127,16 @@ If your local disk is encrypted (FileVault, BitLocker, LUKS), all of this is enc
 ### Server (self-hosted)
 
 - Project `.clst` files live in the configured `./projects/` directory on the host.
-- Backup is **your responsibility** — `rsync`, `restic`, snapshots, etc.
+- Backup is **your responsibility** - `rsync`, `restic`, snapshots, etc.
 - Encryption at rest depends on the host's disk configuration. For client work, encrypted volumes are recommended.
 
 ### Server (cloud)
 
-- Project metadata lives in databases managed by Clustta with encryption at rest.
+- Project metadata lives in databases managed by Clustta. Access is gated by the application layer and infrastructure controls.
 - Project chunks live in Cloudflare R2 buckets, encrypted at rest by R2.
 - Identity and billing data is keyed by UUIDs to minimize information leakage in any individual record.
 
-## Operational practices (Clustta Cloud)
+## Operational practices (ClusttaCloud™)
 
 For studios using Clustta's managed cloud:
 

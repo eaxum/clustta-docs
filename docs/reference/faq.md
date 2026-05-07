@@ -2,18 +2,18 @@
 
 ## What is Clustta?
 
-Clustta is open-source version control, collaboration, and asset management built specifically for creative work — animation, design, illustration, video, 3D, game art. It combines the discipline of real version control (Git-style) with the ergonomics of consumer file tools, on a storage engine designed for large binary files.
+Clustta is open-source version control, collaboration, and asset management built specifically for creative work - animation, design, illustration, video, 3D, game art. It combines the discipline of real version control (Git-style) with the ergonomics of consumer file tools, on a storage engine designed for large binary files.
 
 ## Who is Clustta for?
 
 - **Solo creatives** who want versioning, recovery, and organization without setting up a server.
 - **Small studios** that want collaboration, status tracking and sync without paying enterprise PLM prices.
-- **Larger studios** that want a self-hostable, open-source alternative to proprietary asset managers — with the option to extend it themselves.
+- **Larger studios** that want a self-hostable, open-source alternative to proprietary asset managers - with the option to extend it themselves.
 - **Anyone** building creative work who has hit the limits of "Final_v23_REAL.psd" and Dropbox conflicts.
 
 ## What software does Clustta work with?
 
-Anything. Clustta is file-format agnostic. It manages files on disk; your DCC tool reads and writes those files normally. We've tested with Blender, Photoshop, Illustrator, Maya, Cinema 4D, Houdini, Substance, Krita, ZBrush, After Effects, Unreal, Unity, Godot — and it works with anything else that saves to disk.
+Anything. Clustta is file-format agnostic. It manages files on disk; your DCC tool reads and writes those files normally. We've tested with Blender, Photoshop, Illustrator, Maya, Cinema 4D, Houdini, Substance, Krita, ZBrush, After Effects, Unreal, Unity, Godot - and it works with anything else that saves to disk.
 
 ## Does Clustta auto-save my files?
 
@@ -21,7 +21,7 @@ No. You save in your DCC tool exactly as you always have. Clustta watches for ch
 
 ## Does Clustta auto-sync to the cloud?
 
-No, and intentionally so. Sync is **manual** — you press Sync (or `Ctrl+S`) when you're ready. Auto-sync of binary creative files is a recipe for corruption and overwrites. We don't ship that footgun.
+No, and intentionally so. Sync is **manual** - you press Sync (or `Ctrl+S`) when you're ready. Auto-sync of binary creative files is a recipe for corruption and overwrites. We don't ship that footgun.
 
 ## Do I need an internet connection?
 
@@ -52,7 +52,7 @@ Git LFS bolts large-file support onto Git, but you still get Git's UX (branches,
 - **Open source and free** under AGPL v3.
 - **Built for artists**, not engineers.
 - **Self-hostable in minutes** with one Docker command.
-- **Local-first** — full offline support, syncs when you choose.
+- **Local-first** - full offline support, syncs when you choose.
 - **Single-file projects** that are trivial to back up and archive.
 
 Perforce is powerful but heavy and expensive. SVN is free but feels its age. Clustta sits between with a modern UX and a lighter operational footprint.
@@ -79,7 +79,7 @@ See [Architecture / Security](../architecture/security.md) for details.
 
 ## Can I work with people who don't have Clustta?
 
-Yes — use **share links** to send specific checkpoints to anyone, no Clustta account required. They get a download URL; you can set an expiry and revoke whenever. Good for client reviews, vendor handoffs, and one-off file sends.
+Yes - use **share links** to send specific checkpoints to anyone, no Clustta account required. They get a download URL; you can set an expiry and revoke whenever. Good for client reviews, vendor handoffs, and one-off file sends.
 
 ## Can I self-host?
 
@@ -87,19 +87,19 @@ Yes. The studio server is open source and ships as a Docker image. The [Self-Hos
 
 ## What does it cost?
 
-- **Personal mode** — Free, forever.
-- **Self-hosted** — Free (you pay your own infrastructure costs).
-- **Cloud studios** — Tiered plans on [clustta.com](https://clustta.com).
+- **Personal mode** - Free, forever.
+- **Self-hosted** - Free (you pay your own infrastructure costs).
+- **Cloud studios** - Tiered plans on [clustta.com](https://clustta.com).
 
 Open source means you're never locked in to the cloud product.
 
 ## Does Clustta use AI?
 
-Optionally. Clustta includes a built-in AI agent that can answer questions about your project structure, statuses, and assignments. It's **bring-your-own-key** and supports OpenAI, Anthropic, Gemini, Groq, and Ollama (local). The agent is **read-only** — it doesn't modify your project. See [AI Agent](../features/ai-agent.md).
+Optionally. Clustta includes a built-in AI agent that can answer questions about your project structure, statuses, and assignments. It's **bring-your-own-key** and supports OpenAI, Anthropic, Gemini, Groq, and Ollama (local). The agent is **read-only** - it doesn't modify your project. See [AI Agent](../features/ai-agent.md).
 
 ## Does Clustta train on my files?
 
-No. We don't train models on customer data. The optional AI agent runs through your chosen provider with your own API key — Clustta isn't a middleman that captures or stores prompts. With Ollama you can keep everything fully local.
+No. We don't train models on customer data. The optional AI agent runs through your chosen provider with your own API key - Clustta isn't a middleman that captures or stores prompts. With Ollama you can keep everything fully local.
 
 ## How do I move from another tool?
 

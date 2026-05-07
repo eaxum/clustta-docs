@@ -8,10 +8,10 @@ A Clustta project is a single file on disk: `<project-name>.clst`. It's a regula
 
 It contains:
 
-- **Structural tables** — collections, assets, types, tags, dependencies, workflows, templates
-- **Versioning tables** — checkpoints, file states, sync metadata
-- **People tables** — users, roles, permissions, assignments
-- **Content table** — chunked binary data (in Personal mode and self-host)
+- **Structural tables** - collections, assets, types, tags, dependencies, workflows, templates
+- **Versioning tables** - checkpoints, file states, sync metadata
+- **People tables** - users, roles, permissions, assignments
+- **Content table** - chunked binary data (in Personal mode and self-host)
 
 Because it's just SQLite, you can:
 
@@ -33,9 +33,9 @@ Then a checkpoint record is created that references the ordered list of chunk ha
 
 ### Why content-defined, not fixed-size?
 
-Fixed-size chunking breaks down on creative files. Insert one byte near the start of a Photoshop file and every fixed-size chunk after that point shifts — every chunk becomes "new" and dedup gives up.
+Fixed-size chunking breaks down on creative files. Insert one byte near the start of a Photoshop file and every fixed-size chunk after that point shifts - every chunk becomes "new" and dedup gives up.
 
-FastCDC picks chunk boundaries based on content patterns. Insert a byte near the start and most subsequent chunks still align — only a few chunks change. The other 99% of the file dedups perfectly.
+FastCDC picks chunk boundaries based on content patterns. Insert a byte near the start and most subsequent chunks still align - only a few chunks change. The other 99% of the file dedups perfectly.
 
 This is what makes "checkpoint a 2 GB scene after a 100 KB tweak" actually cost ~100 KB.
 
@@ -43,11 +43,11 @@ This is what makes "checkpoint a 2 GB scene after a 100 KB tweak" actually cost 
 
 Hash-keyed storage gives us free dedup at multiple levels:
 
-- **Within a file across versions** — Most of v2 is the same chunks as v1.
-- **Across files in the same project** — Two textures sharing a header? Same chunks, stored once.
-- **Across collaborators (during sync)** — When syncing, the destination tells the source which chunk hashes it already has. Only the rest are transferred.
+- **Within a file across versions** - Most of v2 is the same chunks as v1.
+- **Across files in the same project** - Two textures sharing a header? Same chunks, stored once.
+- **Across collaborators (during sync)** - When syncing, the destination tells the source which chunk hashes it already has. Only the rest are transferred.
 
-A typical animation production with hundreds of versioned scenes ends up with chunk-level dedup ratios in the 4× to 20× range — many fewer bytes on disk than the naïve sum of file sizes.
+A typical animation production with hundreds of versioned scenes ends up with chunk-level dedup ratios in the 4Ã- to 20Ã- range - many fewer bytes on disk than the naÃ¯ve sum of file sizes.
 
 ## Compression
 
@@ -74,14 +74,14 @@ This is intentional:
 
 - **Single ownership** (assignment soft lock) means concurrent edits can't happen, so branches aren't needed for conflict avoidance.
 - **No merge logic for binary files** is required, because there are no branches to merge.
-- **Linear history is what artists already expect** — "v1, v2, v3, ..." with comments.
+- **Linear history is what artists already expect** - "v1, v2, v3, ..." with comments.
 
 For experimental work, the right pattern is:
 
 1. Checkpoint the current state (mark "before experiment").
 2. Try the experiment.
 3. If it works, checkpoint with a comment.
-4. If it doesn't, revert to "before experiment" — instant rollback.
+4. If it doesn't, revert to "before experiment" - instant rollback.
 
 ## What about huge files?
 
@@ -101,7 +101,7 @@ This GC runs:
 - On project compaction (manual or scheduled)
 - On sync, when the server is the canonical owner
 
-Until GC runs, "deleted" content still occupies disk. This is intentional — recovery from accidental deletion is more valuable than immediate space reclamation.
+Until GC runs, "deleted" content still occupies disk. This is intentional - recovery from accidental deletion is more valuable than immediate space reclamation.
 
 ## Where chunks actually live
 
@@ -109,7 +109,7 @@ Depending on mode:
 
 | Mode | Local chunks | Server chunks |
 |------|--------------|---------------|
-| **Personal** | In the local `.clst` | — (no server) |
+| **Personal** | In the local `.clst` | - (no server) |
 | **Self-hosted, default** | In the local `.clst` | In the server's `.clst` |
 | **Cloud** | In the local `.clst` (cached) | In Cloudflare R2 (canonical) + server-side metadata index |
 

@@ -128,3 +128,113 @@ div[align="center"] img {
   max-width: 100%;
   height: auto;
 }
+
+
+/* ==========================================================================
+   Wider, centered nav search (Mudstack-style)
+   ========================================================================== */
+
+/* Reserve generous horizontal space for the search input */
+.VPNavBarSearch.search {
+  flex-grow: 1;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Make the search button stretch and look like a wide pill */
+.VPNavBarSearch .DocSearch-Button {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  height: 40px;
+  padding: 0 16px;
+}
+
+.VPNavBarSearch .DocSearch-Button:hover {
+  border-color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-bg-soft);
+}
+
+.VPNavBarSearch .DocSearch-Button-Placeholder {
+  font-size: 14px;
+  padding: 0 12px 0 8px;
+}
+
+.VPNavBarSearch .DocSearch-Button-Keys {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.VPNavBarSearch .DocSearch-Button-Key {
+  background: transparent;
+  box-shadow: none;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  padding: 0 2px;
+  width: auto;
+  margin-right: 0;
+}
+
+/* Push social/appearance icons to the far right with comfortable spacing */
+.VPNavBar .content-body {
+  gap: 8px;
+}
+
+/* Rounder corners on the open search modal (VitePress local search) */
+.VPLocalSearchBox .shell {
+  border-radius: 28px !important;
+  overflow: hidden;
+}
+
+.VPLocalSearchBox .search-bar {
+  border-radius: 999px !important;
+  padding: 0 16px !important;
+}
+
+.VPLocalSearchBox .search-bar input {
+  border-radius: 999px !important;
+}
+
+.VPLocalSearchBox .search-actions button,
+.VPLocalSearchBox .search-bar-clear {
+  border-radius: 999px !important;
+}
+
+/* ==========================================================================
+   Rounded tables
+   ========================================================================== */
+
+.vp-doc table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider);
+  overflow: hidden;
+  display: table;
+  width: 100%;
+}
+
+.vp-doc table th,
+.vp-doc table td {
+  border: none;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc table th + th,
+.vp-doc table td + td {
+  border-left: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Wrap tables in a horizontally scrollable container without breaking the radius */
+.vp-doc div:has(> table) {
+  overflow-x: auto;
+  border-radius: 12px;
+}

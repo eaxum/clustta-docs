@@ -1,14 +1,14 @@
 # Sharing
 
-Sometimes you need to send a file to someone outside the project — a client reviewing a render, a vendor receiving a deliverable, a collaborator who isn't on Clustta. **Shareable download links** make this safe and simple, without giving up any control.
+Sometimes you need to send a file to someone outside the project - a client reviewing a render, a vendor receiving a deliverable, a collaborator who isn't on Clustta. **Shareable download links** make this safe and simple, without giving up any control.
 
-Think of it as a WeTransfer link — but tied to a specific checkpoint, time-limited, and revocable.
+Think of it as a WeTransfer link - but tied to a specific checkpoint, time-limited, and revocable.
 
 ## How it works
 
 1. Pick a specific checkpoint of an asset.
 2. Generate a download link.
-3. Send the link to anyone — they download the file in their browser.
+3. Send the link to anyone - they download the file in their browser.
 4. Optionally set an expiry; once it passes, the link stops working.
 5. Revoke at any time.
 
@@ -43,14 +43,14 @@ In the project, open **Project Settings → Share Links** (or the equivalent sha
 
 From there you can:
 
-- **Revoke** — Immediately disable the link. The URL stops working.
-- **Extend** — Push the expiry further into the future.
-- **View stats** — See download count and last-accessed time.
+- **Revoke** - Immediately disable the link. The URL stops working.
+- **Extend** - Push the expiry further into the future.
+- **View stats** - See download count and last-accessed time.
 
 ## Security notes
 
 - Links are **opaque, unguessable URLs** (long random tokens). They can't be brute-forced.
-- Links carry **no authentication context** beyond the token — possession of the URL is access. Treat them like passwords; don't paste them in public channels.
+- Links carry **no authentication context** beyond the token - possession of the URL is access. Treat them like passwords; don't paste them in public channels.
 - For studios with stricter requirements, set short expiries by default and revoke after delivery.
 - The transport is **HTTPS** when using a TLS-terminated studio server (Traefik, custom nginx). Always run production studio servers behind TLS.
 
@@ -58,10 +58,10 @@ See [Architecture / Security](../architecture/security.md) for the full transpor
 
 ## Use cases
 
-- **Client review** — Drop a checkpoint of a render, share the link to the client, set 7-day expiry. They review, give notes, you revoke after.
-- **Vendor handoff** — Outsourcing a piece of work to a non-Clustta vendor. Share the source files. They send finals back via your normal IO process.
-- **Quick handoff to non-team-member** — A producer needs a file urgently for a meeting. Faster than onboarding them.
-- **External reviewer who doesn't need an account** — Share each WFA checkpoint as it lands.
+- **Client review** - Drop a checkpoint of a render, share the link to the client, set 7-day expiry. They review, give notes, you revoke after.
+- **Vendor handoff** - Outsourcing a piece of work to a non-Clustta vendor. Share the source files. They send finals back via your normal IO process.
+- **Quick handoff to non-team-member** - A producer needs a file urgently for a meeting. Faster than onboarding them.
+- **External reviewer who doesn't need an account** - Share each WFA checkpoint as it lands.
 
 ## What share links are not
 

@@ -1,6 +1,6 @@
 # Asset Templates
 
-Asset Templates are pre-configured starter files. Instead of opening Blender, configuring the scene, setting render settings, and saving — every time, for every artist — you do that work *once*, register the file as a template, and from then on Clustta creates new assets from it with a single click.
+Asset Templates are pre-configured starter files. Instead of opening Blender, configuring the scene, setting render settings, and saving - every time, for every artist - you do that work *once*, register the file as a template, and from then on Clustta creates new assets from it with a single click.
 
 ## Why templates?
 
@@ -9,7 +9,7 @@ Without templates, every new asset starts from a software default. That means:
 - Inconsistent scene settings across the team
 - Repeated setup work for every new file
 - New artists have to learn the studio's conventions through trial and error
-- "I forgot to set the render resolution again" — every week
+- "I forgot to set the render resolution again" - every week
 
 Templates eliminate all of this. The template *is* the studio's convention, encoded into a file.
 
@@ -55,13 +55,13 @@ Clustta materializes the template's contents as a new working file. Double-click
 
 ## Templates + Workflows
 
-Templates pair naturally with [Workflows](./workflows.md). When defining a workflow's asset slot, you can specify *which template to use* when scaffolding. Now scaffolding a new shot doesn't just create the structure — it also creates real working files based on your studio's templates, ready to open and start working.
+Templates pair naturally with [Workflows](./workflows.md). When defining a workflow's asset slot, you can specify *which template to use* when scaffolding. Now scaffolding a new shot doesn't just create the structure - it also creates real working files based on your studio's templates, ready to open and start working.
 
 This is the closest thing Clustta offers to "automated pipeline setup."
 
 ## Updating a template
 
-Templates can be updated any time. **Existing assets created from the template are not affected** — they keep their own independent history. Only future asset creations use the new template content.
+Templates can be updated any time. **Existing assets created from the template are not affected** - they keep their own independent history. Only future asset creations use the new template content.
 
 ## Deleting templates
 

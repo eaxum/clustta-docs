@@ -8,7 +8,7 @@ Clustta makes these relationships first-class. You can declare them, visualize t
 
 Without dependency tracking, granting an artist what they need to do their work is a chore:
 
-- "I'm assigning you the Lighting task. You'll also need: the animation file, the rig, all the textures..." (×20 items)
+- "I'm assigning you the Lighting task. You'll also need: the animation file, the rig, all the textures..." (Ã-20 items)
 - The artist has to ask repeatedly for missing pieces.
 - When the rig updates, no one knows which downstream shots are affected.
 
@@ -18,17 +18,17 @@ Dependencies fix all three problems.
 
 A directed link from one asset (or collection) to another, optionally tagged with a **dependency type** (e.g. *uses*, *references*, *based-on*). Asset A *depends on* Asset B means: A needs B to be useful.
 
-Dependencies are stored in the project database — they're real metadata, not folder conventions.
+Dependencies are stored in the project database - they're real metadata, not folder conventions.
 
 ## Creating dependencies
 
 Several ways:
 
-- **Drag and drop** — In the browser, drag one asset onto another. Choose **Add as Dependency**.
-- **From the dependency graph view** — Open an asset, click the dependency graph icon. From the right-side panel, click `+` next to any asset to add it as a dependency.
-- **From the asset details pane** — Add or remove dependencies from the dependency section.
+- **Drag and drop** - In the browser, drag one asset onto another. Choose **Add as Dependency**.
+- **From the dependency graph view** - Open an asset, click the dependency graph icon. From the right-side panel, click `+` next to any asset to add it as a dependency.
+- **From the asset details pane** - Add or remove dependencies from the dependency section.
 
-Drop a *collection* in instead of an asset to add the entire collection as a dependency in one shot — useful for "this character depends on the entire textures collection".
+Drop a *collection* in instead of an asset to add the entire collection as a dependency in one shot - useful for "this character depends on the entire textures collection".
 
 <!-- TODO: screenshot of dependency graph view -->
 
@@ -39,7 +39,7 @@ Each task asset has a **dependency graph view**:
 - Shows the asset and its direct dependencies (default)
 - Toggle **Full graph** to expand recursively and see every transitive dependency
 
-The right-side panel shows candidate assets you can add — filterable by type, tag, or search.
+The right-side panel shows candidate assets you can add - filterable by type, tag, or search.
 
 ## Recursive resolution on assignment
 
@@ -49,13 +49,13 @@ Example:
 
 ```
 Lighting (assigned to Adaeze)
-├── Animation                  ← auto-granted
-│   ├── Character Rig: Jako   ← auto-granted (transitive)
-│   │   ├── Model: Jako       ← auto-granted
-│   │   └── Textures (collection: Jako Skin)  ← entire collection auto-granted
-│   └── Environment: Carpenter Shop  ← auto-granted
-└── FX                         ← auto-granted
-    └── ...
+â”œâ”€â”€ Animation                  â† auto-granted
+â”‚   â”œâ”€â”€ Character Rig: Jako   â† auto-granted (transitive)
+â”‚   â”‚   â”œâ”€â”€ Model: Jako       â† auto-granted
+â”‚   â”‚   â””â”€â”€ Textures (collection: Jako Skin)  â† entire collection auto-granted
+â”‚   â””â”€â”€ Environment: Carpenter Shop  â† auto-granted
+â””â”€â”€ FX                         â† auto-granted
+    â””â”€â”€ ...
 ```
 
 Adaeze receives the complete pull-down she needs. No manual sharing. No "can you also send me the X" messages.
@@ -64,20 +64,20 @@ Adaeze receives the complete pull-down she needs. No manual sharing. No "can you
 
 Dependencies can be **typed** so that intent is preserved. Typical types include:
 
-- **uses** — generic dependency
-- **references** — the asset is referenced (linked) but not embedded
-- **based-on** — the asset is a derivative of another
+- **uses** - generic dependency
+- **references** - the asset is referenced (linked) but not embedded
+- **based-on** - the asset is a derivative of another
 
-Dependency types are configurable per project in **Project Settings → Dependency Types**.
+Dependency types are configurable per project in **Project Settings â†’ Dependency Types**.
 
 ## Removing dependencies
 
-From the graph view, click the **`–`** button on any dependency node, or remove it from the asset details pane.
+From the graph view, click the **`â€“`** button on any dependency node, or remove it from the asset details pane.
 
-Removing a dependency does **not** revoke access to anyone who is currently assigned to the parent — they keep what they've already pulled. Future assignments use the new graph.
+Removing a dependency does **not** revoke access to anyone who is currently assigned to the parent - they keep what they've already pulled. Future assignments use the new graph.
 
 ## Best practices
 
-- **Model real relationships, not folder structure.** A texture isn't a dependency of a character just because it lives in the character's folder — it's a dependency because the character's material *uses* it.
-- **Use collection dependencies for groups.** A *Lighting* task doesn't need to depend on each of 30 individual cowry textures — depend on the *Cowries Textures* collection instead.
+- **Model real relationships, not folder structure.** A texture isn't a dependency of a character just because it lives in the character's folder - it's a dependency because the character's material *uses* it.
+- **Use collection dependencies for groups.** A *Lighting* task doesn't need to depend on each of 30 individual cowry textures - depend on the *Cowries Textures* collection instead.
 - **Don't be afraid of deep graphs.** The recursion handles it. The deeper your model, the more automatic your handoffs.

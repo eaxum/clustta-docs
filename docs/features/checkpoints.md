@@ -28,7 +28,7 @@ Project_v3.psd     530 MB
 Total:           ~1.54 GB
 ```
 
-Clustta uses **content-defined chunking**: files are split into variable-sized chunks based on their content, each chunk is hashed and stored once. When you create a checkpoint after small edits, only the changed chunks are added — the rest are referenced.
+Clustta uses **content-defined chunking**: files are split into variable-sized chunks based on their content, each chunk is hashed and stored once. When you create a checkpoint after small edits, only the changed chunks are added - the rest are referenced.
 
 ```
 Project.psd  +  Δchunks_1  +  Δchunks_2
@@ -64,15 +64,15 @@ Select any asset and look at the details pane (right side). You'll see every che
 
 Click a checkpoint to expand its actions:
 
-- **Open** — Open that exact version in your default app (a temp file is reconstructed from chunks)
-- **Revert** — Replace the working file with this version
-- **Delete** — Send this checkpoint to trash (recoverable until purge)
+- **Open** - Open that exact version in your default app (a temp file is reconstructed from chunks)
+- **Revert** - Replace the working file with this version
+- **Delete** - Send this checkpoint to trash (recoverable until purge)
 
 <!-- TODO: screenshot of checkpoint history in details pane -->
 
 ## Reverting
 
-Reverting writes a previous checkpoint's contents back to the working file. Your current working state is *not* lost unless you've already overwritten it without checkpointing first — so as long as you've checkpointed, revert is safe.
+Reverting writes a previous checkpoint's contents back to the working file. Your current working state is *not* lost unless you've already overwritten it without checkpointing first - so as long as you've checkpointed, revert is safe.
 
 A progress dialog shows the operation; large files reconstruct quickly because chunks are local.
 
