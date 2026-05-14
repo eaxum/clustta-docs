@@ -31,6 +31,20 @@ Existing tools force a bad trade-off:
 
 Clustta fills this gap by combining the **discipline of real version control** with the **ergonomics of consumer file tools**, on a foundation built specifically for the way creative teams actually work.
 
+## How does it perform?
+
+On a real 148 GB / 788-commit creative production replay, Clustta finished the entire history in **12.8 minutes** and stored it in **36.6 GB** - faster than Git LFS, Git, SVN and Perforce, and using a fraction of the disk:
+
+| System    |  Commit time | Repository size |
+| --------- | -----------: | --------------: |
+| **Clustta** |  **12.8 min** |     **36.6 GB** |
+| Git LFS   |    14.7 min |       143.2 GB |
+| Git       |    38.0 min |        78.6 GB |
+| SVN       |    42.9 min |       145.1 GB |
+| Perforce  |   111.3 min |        78.8 GB |
+
+See [Benchmarks](../reference/benchmarks.md) for the full methodology and reproduction steps.
+
 ## How it works (in 30 seconds)
 
 1. You install the desktop app and create a **project**. Clustta gives you a regular folder on disk to work out of - your DCC tools never need to know Clustta exists.
