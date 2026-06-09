@@ -80,6 +80,11 @@ export default defineConfig({
     },
   },
 
+  // Serve the introduction page at the site root (no redirect needed).
+  rewrites: {
+    'welcome/introduction.md': 'index.md',
+  },
+
   themeConfig: {
     logo: '/clustta.png',
     siteTitle: 'Clustta',
@@ -90,7 +95,7 @@ export default defineConfig({
       {
         text: 'Welcome',
         items: [
-          { text: icon(icons.bookOpen, 'Introduction'), link: '/welcome/introduction' },
+          { text: icon(icons.bookOpen, 'Introduction'), link: '/' },
           { text: icon(icons.compass, 'Philosophy'), link: '/welcome/philosophy' },
           { text: icon(icons.rocket, 'Clustta 101'), link: '/welcome/clustta-101' },
         ],

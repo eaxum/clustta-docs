@@ -43,7 +43,7 @@ On a real 148 GB / 788-commit creative production replay, Clustta finished the e
 | SVN       |    42.9 min |       145.1 GB |
 | Perforce  |   111.3 min |        78.8 GB |
 
-See [Benchmarks](../reference/benchmarks.md) for the full methodology and reproduction steps.
+See [Benchmarks](./reference/benchmarks.md) for the full methodology and reproduction steps.
 
 ## How it works (in 30 seconds)
 
