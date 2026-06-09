@@ -4,30 +4,45 @@
  */
 
 :root {
-  --vp-c-brand-1: #773baf;
-  --vp-c-brand-2: #984adf;
-  --vp-c-brand-3: #a65fe9;
-  --vp-c-brand-soft: rgba(119, 59, 175, 0.14);
+  --vp-c-brand-1: #643094;
+  --vp-c-brand-2: #7a3bb3;
+  --vp-c-brand-3: #8f4fc9;
+  --vp-c-brand-soft: rgba(100, 48, 148, 0.14);
 
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: #fff;
-  --vp-button-brand-bg: #773baf;
+  --vp-button-brand-bg: #643094;
   --vp-button-brand-hover-border: transparent;
   --vp-button-brand-hover-text: #fff;
-  --vp-button-brand-hover-bg: #984adf;
+  --vp-button-brand-hover-bg: #7a3bb3;
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: #fff;
-  --vp-button-brand-active-bg: #6a2fa0;
+  --vp-button-brand-active-bg: #532778;
 
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #773baf 30%, #a65fe9);
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #643094 30%, #8f4fc9);
 }
 
 .dark {
-  --vp-c-brand-1: #a65fe9;
-  --vp-c-brand-2: #984adf;
-  --vp-c-brand-3: #773baf;
-  --vp-c-brand-soft: rgba(166, 95, 233, 0.14);
+  /* Dark mode leans on Clustta yellow (#ffc100) instead of purple */
+  --vp-c-brand-1: #ffc100;
+  --vp-c-brand-2: #ffce33;
+  --vp-c-brand-3: #e0a800;
+  --vp-c-brand-soft: rgba(255, 193, 0, 0.14);
+
+  /* Yellow buttons with dark text for contrast */
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #1a1a1a;
+  --vp-button-brand-bg: #ffc100;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: #1a1a1a;
+  --vp-button-brand-hover-bg: #ffce33;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: #1a1a1a;
+  --vp-button-brand-active-bg: #e0a800;
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #ffc100 30%, #ffce33);
 
   /* Background shades aligned with clustta-website palette */
   --vp-c-bg: hsl(0, 0%, 4%);
