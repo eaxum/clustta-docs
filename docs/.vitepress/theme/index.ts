@@ -14,13 +14,19 @@ export default {
   enhanceApp({ app, router }) {
     app.component('LucideIcon', LucideIcon)
 
-    // Always default the docs root to the introduction page, including
-    // client-side (SPA) navigation such as clicking the logo / site title.
+    // Always default the docs root to the introduction page.
     if (typeof window !== 'undefined') {
+      // Initial direct load of the root in the SPA (dev, or if the server-side
+      // redirect is unavailable). Use a hard redirect so the home page layout
+      // never partially renders underneath the destination page.
       if (isRoot(window.location.pathname)) {
-        router.go(HOME_PATH)
+        window.location.replace(HOME_PATH)
+        return
       }
 
+      // In-app navigation to the root (e.g. clicking the logo / site title):
+      // cancel it and route to the introduction page instead. This runs before
+      // the home page renders, so there is no flash or overlap.
       const originalBeforeRouteChange = router.onBeforeRouteChange
       router.onBeforeRouteChange = (to) => {
         if (isRoot(to)) {
