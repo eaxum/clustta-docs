@@ -1,6 +1,6 @@
 # Self-Hosting
 
-Run your own Clustta studio server. Your projects, your hardware, your control.
+Run your own Clustta studio server on your own infrastructure.
 
 This is the **Dedicated** studio mode - same Docker image we ship for ClusttaCloud™, deployed on infrastructure you own. Self-hosting is fully supported, fully open-source, and a first-class deployment target.
 
@@ -61,6 +61,25 @@ Example - private mode with Traefik (auto-HTTPS):
 ```bash
 curl -fsSL https://raw.githubusercontent.com/eaxum/clustta-studio/main/install.sh | bash -s -- --private --traefik
 ```
+
+### Where to reach your server
+
+::: info With `--traefik`
+Clustta is served over HTTPS at the domain you point at the host (e.g. `https://studio.yourdomain.com`).
+
+- Make sure your domain's DNS A record points at the machine's public IP and that ports `80` / `443` are open before running the script.
+- **On the same machine / WSL:** Reach it locally at `http://127.0.0.1/clustta`. The `/clustta` path is how Traefik knows to route the request to the container's `clustta` label. If you changed Traefik's port, include it - e.g. `http://127.0.0.1:81/clustta` - and make sure that port is open on the machine. From Windows talking to a WSL host, use the WSL distro's IP (run `hostname -I` inside WSL) - e.g. `http://172.20.10.3/clustta` - since `localhost` may not forward to WSL automatically.
+:::
+
+::: info Without `--traefik` (standalone)
+Clustta is served over HTTP at `http://<machine-ip>:7774`.
+
+- **On the same machine / WSL:** Reach it locally at `http://localhost:7774`. From Windows talking to a WSL host, use the WSL distro's IP (run `hostname -I` inside WSL) - e.g. `http://172.20.10.3:7774` - since `localhost` may not forward to WSL automatically.
+:::
+
+::: tip Port conflicts
+If another service is already using a required port (`80` / `443` with Traefik, or `7774` standalone), edit the port mapping in `docker-compose.yml` (in your install directory) and run `docker compose up -d` to apply the change.
+:::
 
 After installation, manage your server with:
 
