@@ -16,11 +16,7 @@ If your studio already runs Kitsu for production tracking, you don't have to cho
 
 ### Setting it up
 
-1. In Clustta, open **Project Settings → Integrations → Kitsu**.
-2. Provide your Kitsu instance URL, API user credentials, and the Kitsu project ID to link to.
-3. Map Clustta collections to Kitsu episodes/sequences/asset categories.
-4. Map Clustta assets to Kitsu shots/assets.
-5. Save.
+Kitsu event sync requires an always-on server listener, a studio-wide service account, and a link and mappings for each project. Follow [Set up Kitsu event sync](./kitsu-integration.md) for the complete server and Clustta Studio process.
 
 Once connected:
 

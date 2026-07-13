@@ -1,0 +1,201 @@
+# Set up Kitsu event sync
+
+Clustta Studio can listen for task changes from [Kitsu](https://www.cg-wire.com/kitsu) and apply them to linked Clustta projects. The setup has two parts:
+
+1. A server administrator enables the always-on Kitsu listener and its encrypted credential store.
+2. A Studio administrator connects Kitsu, links each Clustta project to its Kitsu project, and configures the project mappings.
+
+::: info No Kitsu webhook is required
+Clustta connects to Kitsu's Socket.IO event stream at `/events`. The Clustta server initiates the connection, so you do not need to create a callback URL or expose a new inbound webhook endpoint.
+:::
+
+## What gets synchronized
+
+The listener reacts to Kitsu task creation, updates, assignment, and unassignment events. For every event, Clustta fetches the current task from Kitsu and updates the matching mapped asset.
+
+- Kitsu assignees are matched to Clustta collaborators by email address.
+- Kitsu task statuses are translated through the project's status mappings.
+- Only Kitsu projects and tasks already linked and mapped in Clustta are updated.
+- Source files and checkpoint history remain in Clustta.
+
+Clustta also performs a periodic reconciliation. This repairs state after a temporary network interruption or a missed real-time event.
+
+## Before you begin
+
+You need:
+
+- A running Kitsu/Zou instance reachable from the Clustta server.
+- HTTPS in production. The server sends the service-account credentials again whenever it reconnects.
+- A dedicated Kitsu service account with permission to read the projects, tasks, people, task types, and task statuses you want to synchronize.
+- Matching email addresses for people who exist in both Kitsu and Clustta.
+- Studio administrator access in Clustta.
+- Project administrator access for every Clustta project you will link.
+- A Clustta plan that includes integrations when using the hosted multi-tenant server.
+
+Use the Kitsu server URL without a trailing `/api`, for example:
+
+```text
+https://kitsu.example.com
+```
+
+Clustta adds the Kitsu API paths internally. Entering `https://kitsu.example.com/api` would produce an invalid `/api/api/...` request.
+
+## Part 1: Configure the Clustta server
+
+The server stores the Kitsu service-account credentials encrypted and owns the persistent event connection. Complete this section before configuring the integration in the Studio UI.
+
+### 1. Create the encryption key
+
+Generate a random 32-byte key and encode it as base64:
+
+```sh
+openssl rand -base64 32
+```
+
+Keep this value in your secrets manager. Do not commit it to source control.
+
+::: warning Keep the key stable
+Changing or losing this key makes the saved integration credentials unreadable. If you rotate it, remove and configure the Kitsu integration again with the new key.
+:::
+
+### 2. Set the server environment
+
+Add the following values to the Clustta server environment:
+
+```dotenv
+# Required: base64-encoded 32-byte AES-256-GCM key
+INTEGRATION_SECRET_KEY=<generated-key>
+
+# Optional: how often Clustta rechecks all linked Kitsu tasks
+INTEGRATION_RECONCILE_INTERVAL=30m
+```
+
+`INTEGRATION_RECONCILE_INTERVAL` accepts a Go duration such as `10m`, `30m`, or `1h`. If omitted, it defaults to `30m`.
+
+For a container deployment, inject these values through your container secret or environment configuration. Avoid placing the encryption key directly in a checked-in Compose file.
+
+### 3. Allow outbound connectivity
+
+The Clustta server must be able to reach the Kitsu origin over:
+
+- HTTPS for authentication and REST API requests.
+- WebSocket/Socket.IO for the `/events` namespace and `/socket.io/` transport path.
+
+If Kitsu is behind a reverse proxy, make sure WebSocket upgrades are enabled for `/socket.io/`. No new inbound port is required on the Clustta server.
+
+### 4. Restart and inspect the server
+
+Restart the Clustta server after setting the environment variables. At startup, the server loads every enabled studio integration and starts one listener for each studio.
+
+If `INTEGRATION_SECRET_KEY` is missing, the server logs that Studio integrations are disabled. If it is malformed, server startup fails with an invalid-key error.
+
+## Part 2: Configure Clustta Studio
+
+This section creates the studio-wide listener configuration. The credentials entered here belong to the server-side service account, not an individual artist.
+
+### 1. Connect the studio to Kitsu
+
+1. In Clustta, select the studio you administer.
+2. Open **Studio Settings > Integrations**.
+3. Select **Kitsu**.
+4. Enter the Kitsu server URL, service-account email, and password.
+5. Select **Save**.
+
+Saving performs a live Kitsu login. When it succeeds, the server encrypts the credentials, enables the integration, and starts the listener. The Integrations page should show Kitsu as **Running**.
+
+You can use the toggle beside Kitsu to stop or restart the listener without deleting its configuration. Deleting the integration stops the listener and removes the stored credentials.
+
+### 2. Connect your Clustta client to Kitsu
+
+Project linking and mapping use a client-side Kitsu session in addition to the server service account.
+
+1. Open **Settings > Advanced > Integrations**.
+2. Select **Connect Integration**, then choose **Kitsu**.
+3. Enter the same Kitsu API URL and a Kitsu account that can browse the target projects.
+4. Select **Connect**.
+
+This credential is stored for the current Clustta client. It is used to browse Kitsu projects and configure mappings; the server-side service account continues to receive events.
+
+### 3. Link a Clustta project
+
+Repeat these steps for every project that should receive Kitsu updates:
+
+1. Open the Clustta project.
+2. Open **Project Settings > Advanced**.
+3. Select **Link Integration**.
+4. Choose **Kitsu**, select the matching Kitsu project, and select **Link Project**.
+
+The project link stores the Kitsu project ID. Renaming the project in either application does not break the link.
+
+### 4. Configure project mappings
+
+Still in **Project Settings > Advanced**, configure:
+
+- **Directory Mapping** - defines where imported Kitsu entities are created in the Clustta collection tree.
+- **Asset Type Templates** - maps Kitsu task types to the Clustta asset templates used for new assets.
+- **Status Mapping** - maps each Clustta status to its Kitsu task status.
+
+Run the Kitsu sync preview and initial sync after the mappings are ready. The initial sync creates the collection and asset mappings that the server listener uses to route later events.
+
+::: warning Linking is not enough
+The listener only updates a task after the Clustta project is linked and that Kitsu task has a corresponding asset mapping. Run the initial sync before testing live events.
+:::
+
+## Verify the integration
+
+Use one mapped task and a collaborator who has the same email address in both systems:
+
+1. Confirm **Studio Settings > Integrations > Kitsu** shows **Running**.
+2. In Kitsu, assign the test task to that collaborator or change its status.
+3. In Clustta, sync or refresh the linked project.
+4. Confirm the mapped asset shows the new assignee or translated status.
+
+For a full recovery test, temporarily disable Kitsu in Studio Settings, make a change in Kitsu, then enable the integration again. The startup reconciliation should apply the missed state.
+
+## How events reach a project
+
+The complete path is:
+
+```text
+Kitsu task event
+  > Clustta server listener
+  > fetch authoritative task state from the Kitsu REST API
+  > find the Clustta project linked to the Kitsu project ID
+  > find the asset mapped to the Kitsu task ID
+  > resolve assignees by email and translate the status mapping
+  > update the Clustta project database
+  > deliver the change through normal Clustta project sync
+```
+
+Events for an unlinked Kitsu project or an unmapped task are ignored. Multiple events for the same task arriving close together are coalesced into a single task fetch.
+
+## Troubleshooting
+
+### The integration shows Error
+
+Open the Kitsu configuration in **Studio Settings > Integrations** to see the latest listener error. Check the API URL, service-account credentials, TLS certificate, and whether the server can reach Kitsu's REST and Socket.IO endpoints.
+
+### The integration shows Stopped
+
+Make sure the Kitsu toggle is enabled and `INTEGRATION_SECRET_KEY` is configured on the server. Saving or re-enabling the integration restarts its listener.
+
+### Login succeeds but live events do not arrive
+
+Check the reverse proxy in front of Kitsu. It must pass WebSocket upgrades to `/socket.io/`, and the Clustta server must be able to establish the outbound connection.
+
+### An event arrives but no Clustta asset changes
+
+Confirm that:
+
+- The Clustta project is linked to the correct Kitsu project.
+- The initial integration sync created an asset mapping for the task.
+- The Kitsu task type is included in the project's mappings.
+- The relevant Kitsu and Clustta statuses are mapped.
+
+### An assignee is missing
+
+The Kitsu person's email must match a collaborator email in the Clustta project, ignoring case. Add the user to the project or correct the email, then wait for reconciliation or make another task change.
+
+### Changes appear after a delay
+
+Real-time delivery may have been interrupted. The listener reconnects with backoff and the reconciliation job eventually repairs missed changes. Review server logs if this happens repeatedly.

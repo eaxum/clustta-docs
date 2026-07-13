@@ -149,6 +149,7 @@ export default defineConfig({
         text: 'Extensions',
         items: [
           { text: icon(icons.plug, 'Integrations'), link: '/features/integrations' },
+          { text: icon(icons.refreshCw, 'Kitsu event sync'), link: '/features/kitsu-integration' },
           { text: icon(icons.sparkles, 'AI Agent'), link: '/features/ai-agent' },
         ],
       },
