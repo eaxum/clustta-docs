@@ -98,6 +98,7 @@ export default defineConfig({
           { text: icon(icons.bookOpen, 'Introduction'), link: '/' },
           { text: icon(icons.compass, 'Philosophy'), link: '/welcome/philosophy' },
           { text: icon(icons.rocket, 'Clustta 101'), link: '/welcome/clustta-101' },
+          { text: icon(icons.database, 'Transfers & Storage'), link: '/welcome/transfers-and-storage' },
         ],
       },
       {
