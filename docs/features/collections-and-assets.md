@@ -26,7 +26,7 @@ Each asset has:
 - **Resource** is the default. Other people can see and download it, but it's not "owned" by anyone - anyone with permission can update it.
 - **Task** has a single assignee. Only the assignee can create checkpoints (the soft lock). Tasks have a status and show up on the Kanban board.
 
-You can convert between the two: right-click → **Convert to Task** / **Convert to Resource**.
+You can convert between the two from the **Asset Details** pane. Assigning someone to a Resource also converts it to a Task.
 
 ### Creating assets
 
@@ -92,7 +92,7 @@ Without the Shared flag, collections are only visible to users assigned to asset
 
 ## Types
 
-Both asset types and collection types are fully customizable per project. Open **Project Settings → Asset Types / Collection Types** to manage them. Each type can have:
+Both asset types and collection types are fully customizable per project. Open **Project Settings > Asset Types / Collection Types** to manage them. Each type can have:
 
 - A name
 - An icon (chosen from a built-in set)
@@ -111,7 +111,6 @@ The browser has multiple ways to see the same data:
 - **List view** - Compact strips, ideal for scanning lots of assets
 - **Grid view** - Thumbnails, ideal for visual asset libraries
 - **Kanban view** - Columns by status, ideal for production tracking
-- **Workflow view** - Visual graph of asset dependencies (see [Workflows](./workflows.md))
 
 Switch views from the icons in the top-right of the browser.
 
@@ -119,9 +118,9 @@ Switch views from the icons in the top-right of the browser.
 
 ## Navigation
 
-Clustta uses an **expand-in-place** navigation model: click the chevron on a collection to reveal its contents in the same view, no folder dive. Double-click a collection to "enter" it (isolating its contents and updating the breadcrumb).
+By default, Clustta uses an **expand-in-place** navigation model: click the chevron on a collection to reveal its contents in the same view, with no folder dive. Double-click a collection to switch to **Navigator mode**, which isolates its contents and updates the breadcrumb.
 
-This means you can scan deep project hierarchies without navigating folder-to-folder.
+This means you can scan deep project hierarchies without navigating folder-to-folder. You can also use the arrow keys to move through the browser.
 
 ## Drag, drop, multi-select
 
@@ -138,4 +137,5 @@ Standard `Shift+click` and `Ctrl+click` for multi-select. Drag items onto each o
 | `Delete` | Free up space (clear local file, keep history) |
 | `Shift+Delete` | Permanently delete (to trash) |
 | `↵ Return` | Open / enter |
+| `Arrow keys` | Navigate the browser |
 | `F5` | Reload view |
