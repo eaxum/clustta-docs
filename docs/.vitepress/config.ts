@@ -47,6 +47,7 @@ const icons = {
   // Workflow Guides
   route: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h6.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>',
   clapperboard: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 11 14-7"/><path d="m8 9-2-4"/><path d="m14 6-2-4"/><path d="m20 3-2-1"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>',
+  brush: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.98 1.08 1.1 2.49 2 4.02 2 2.2 0 4-1.8 4-4.02 0-1.1-.44-2.1-1.16-2.82A2.62 2.62 0 0 0 7.07 14Z"/></svg>',
   gamepad: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68A4 4 0 0 0 2.7 8.59l-1.18 7A3 3 0 0 0 4.48 19h.52a3 3 0 0 0 2.12-.88L9.24 16h5.52l2.12 2.12A3 3 0 0 0 19 19h.52a3 3 0 0 0 2.96-3.41l-1.18-7A4 4 0 0 0 17.32 5Z"/></svg>',
   music: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
   palette: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 22a10 10 0 1 0-10-10c0 5.523 4.477 10 10 10Zm0 0c1.1 0 2-.9 2-2 0-.62-.28-1.17-.72-1.53-.44-.36-.72-.91-.72-1.53 0-1.1.9-2 2-2H16a6 6 0 0 0 6-6"/></svg>',
@@ -154,11 +155,12 @@ export default defineConfig({
       {
         text: 'Pipeline Guides',
         items: [
-          { text: icon(icons.route, 'Overview'), link: '/workflows/overview' },
-          { text: icon(icons.clapperboard, 'Animation'), link: '/workflows/animation' },
-          { text: icon(icons.gamepad, 'Games'), link: '/workflows/games' },
-          { text: icon(icons.music, 'Music & Sound'), link: '/workflows/music-and-sound' },
-          { text: icon(icons.palette, 'Design'), link: '/workflows/design' },
+          { text: icon(icons.route, 'Overview'), link: '/pipeline/overview' },
+          { text: icon(icons.brush, '2D Animation'), link: '/pipeline/2d-animation' },
+          { text: icon(icons.box, '3D Animation'), link: '/pipeline/3d-animation' },
+          { text: icon(icons.gamepad, 'Games'), link: '/pipeline/games' },
+          { text: icon(icons.music, 'Music & Sound'), link: '/pipeline/music-and-sound' },
+          { text: icon(icons.palette, 'Design'), link: '/pipeline/design' },
         ],
       },
       {

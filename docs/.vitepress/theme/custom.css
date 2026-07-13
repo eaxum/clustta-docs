@@ -271,3 +271,41 @@ div[align="center"] img {
   overflow-x: auto;
   border-radius: 12px;
 }
+
+/* ==========================================================================
+   Pipeline charts
+   ========================================================================== */
+
+.vp-doc .pipeline-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px auto;
+  text-align: center;
+}
+
+.vp-doc .pipeline-stage {
+  box-sizing: border-box;
+  width: min(100%, 420px);
+  padding: 12px 18px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.vp-doc .pipeline-stage strong,
+.vp-doc .pipeline-stage span {
+  display: block;
+}
+
+.vp-doc .pipeline-stage span {
+  margin-top: 2px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.vp-doc .pipeline-arrow {
+  color: var(--vp-c-brand-1);
+  font-size: 24px;
+  line-height: 1.25;
+}
