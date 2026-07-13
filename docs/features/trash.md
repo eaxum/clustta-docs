@@ -15,31 +15,31 @@ A deleted item:
 - Disappears from the normal browser view
 - Stops appearing in lists, searches, kanban boards
 - Stays in the project database, marked as deleted
-- Can be restored at any time before purge
+- Can be restored at any time before purge (usually on the next sync).
 
 ## Viewing trash
 
 Click the **Trash icon** in the project's top action bar. The trash view lists every soft-deleted item, when it was deleted, and by whom.
 
-<!-- TODO: screenshot of trash view -->
+![Clustta Trash view showing deleted items, filters, restore controls, and the Empty action](/images/clustta-trash.png)
 
 ## Restoring
 
-Select an item in trash and click **Restore**. It comes back exactly where it was - same parent collection, same metadata, same history.
+Click the **revert/undo icon** beside an item in the trash to restore it. It comes back exactly where it was - same parent collection, same metadata, same history.
 
-If you delete a parent collection, restoring it brings the entire subtree back. You can also restore individual items from a deleted parent if you only want part of it back.
+If you delete a parent collection, restoring it brings the entire subtree back. You can't restore individual items from a deleted parent if you only want part of it back.
 
 ## Permanent deletion
 
-Items in trash are permanently removed when:
+Items in trash are permanently removed:
 
-- You manually **Empty Trash** in the trash view
-- You explicitly purge a single item
-- The next sync runs (depending on your studio's policy - some studios auto-purge on sync)
+- When you manually **Empty Trash** in the trash view
+- On **Project Sync** when you manually sync the project
 
 Once permanently deleted:
 
-- Asset chunks that aren't referenced by any other surviving checkpoint are removed.
+- Manually emptying the trash removes local chunks that are no longer referenced by any surviving checkpoint or asset template. Chunks still used elsewhere are preserved.
+- Sync removes the trashed records, but does not run the same unused-chunk cleanup. Any orphaned local chunks are reclaimed the next time you manually empty the trash or use **Trim Project**.
 - The item is gone from both your local database and the server.
 - It cannot be recovered.
 
@@ -56,11 +56,11 @@ Free Up Space is non-destructive - it's just "I don't need this file on my disk 
 |----------|-------------|
 | `Delete` | Free up local file (keep history; can re-download) |
 | `Shift+Delete` | Soft-delete (send to trash) |
-| Trash → Empty | Permanent removal |
+| Trash > Empty | Permanent removal |
 
-## Why soft delete matters
+## Why soft delete exists
 
-In production, accidents happen. A wrong drag, a misclick, "I thought this was the duplicate." Soft delete means those mistakes cost seconds to fix instead of hours of recovery from backups.
+In production, accidents happen. A wrong drag, a misclick, etc. Soft delete means those mistakes are much easier to rectify.
 
 Combined with [checkpoint history](./checkpoints.md), Clustta gives you several layers of safety:
 
@@ -69,4 +69,4 @@ Combined with [checkpoint history](./checkpoints.md), Clustta gives you several 
 3. **Trash** - every deleted asset/checkpoint. Survives until trash is emptied.
 4. **Backups** of `./projects` (self-host) or studio backups (cloud) - survives total disaster.
 
-Loss in Clustta is a deliberate act, not an accident.
+Consequentially, losing/deleting a file should be a very intentional operation.
