@@ -1,116 +1,56 @@
 # Storage & Versioning
 
-How Clustta stores files, how versioning actually works under the hood, and why a 2 GB scene can checkpoint in seconds and use a few MB of disk.
+Clustta stores project structure, history, and file content in a `.clst` archive. Connected projects can also keep file content on the studio server and download it when needed.
 
-## The `.clst` file
+## The `.clst` archive
 
-A Clustta project is a single file on disk: `<project-name>.clst`. It's a regular SQLite database with the schema Clustta needs.
+A project archive is a SQLite database named `<project-name>.clst`. It stores:
 
-It contains:
+- Collections, assets, tags, workflows, and permissions
+- Checkpoints and sync state
+- File chunks kept by the local client
 
-- **Structural tables** - collections, assets, types, tags, dependencies, workflows, templates
-- **Versioning tables** - checkpoints, file states, sync metadata
-- **People tables** - users, roles, permissions, assignments
-- **Content table** - chunked binary data (in Personal mode and self-host)
+Personal projects keep their file content in the local archive. Connected projects sync content with the studio server and normally retain downloaded chunks as a local cache.
 
-Because it's just SQLite, you can:
+## Metadata-only mode
 
-- `cp` it to back up the entire project
-- Open it in any SQLite browser to inspect
-- Mount it on any platform without conversion
-- Trust it to be readable in 30 years
+Metadata-only mode keeps project details and checkpoint history in the local `.clst` archive but does not retain synced file chunks there. After an upload or download completes, Clustta removes synced chunks from the archive and reclaims space when needed.
 
-## Content-defined chunking (FastCDC)
+Use metadata-only mode when local disk space matters more than repeated download speed. File content remains available from the studio server, but Clustta may need to download it again the next time it is opened or restored. This uses less local storage and more network data over time.
 
-When you create a checkpoint, Clustta needs to store the asset's contents. Instead of treating the file as one big blob:
+You can enable it in **Settings → Advanced → Metadata only**. It applies to connected projects; a Personal project has no server copy to fetch from.
 
-1. The file is **streamed through FastCDC**, which splits it into variable-sized chunks based on its content. Average chunk size is configurable; defaults are tuned for typical creative file sizes.
-2. Each chunk gets a **SHA-256 hash**. The hash is the chunk's identity.
-3. Each chunk is **Zstandard-compressed**.
-4. The compressed chunk is stored in the database, keyed by hash. **If a chunk with the same hash already exists, it's not stored again.**
+## How file storage works
 
-Then a checkpoint record is created that references the ordered list of chunk hashes that reconstruct the file.
+When you create a checkpoint, Clustta:
 
-### Why content-defined, not fixed-size?
+1. Splits the file into content-defined chunks with FastCDC.
+2. Gives each chunk a SHA-256 identifier.
+3. Compresses and stores chunks that are not already available.
+4. Records the ordered chunk list needed to rebuild the file.
 
-Fixed-size chunking breaks down on creative files. Insert one byte near the start of a Photoshop file and every fixed-size chunk after that point shifts - every chunk becomes "new" and dedup gives up.
+Content-defined chunking lets unchanged parts of a file keep the same identifiers after an edit. As a result, new checkpoints usually store and transfer only the changed chunks. Identical chunks can also be reused across files and collaborators in the same project.
 
-FastCDC picks chunk boundaries based on content patterns. Insert a byte near the start and most subsequent chunks still align - only a few chunks change. The other 99% of the file dedups perfectly.
+## Restoring a checkpoint
 
-This is what makes "checkpoint a 2 GB scene after a 100 KB tweak" actually cost ~100 KB.
+To restore a checkpoint, Clustta reads its chunk list, gets any missing chunks from the studio server, decompresses them, and rebuilds the file in order. It verifies the completed file so damaged or incomplete content is not silently used.
 
-## Deduplication
+In metadata-only mode, remote chunks are used for the restore but are not kept as a long-term cache in the local archive.
 
-Hash-keyed storage gives us free dedup at multiple levels:
+## Version history
 
-- **Within a file across versions** - Most of v2 is the same chunks as v1.
-- **Across files in the same project** - Two textures sharing a header? Same chunks, stored once.
-- **Across collaborators (during sync)** - When syncing, the destination tells the source which chunk hashes it already has. Only the rest are transferred.
+Each asset has one chronological checkpoint history. Clustta does not create branches or merge binary files.
 
-A typical animation production with hundreds of versioned scenes ends up with chunk-level dedup ratios in the 4Ã- to 20Ã- range - many fewer bytes on disk than the naÃ¯ve sum of file sizes.
+For an experiment, checkpoint the current state first. Keep the result as a new checkpoint or restore the earlier one if the experiment does not work.
 
-## Compression
+## Removing unused content
 
-Each chunk is Zstandard-compressed at a level chosen for the file format. Already-compressed formats (`.png`, `.jpg`, `.mp4`, `.zip`) compress poorly and Zstd is fast enough that the cost is negligible. Highly compressible formats (`.psd`, `.blend`, raw text) compress significantly.
+Deleting a checkpoint or asset does not immediately delete its chunks. A chunk can be removed only after no remaining checkpoint references it. Clustta cleans up unreferenced content when trash is purged, the project is compacted, or the server performs cleanup during sync.
 
-## File reconstruction
+## Where content lives
 
-To open a historical checkpoint, Clustta:
-
-1. Looks up the checkpoint record.
-2. Reads the ordered chunk hashes.
-3. Pulls each chunk (from local SQLite, or from object storage if not local).
-4. Decompresses each chunk.
-5. Concatenates them into a temp file (or directly into the working file on revert).
-6. Verifies the assembled file's hash against the checkpoint's recorded hash.
-
-The verify step means corruption is detected, not silently propagated.
-
-## Versioning isn't branching
-
-Clustta versioning is **linear per asset**. Each asset has a single timeline of checkpoints, in chronological order. There are no branches.
-
-This is intentional:
-
-- **Single ownership** (assignment soft lock) means concurrent edits can't happen, so branches aren't needed for conflict avoidance.
-- **No merge logic for binary files** is required, because there are no branches to merge.
-- **Linear history is what artists already expect** - "v1, v2, v3, ..." with comments.
-
-For experimental work, the right pattern is:
-
-1. Checkpoint the current state (mark "before experiment").
-2. Try the experiment.
-3. If it works, checkpoint with a comment.
-4. If it doesn't, revert to "before experiment" - instant rollback.
-
-## What about huge files?
-
-Streaming chunking and compression mean Clustta handles large files well in steady state. A few practical limits:
-
-- **Hashing pass** is single-threaded but fast. A 5 GB file hashes in tens of seconds on modern hardware.
-- **SQLite write transactions** for checkpointing scale to projects with millions of chunks. We've stress-tested into the multi-million chunk range without issue.
-- **Sync bandwidth** is the typical bottleneck for very large fresh projects. Once initial pull is done, deltas are small.
-
-## Garbage collection
-
-When you permanently delete a checkpoint or asset, the **chunks it referenced** become candidates for removal. A chunk is only actually deleted when **no remaining checkpoint** anywhere in the project references it.
-
-This GC runs:
-
-- On manual purge of trash
-- On project compaction (manual or scheduled)
-- On sync, when the server is the canonical owner
-
-Until GC runs, "deleted" content still occupies disk. This is intentional - recovery from accidental deletion is more valuable than immediate space reclamation.
-
-## Where chunks actually live
-
-Depending on mode:
-
-| Mode | Local chunks | Server chunks |
-|------|--------------|---------------|
-| **Personal** | In the local `.clst` | - (no server) |
-| **Self-hosted, default** | In the local `.clst` | In the server's `.clst` |
-| **Cloud** | In the local `.clst` (cached) | In Cloudflare R2 (canonical) + server-side metadata index |
-
-In all cases the local client has chunks for assets it's actively using; the rest can be pulled on demand.
+| Mode | Local `.clst` archive | Server |
+|------|-----------------------|--------|
+| **Personal** | Metadata and file chunks | No server copy |
+| **Connected, standard storage** | Metadata and cached file chunks | Canonical synced chunks |
+| **Connected, metadata only** | Metadata; synced chunks are discarded after transfer | Canonical synced chunks |

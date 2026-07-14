@@ -1,17 +1,17 @@
 # Sync Model
 
-How project state moves between local clients and the studio server. Designed around three principles: **explicit, selective, and conflict-aware**.
+How project state moves between local clients and the studio server. Designed around three principles: **local-first, selective, and conflict-aware**.
 
 ## What sync is
 
 A sync operation reconciles the **local project database** with the **server project database**, then transfers the chunk data needed for assets the local user is allowed to access.
 
-Two halves run in each sync:
+Two halves can run during a full sync:
 
 1. **Metadata reconciliation** - collections, assets, checkpoints, statuses, assignments, dependencies. Bi-directional.
 2. **Chunk transfer** - actual binary content. Selective by user.
 
-Metadata is small and always syncs in full. Chunk transfer is the part that takes real time on large projects.
+Metadata is small compared with asset files. The current full sync can replace the local metadata set, while the experimental background updater merges changed records. Chunk transfer is the part that takes real time on large projects.
 
 ## Push and pull
 
@@ -43,26 +43,53 @@ If you're an animator on Shot 020, you pull:
 
 But you don't pull Shot 010, Shot 030, or someone else's WIP scene - even though you can *see* they exist.
 
-## Pull-based, not push-based
+## How clients receive project changes
 
-Crucially, **the server never pushes data to clients unsolicited.** Clients pull on their own schedule.
+Clustta currently has two polling-based methods for bringing server changes into an open project. The client checks the project's sync token about every five seconds while it is online. When the server token changes, the selected method updates the local project database.
 
-This matters because:
+### Legacy project refresh
 
-- The server doesn't need to track per-client state ("has this client received X yet?")
-- Clients can be offline arbitrarily long without state corruption
-- Bandwidth and CPU stay predictable on the server side
-- The model scales horizontally (more clients = more pulls, but each is independent)
+The legacy method only runs when the local project has no unsynced changes. It fetches the server project state, drops the local project tables, and rewrites them from that state. This provides a clean snapshot, but it is too destructive to run while the client is dirty.
 
-## Local-first, manual trigger
+In practical terms:
 
-Nothing syncs automatically. You explicitly press Sync (or `Ctrl+S`). Reasons:
+- A clean client can refresh automatically after the polling loop detects a new sync token.
+- A dirty client waits, preserving its local work until the user performs a manual sync.
+- The refresh updates metadata but does not automatically download asset chunks.
+
+This method will be deprecated.
+
+### Background project updates
+
+The newer method is still experimental. It runs silently after the polling loop detects a new sync token and merges server changes into the local database without dropping tables.
+
+Only records accepted as newer are written locally. Local unsynced rows with newer modification times are preserved, so the update can run while the project is dirty. It is metadata-only and does not download file chunks or push local edits to the server.
+
+This background merge is the direction Clustta is moving toward. Polling is an intermediate transport. A future WebSocket connection is planned to notify clients as soon as project state changes, after which the same selective merge can retrieve and apply the changed data.
+
+## Local-first files, manual full sync
+
+File and checkpoint transfer remains user-controlled. A user presses Sync or uses `Ctrl+S` to reconcile local edits, transfer chunks, and download file content selected by the project's sync rules. Reasons include:
 
 - A teammate's half-broken intermediate save shouldn't auto-replace what you have open.
 - A multi-GB upload shouldn't kick off mid-render.
 - You should always know when your work is leaving your machine.
 
-Auto-sync sounds nice in product copy. In production with binary assets it's a recipe for data loss.
+Background metadata updates do not silently replace an artist's working file.
+
+## Metadata that updates immediately
+
+Some collaboration metadata uses a remote-first path rather than waiting for the project polling cycle. When a network connection is available, Clustta sends these changes to the server immediately and applies the server-confirmed result to the local database:
+
+- Asset status changes.
+- Asset assignment and unassignment.
+- Whether an asset is treated as a task.
+- Collection sharing changes.
+- Collection assignment and unassignment.
+
+These operations update immediately for the person making the change. Other connected clients receive the result through their project update path, which is currently polling-based.
+
+If the server cannot be reached, Clustta applies the change to the local project database and marks it as requiring sync. The change remains available locally, but it does not reach collaborators until a network connection returns and the user runs a manual sync.
 
 ## Conflict detection
 
@@ -111,11 +138,11 @@ The first sync of a new project is the slow one. Steady-state syncs after that a
 ## What happens during a sync, step by step
 
 1. Client connects to studio server, authenticates.
-2. Client sends its **last known sync watermark**.
-3. Server returns **metadata changes since that watermark**.
-4. Client applies those changes locally in a transaction. Conflicts surface to the user; resolved before continuing.
-5. Client computes which **chunks it needs to upload** (new local checkpoints) and **needs to download** (newly-visible content from the server).
-6. Client uploads needed chunks (skipping any the server already has, by hash).
-7. Client downloads needed chunks (verifies each by hash).
-8. Client updates local sync watermark.
+2. Client sends its unsynced local metadata and checkpoint information.
+3. Server reconciles those changes and returns the current project metadata and sync token.
+4. Client applies the server state locally in a transaction. Conflicts surface to the user and are resolved before continuing.
+5. Client computes which **chunks it needs to upload** for new local checkpoints and **needs to download** for newly visible content.
+6. Client uploads needed chunks, skipping any the server already has by hash.
+7. Client downloads needed chunks and verifies each by hash.
+8. Client stores the latest sync token.
 9. Done.
