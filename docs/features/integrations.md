@@ -1,79 +1,28 @@
-# Integrations
+# Integrations and Plugins
 
-Clustta connects to your existing creative pipeline through two main mechanisms: a **Kitsu** integration for production tracking, and a **DCC Bridge** local API for plugin development.
+Clustta connects to your existing creative pipeline through integrations with production tools and local APIs for plugin development.
 
-## Kitsu (CGWire)
+## Kitsu
 
-[Kitsu](https://www.cg-wire.com/kitsu) is the open-source production tracking platform from CGWire - widely used in animation studios. Clustta integrates with Kitsu so production metadata (statuses, assignments, assets) can stay in sync between the two systems.
+[Kitsu](https://www.cg-wire.com/kitsu) is CGWire's open-source production tracking platform. Clustta integrates with Kitsu so production metadata such as statuses, assignments, and assets can stay synchronized while source files and checkpoint history remain in Clustta.
 
-### Why integrate
+The integration uses an always-on server listener, a studio-wide service account, and project-specific links and mappings.
 
-If your studio already runs Kitsu for production tracking, you don't have to choose between Kitsu and Clustta - they coexist:
-
-- **Kitsu** continues to be your source of truth for production planning, scheduling, breakdowns, and reviews.
-- **Clustta** handles the actual file versioning, sync, and asset access on artists' machines.
-- **The integration** keeps statuses and assignments in sync so your producers don't have to update both systems.
-
-### Setting it up
-
-Kitsu event sync requires an always-on server listener, a studio-wide service account, and a link and mappings for each project. Follow [Set up Kitsu event sync](./kitsu-integration.md) for the complete server and Clustta Studio process.
-
-Once connected:
-
-- Status changes in Clustta propagate to Kitsu (and vice versa, depending on your sync direction settings).
-- Assignments stay synchronized.
-- Mapping is by ID, so renames don't break the link.
-
-### What's not synced
-
-- **File contents** stay in Clustta. Kitsu was never meant to store source files.
-- **Checkpoint history** stays in Clustta.
-- **Comments and reviews** stay in Kitsu (its review tooling is excellent).
+[Learn about Kitsu and configure the integration](./kitsu-integration.md).
 
 ## DCC Bridge
 
-The DCC Bridge is a **local HTTP REST server** built into the Clustta desktop client. It exposes project data - accounts, studios, projects, collections, assets, checkpoints - as REST endpoints so DCC tools can query and interact with Clustta programmatically.
+The DCC Bridge is a local HTTP REST server built into the Clustta desktop client. It lets tools such as Blender, Maya, Unreal, Houdini, Nuke, and Substance query Clustta project data using their existing HTTP libraries.
 
-### Why a local HTTP API
+The bridge runs on the local machine and uses the desktop app's signed-in session. It currently focuses on read access to projects, collections, assets, checkpoints, and working-folder paths.
 
-DCC plugin development is normally painful: every tool has its own scripting language, its own threading model, its own way of being called from outside. By exposing Clustta as a local HTTP server, we hand off all that complexity to the tool's own HTTP libraries:
+[Learn about the DCC Bridge and plugin development](./dcc-bridge.md).
 
-- **Blender** can hit it from a Python addon
-- **Maya** from a `requests`-based script
-- **Unreal** from Blueprint or C++ HTTP nodes
-- **Houdini, Nuke, Substance** - anything that can make an HTTP request
+## AI Agent
 
-This means plugin developers don't need to link against Clustta's binary, navigate platform-specific IPC, or deal with our internal data formats. They get clean JSON over HTTP.
+The AI Agent gives supported assistants controlled access to Clustta project context and actions through agent tooling.
 
-### Where it runs
-
-The bridge runs on `127.0.0.1:1173` (loopback only - never exposed to the network). It comes up automatically when the Clustta desktop client is running.
-
-### What it exposes
-
-Read-only endpoints for:
-
-- Authentication / current user
-- Studios you have access to
-- Projects in each studio
-- Collections and their nesting
-- Assets, including types, tags, statuses, assignees
-- Checkpoints - version history, authors, comments
-- Working folder paths so the plugin knows where files are on disk
-
-Write endpoints for common operations are being expanded; the current model favors *reading* project data and letting the user perform writes through the desktop UI.
-
-### Authentication
-
-The bridge ties into the desktop app's logged-in session. If no user is signed in, the bridge returns 401. There's no separate token model - the local app is the source of trust.
-
-### Building a plugin
-
-1. Make sure the desktop client is running.
-2. Hit `GET http://127.0.0.1:1173/api/v1/projects` for example.
-3. Parse the JSON. Build your UI in the DCC tool. Use the data.
-
-A reference plugin and OpenAPI spec are in the works. For now, the [client repo](https://github.com/eaxum/clustta-client) under `internal/bridge` shows the available endpoints.
+[Learn about the AI Agent](./ai-agent.md).
 
 ## Roadmap
 

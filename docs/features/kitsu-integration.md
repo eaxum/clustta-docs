@@ -1,4 +1,4 @@
-# Set up Kitsu event sync
+# Kitsu
 
 Clustta Studio can listen for task changes from [Kitsu](https://www.cg-wire.com/kitsu) and apply them to linked Clustta projects. The setup has two parts:
 
