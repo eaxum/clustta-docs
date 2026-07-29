@@ -109,9 +109,13 @@ After the user resolves, sync resumes. Nothing is auto-decided. See [Sync & Conf
 
 ## Wire format
 
-Metadata is exchanged in **Protocol Buffers** for efficiency. Chunk transfer uses **HTTP(S)** with the chunk hash as the lookup key - for Cloud studios this often means **presigned URLs** so the client uploads/downloads directly to/from R2 without proxying through the studio server.
+Metadata is exchanged in **Protocol Buffers** for efficiency. Chunk transfer uses **HTTP(S)** with the chunk hash as the lookup key. For Dedicated studios, the server reads or writes those chunks from the project's selected storage mode:
 
-This direct-to-storage path matters at scale: a studio with 50 artists doing parallel pulls of large checkpoints would saturate a single proxying server. Direct R2 access scales independently of studio server CPU.
+- **Compact** - blobs embedded in the server's `.clst` archive.
+- **Deflated** - blobs in the Dedicated server's configured storage directory.
+- **Object Storage** - S3-compatible blob storage, with direct transfer through presigned URLs where supported. This third selectable mode is coming soon.
+
+ClusttaCloud™ already uses managed Cloudflare R2 internally and can issue presigned URLs so clients transfer chunks without proxying their contents through the studio server. The coming Object Storage mode will bring that storage model to the selectable project modes. Direct access matters at scale because storage bandwidth can scale independently of studio server CPU.
 
 ## Atomicity
 

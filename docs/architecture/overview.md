@@ -16,7 +16,7 @@ A self-hosted studio in **Private** mode runs only the studio server - no depend
 
 ```
 ┌────────────┐         ┌─────────────────┐         ┌──────────────────┐
-│  Desktop   │ ──────► │  Studio server  │ ──────► │  Object storage  │
+│  Desktop   │ ------> │  Studio server  │ ------> │  Object storage  │
 │  client    │  sync   │   (per studio)  │  R2/S3  │   (chunks)       │
 └────────────┘         └─────────────────┘         └──────────────────┘
        │                       │
@@ -33,21 +33,22 @@ A self-hosted studio in **Private** mode runs only the studio server - no depend
 - **Backend (all three components):** Go 1.25+
 - **Desktop frontend:** Vue 3 + Vite + Pinia, packaged with [Wails v3](https://wails.io)
 - **Web dashboard:** Vue 3 + Vite (separate repo)
-- **Storage format:** SQLite per project (`.clst` files)
+- **Storage format:** SQLite metadata per project (`.clst` files), with configurable chunk storage
 - **Wire format:** Protocol Buffers for efficient sync
-- **Studio bulk transfer:** S3-compatible object storage (Cloudflare R2 in Cloud, configurable for self-host)
+- **Cloud bulk transfer:** Managed S3-compatible object storage (Cloudflare R2)
 - **Server runtime:** Docker
 
 The choice of Go everywhere (client backend + both servers) means a single language across the stack. The choice of Vue + Wails means the same UI runs on Windows, macOS and Linux from one codebase.
 
 ## The `.clst` project file
 
-Every Clustta project is a single SQLite database file with the `.clst` extension. It contains:
+Every Clustta project has a SQLite database file with the `.clst` extension. It contains:
 
 - **Metadata tables** - collections, assets, checkpoints, tags, types, dependencies, roles, assignments, sync state
-- **Chunked binary content** - the actual file data, stored as compressed chunks in a content-addressed table
+- **Chunk references** - the ordered content-addressed records needed to rebuild files
+- **Chunked binary content in Compact mode** - the actual file data, stored as compressed chunks in the archive
 
-This single-file design has practical benefits:
+The Compact single-file design has practical benefits:
 
 - **Trivial to copy / archive / back up** - one file is the entire project
 - **Trivial to inspect** - open it in any SQLite browser
@@ -55,11 +56,11 @@ This single-file design has practical benefits:
 - **Cross-platform** - same file works on Windows, macOS, Linux without conversion
 - **Long-lived** - SQLite is ubiquitous and will be readable in 30 years
 
-For Personal mode and Dedicated self-host, the `.clst` file *is* the project. For Cloud studios, chunks may also be stored in object storage (R2) for bandwidth and storage scaling, with the SQLite still serving as the metadata source.
+Personal projects use Compact storage. Dedicated studios can use **Compact** or **Deflated** per project: Compact embeds blobs in `.clst`, while Deflated keeps blobs in a configured server storage directory. **Object Storage** is the third mode and is coming soon; it will keep blobs in S3-compatible storage while SQLite remains the metadata source.
 
 ## Content-addressed chunked storage
 
-Files are split into variable-sized chunks using **FastCDC** (content-defined chunking), each chunk is **SHA-256-hashed**, **Zstandard-compressed**, and stored once in the project database (or object storage).
+Files are split into variable-sized chunks using **FastCDC** (content-defined chunking), each chunk is **SHA-256-hashed**, **Zstandard-compressed**, and stored once in the Compact project database or the Deflated server storage directory. S3-compatible Object Storage is coming soon.
 
 Properties this gets us:
 
@@ -95,8 +96,10 @@ The desktop client supports holding sessions for multiple studios simultaneously
 |------|----------|-------|
 | Working files | User's chosen working folder | Regular files on disk |
 | Project metadata + chunks | `~/.clustta` (per studio) `.clst` files | Per-project SQLite |
-| Studio server projects | `./projects/` on the server host | One `.clst` per project |
-| Cloud studio chunks | Cloudflare R2 buckets | Presigned-URL access only |
+| Studio project metadata | Configured projects directory, commonly `./projects/` | One `.clst` per project; includes chunks in Compact mode |
+| Dedicated Deflated chunks | Configured storage directory, commonly `./storage/` | Must be backed up with the matching `.clst` files |
+| Cloud-managed chunks | Cloudflare R2 | Used internally by ClusttaCloud™ |
+| Selectable Object Storage mode | S3-compatible object storage | Coming soon |
 | User account & identity (cloud) | Clustta global server database | Encrypted at rest |
 | Local sessions | OS keyring (Keychain / Credential Manager / Secret Service) | OS-level secret storage |
 

@@ -138,12 +138,23 @@ curl -fsSL https://raw.githubusercontent.com/eaxum/clustta-studio/main/deploy/do
 Create a `.env` file next to your `docker-compose.yml`:
 
 ```env
-DATA_FOLDER=./data
-PROJECTS_FOLDER=./projects
+HOST_DATA_DIR=./data
+HOST_PROJECTS_DIR=./projects
+HOST_STORAGE_DIR=./storage
 STUDIO_USERS_DB=/var/data/studio_users.db
 SESSION_DB=/var/data/sessions.db
 PRIVATE=true
 ```
+
+`HOST_DATA_DIR`, `HOST_PROJECTS_DIR`, and `HOST_STORAGE_DIR` are paths on the Docker host. The Compose file mounts them into the container's data, project, and Deflated-blob directories. The older `DATA_FOLDER`, `PROJECTS_FOLDER`, and `STORAGE_FOLDER` names remain supported for compatibility.
+
+Set `HOST_STORAGE_DIR` to the disk or volume where Deflated project blobs should live. For example:
+
+```env
+HOST_STORAGE_DIR=/media/clustta/storage
+```
+
+For a native, non-Docker deployment, use `STORAGE_DIR` to configure the server storage directory directly. If no usable storage directory is configured, you can still use Compact, but Deflated will not appear as an option. Object Storage is the third storage mode and is coming soon.
 
 If you want to **connect to ClusttaCloud™** (so users can sign in with existing Clustta accounts), set `PRIVATE=false` and add:
 
@@ -153,12 +164,12 @@ CLUSTTA_SERVER_NAME=YourStudioName
 CLUSTTA_SERVER_URL=https://your-host-domain
 ```
 
-The `StudioKey` is generated when you click **Create Studio → Dedicated** in the desktop client. See [Studios & Collaboration](./studios.md).
+The `StudioKey` is generated when you click **Create Studio > Dedicated** in the desktop client. See [Studios & Collaboration](./studios.md).
 
 ### 4. Start the server
 
 ```bash
-mkdir -p data projects
+mkdir -p data projects storage
 docker compose up -d
 ```
 
@@ -182,10 +193,10 @@ sudo ufw allow 7774/tcp        # standalone
 ```
 
 ::: warning Permissions
-You may need to make the projects directory writable by the container:
+You may need to make the projects and storage directories writable by the container:
 
 ```bash
-sudo chmod a+w ./projects/
+sudo chmod a+w ./projects/ ./storage/
 ```
 :::
 
@@ -204,12 +215,13 @@ Your studio now appears in the switcher and you can start creating projects.
 
 ## Backups
 
-Two things to back up:
+Back up all three server data locations:
 
 - The `./data` directory - sessions, user database, server state.
-- The `./projects` directory - all `.clst` project files. **This is the irreplaceable part.**
+- The `./projects` directory - every project's `.clst` metadata database and, for Compact projects, its file chunks.
+- The `./storage` directory - file blobs for Deflated projects.
 
-A nightly `rsync` or `restic` snapshot of these two folders is enough for a complete disaster-recovery story. Because each project is a single SQLite file, backup is mechanically simple.
+A Compact project can be recovered from its `.clst` archive. A Deflated project requires both its `.clst` archive and the matching external blobs, so snapshot the projects and storage directories together. A nightly `rsync` or `restic` snapshot of all three locations provides a complete disaster-recovery set.
 
 ## Updating
 
@@ -228,6 +240,8 @@ Studio server releases are backwards-compatible with current desktop clients wit
 | Client can't reach the server | Firewall, wrong URL, or DNS not pointing at the host |
 | TLS errors | Traefik couldn't reach Let's Encrypt - check ports 80/443 are open and your domain resolves |
 | Permission denied writing projects | Run `sudo chmod a+w ./projects/` |
+| Deflated is unavailable | Configure `HOST_STORAGE_DIR`, create the directory, and make it writable by the container |
+| Permission denied writing Deflated blobs | Run `sudo chmod a+w ./storage/` or correct the permissions on your custom storage path |
 | Users can't sign in (cloud-connected) | `CLUSTTA_STUDIO_API_KEY` is wrong, or the Clustta global server can't reach your `CLUSTTA_SERVER_URL` |
 
 For more, file an issue at [github.com/eaxum/clustta-studio](https://github.com/eaxum/clustta-studio/issues).

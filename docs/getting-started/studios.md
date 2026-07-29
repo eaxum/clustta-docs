@@ -38,6 +38,16 @@ For a self-hosted ("private") studio:
 
 No ClusttaCloud™ account is required. The studio is fully self-contained and can run completely air-gapped.
 
+## Choose project storage
+
+When you create a project in a supported Dedicated studio, the desktop app offers three server storage modes:
+
+- **Compact** - Keeps metadata and blobs together in the project's `.clst` archive. It is the default and a good fit when you want a self-contained project file.
+- **Deflated** - Keeps metadata in `.clst` and blobs in the server's configured storage directory. Choose it when you want to separate large file data from the project database. It appears only when that directory is available.
+- **Object Storage** - Will keep blobs in S3-compatible storage. This third option is coming soon, so you cannot select it yet.
+
+Studio admins can convert an existing project between Compact and Deflated from **Studio Settings > Project Storage**. The project is unavailable during conversion, and the admin must type its name to confirm. See [Storage & Versioning](../architecture/storage.md#server-storage-modes) before choosing a mode or planning backups.
+
 ## Add collaborators to the studio
 
 Adding someone to a studio gives them an account-level relationship with the studio (so they can be added to projects). It does **not** automatically grant access to any project.
@@ -60,7 +70,7 @@ Once a user is in the studio, you can add them to specific projects (from either
 
 1. Open the project.
 2. Click the **Settings** icon at the top-right of the browser.
-3. Switch to the **Collaborators** tab → **Add Collaborator**.
+3. Switch to the **Collaborators** tab > **Add Collaborator**.
 4. Search by name or email and pick a **project role**.
 5. Click **Add**.
 
@@ -76,7 +86,7 @@ The studio switcher is the dropdown at the top-left (showing your current studio
 
 Once you're set up:
 
-1. Someone with **`create-project`** rights creates a project on the server.
+1. Someone with **`create-project`** rights creates a project on the server and, where supported, chooses its storage mode.
 2. Each collaborator opens the project from their app and clicks **Download Project** to clone it locally.
 3. Work proceeds normally - assignments dictate who can checkpoint what; sync moves new checkpoints up and down.
 

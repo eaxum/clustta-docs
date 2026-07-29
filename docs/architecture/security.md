@@ -18,7 +18,7 @@ Clustta is **fully functional offline**. Personal mode and Dedicated self-hosted
 
 - **Personal projects** never leave your machine.
 - **Self-hosted studios in Private mode** have zero outbound dependency on Clustta. Air-gapped, behind a firewall, on a private LAN - all supported.
-- **Cloud and cloud-connected modes** opt in to using Clustta's services. For ClusttaCloud™ studios, file *contents* live in Clustta's managed Cloudflare R2 infrastructure; Clustta's global server handles identity, billing and routing. Cloud-connected self-hosted studios authenticate via Clustta but keep their own object storage.
+- **Cloud and cloud-connected modes** opt in to using Clustta's services. For ClusttaCloud™ studios, file *contents* live in Clustta's managed Cloudflare R2 infrastructure; Clustta's global server handles identity, billing and routing. Cloud-connected self-hosted studios authenticate via Clustta but keep project data on their own server. A selectable Object Storage mode for S3-compatible storage is coming soon.
 
 If Clustta vanished tomorrow, every collaborator would still have a complete working copy of every project they've cloned.
 
@@ -26,15 +26,13 @@ If Clustta vanished tomorrow, every collaborator would still have a complete wor
 
 Both the [client](https://github.com/eaxum/clustta-client) and [studio server](https://github.com/eaxum/clustta-studio) are AGPL v3. You can read every line of code that touches your data. For studios with compliance or contractual review requirements, this is decisive.
 
-### Single-file projects
+### Portable project databases
 
-Projects are single SQLite files. This makes them:
+Every project has a portable `.clst` SQLite metadata database. In Compact mode, that archive also contains all file chunks. In Deflated mode, chunks live in the studio's configured storage directory; the database and blobs must be managed together. Object Storage will be the third mode and is coming soon.
 
-- **Easy to back up and verify** - file hash, file copy, restore from copy.
+- **Easy to back up and verify** - Compact projects are one-file backups; Deflated projects use a well-defined database-and-blob set.
 - **Easy to inspect** - open in any SQLite browser to confirm what's actually stored.
-- **Easy to delete completely** - one file, gone.
-
-There's no opaque cloud blob soup to reason about.
+- **Easy to manage** - the selected storage mode makes the location of metadata and blobs explicit.
 
 ### Content-addressed storage
 
@@ -126,7 +124,10 @@ If your local disk is encrypted (FileVault, BitLocker, LUKS), all of this is enc
 
 ### Server (self-hosted)
 
-- Project `.clst` files live in the configured `./projects/` directory on the host.
+- Project `.clst` files live in the configured projects directory on the host.
+- Deflated project blobs live in the configured storage directory. Back up that directory with the project databases.
+- Compact projects keep their blobs inside their `.clst` files.
+- The third mode, Object Storage, is coming soon.
 - Backup is **your responsibility** - `rsync`, `restic`, snapshots, etc.
 - Encryption at rest depends on the host's disk configuration. For client work, encrypted volumes are recommended.
 
