@@ -8,7 +8,7 @@ Clustta records these relationships in the project. Linked dependencies connect 
 
 Without dependency tracking, granting an artist what they need to do their work is a chore:
 
-- "I'm assigning you the Lighting task. You'll also need: the animation file, the rig, all the textures..." (Ã-20 items)
+- "I'm assigning you the Lighting task. You'll also need: the animation file, the rig, all the textures..." (around 20 items)
 - The artist has to ask repeatedly for missing pieces.
 - When the rig updates, no one knows which downstream shots are affected.
 
@@ -72,15 +72,15 @@ When you assign a task to a collaborator, its **linked dependencies** are made a
 
 Example, with every relationship below using the **linked** type:
 
-```
+```text
 Lighting (assigned to Adaeze)
-â”œâ”€â”€ Animation                  â† auto-granted
-â”‚   â”œâ”€â”€ Character Rig: Jako   â† auto-granted (transitive)
-â”‚   â”‚   â”œâ”€â”€ Model: Jako       â† auto-granted
-â”‚   â”‚   â””â”€â”€ Textures (collection: Jako Skin)  â† entire collection auto-granted
-â”‚   â””â”€â”€ Environment: Carpenter Shop  â† auto-granted
-â””â”€â”€ FX                         â† auto-granted
-    â””â”€â”€ ...
+|-- Animation                            <- auto-granted
+|   |-- Character Rig: Jako               <- auto-granted (transitive)
+|   |   |-- Model: Jako                   <- auto-granted
+|   |   \-- Textures: Jako Skin           <- entire collection auto-granted
+|   \-- Environment: Carpenter Shop       <- auto-granted
+\-- FX                                   <- auto-granted
+    \-- ...
 ```
 
 Harry receives access to the linked inputs needed for Lighting, including the rig's own dependencies.
@@ -97,7 +97,7 @@ Dependency types describe the relationship. **Latest**, **Pinned**, and **Tag** 
 
 ## Removing dependencies
 
-From the graph view, click the **`â€“`** button on any dependency node, or remove it from the asset details pane.
+From the graph view, click the **`-`** button on any dependency node, or remove it from the asset details pane.
 
 Removing a dependency does **not** revoke access to anyone who is currently assigned to the parent - they keep what they've already pulled. Future assignments use the new graph.
 
