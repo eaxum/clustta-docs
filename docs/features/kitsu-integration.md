@@ -180,6 +180,16 @@ For example, mapping Modeling to `<Asset>-modeling` and Rigging to `<Asset>-rigg
 
 Run the Kitsu sync preview and initial sync after the mappings are ready. The initial sync creates the collection and asset mappings that the server listener uses to route later events.
 
+Directory Mapping also lets you enable or exclude individual task outputs. Use these filters when only part of the Kitsu production should create working assets in Clustta. Review output names and templates together, since they determine whether tasks create separate files or share an asset.
+
+The sync preview shows the full tree, including items to create, items to link, and items that need no action. Select the items you want to import, expanding collections to inspect their contents. Selecting a collection includes its eligible descendants; selecting a child includes any required parents. The counts update with your selection, and **Import selected** applies that selection.
+
+Items blocked by your permissions cannot be selected. Resolve any missing type or template mappings reported for the selection before importing. Existing items shown for context do not necessarily require an import action.
+
+Once an asset is linked, use its Kitsu action to open the corresponding task. When several task types share an asset, Clustta uses the selected asset type to identify the linked task. If the expected task does not open, check the asset type and integration mapping.
+
+Client connection, project linking, and the server listener are separate controls. Disconnecting a client session is different from unlinking a project or disabling the studio listener. Check which level you intend to change before using the integration's connection or removal controls.
+
 ::: warning Linking is not enough
 The listener only updates a task after the Clustta project is linked and that Kitsu task has a corresponding asset mapping. Run the initial sync before testing live events.
 :::

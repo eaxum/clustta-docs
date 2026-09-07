@@ -4,7 +4,7 @@ Sync is how local checkpoints become available to the rest of the team. Clustta'
 
 ## The model
 
-Clustta is **local-first**. Everything you do - creating assets, checkpointing, changing status, editing metadata - happens against your local `.clst` project file first. Nothing leaves your machine until you sync.
+Clustta keeps a local `.clst` project database and gives you control over file and checkpoint transfers. Some collaboration metadata, including statuses, assignments, task settings, and collection sharing, is sent immediately when the server is reachable. Offline changes remain local until sync. See [Sync Model](../architecture/sync.md#metadata-that-updates-immediately) for the distinction.
 
 Sync moves data in both directions:
 
@@ -15,14 +15,14 @@ Each sync is **selective**:
 
 - You only download the binary chunks for assets that are **assigned to you** or live in **Shared** collections.
 - Other people's work-in-progress files don't fill your disk.
-- Metadata syncs in full so you always see the project structure.
+- The server filters project data according to your access; sync does not grant visibility to restricted work.
 
 ## Triggering a sync
 
 Three ways:
 
 - **Click Sync** in the title bar / studio dropdown
-- Press **`Ctrl+S`**
+- Press **`Ctrl+Alt+S`** (`Cmd+Alt+S` on macOS)
 - Toggle **Sync after checkpoint** in the Create Checkpoint dialog (one-shot)
 
 The status indicator at the top of the app shows current sync state:
@@ -76,6 +76,16 @@ Assets carry a visual state indicator. After syncing you might see:
 
 See [Collections & Assets](./collections-and-assets.md) for more on managing local files.
 
+The **Changes** pane lists pending local changes so you can inspect what will be reconciled. It tracks dependency selectors, checkpoint tags, and project tags alongside assets, collections, and templates. Where an undo or restore action is offered, it applies to that item or child change. Some changes cannot be discarded independently; Clustta reports the reason.
+
+**Discard all** requires confirmation and restores pending project state from the server. Review the listed changes first, particularly new checkpoints and newly created items. Discarding unsynced project changes is a different operation from reverting a working file to a chosen checkpoint.
+
+Local asset and collection renames remain usable while awaiting sync. Remote path changes for fetched items can remain pending until fetch applies them, keeping local files, checkpoints, and reverts aligned. Refresh or fetch the affected item when its local path needs to catch up with the project state.
+
+Project downloads show preparation, receiving, and finishing phases. **Cancel** requests cancellation while the transfer is active; allow it to finish cancelling before retrying. Cancellation is no longer available during the final setup phase.
+
+If a session expires, sign in again to resume authenticated operations. The desktop app preserves the open project's context during reauthentication, so an expired session does not require closing your local project.
+
 ## Conflicts
 
 A conflict happens when two collaborators independently created something the server can't merge automatically. Two cases:
@@ -125,7 +135,7 @@ Both are easy to resolve, and Clustta never auto-decides for you.
 
 | Action | Shortcut |
 |--------|----------|
-| Sync project | `Ctrl+S` |
+| Sync project | `Ctrl+Alt+S` (`Cmd+Alt+S` on macOS) |
 | Pull updates only | Click Sync (will both push and pull) |
 | Resolve conflicts | Modal appears automatically when conflicts detected |
 | See sync state | Title bar status indicator |

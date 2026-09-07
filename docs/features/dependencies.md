@@ -2,7 +2,7 @@
 
 Most creative work doesn't exist in isolation. A *Lighting* task depends on *Animation*. *Animation* depends on a *Character Rig* and an *Environment*. The character rig depends on a *Model*, *Textures*, and *Materials*.
 
-Clustta makes these relationships first-class. You can declare them, visualize them, and rely on them to grant access automatically.
+Clustta records these relationships in the project. Linked dependencies connect assets to the files they need and make those files available to the collaborators assigned to the work.
 
 ## Why dependencies?
 
@@ -16,36 +16,61 @@ Dependencies fix all three problems.
 
 ## What a dependency is
 
-A directed link from one asset (or collection) to another, optionally tagged with a **dependency type** (e.g. *uses*, *references*, *based-on*). Asset A *depends on* Asset B means: A needs B to be useful.
+A dependency describes a relationship between assets, or between an asset and a collection. A **linked** dependency means the asset needs the referenced files to be available for its work or delivery.
 
-Dependencies are stored in the project database - they're real metadata, not folder conventions.
+Dependency relationships are stored in the project database - they're real metadata, not folder conventions.
 
 ## Creating dependencies
 
 Several ways:
 
-- **Drag and drop** - In the browser, drag one asset onto another. Choose **Add as Dependency**.
-- **From the dependency graph view** - Open an asset, click the dependency graph icon. From the right-side panel, click `+` next to any asset to add it as a dependency.
+- **Drag and drop** - In the browser, drag one asset over another and it registers it as a dependency.
+
+
 - **From the asset details pane** - Add or remove dependencies from the dependency section.
 
-Drop a *collection* in instead of an asset to add the entire collection as a dependency in one shot - useful for "this character depends on the entire textures collection".
+You can also drop a *collection* over an asset to add the entire collection as a dependency - useful for "this character depends on the entire textures collection".
 
 <!-- TODO: screenshot of dependency graph view -->
 
+The browser creates **linked** dependencies. Links between assets can also specify which checkpoint to use. Linked collection dependencies bring a group of assets into the graph.
+
+### Choosing a dependency version
+
+
+Dependencies can follow the latest checkpoint, remain pinned to a specific version, or follow a checkpoint tag such as *approved*. Use the latest version when you want to receive ongoing updates. Pin a checkpoint when a shot or deliverable needs a stable input. Tags let the upstream artist decide which checkpoint is ready for others to use.
+
+| Selection | Behavior |
+|-----------|----------|
+| **Latest** | Resolves to the dependency asset's latest checkpoint. The API calls this `floating`. |
+| **Pinned** | Keeps the exact checkpoint selected for that dependency. New checkpoints do not change the pin. |
+| **Tag** | Uses the checkpoint currently carrying that tag on the dependency asset. Moving the tag changes the version this dependency resolves to. |
+
+Use the pin control in the dependency list or graph to pin the current checkpoint. Unpin it to return to Latest, or open the version selector to choose an available checkpoint tag. Changing a selector requires permission to manage dependencies. A **Fix selector** label means the selected checkpoint or tag cannot currently be resolved.
+
+Tags are shared project labels, but each asset has its own checkpoint assignment for a tag. See [Checkpoints & Versioning](./checkpoints.md#browsing-history) for assigning and moving them. Selector and tag changes travel through project sync; changing a selector does not itself replace a working file.
+
+### Building with dependencies
+
+Choose **Build with dependencies** from an asset's context menu, or press `Ctrl+Shift+F` (`Cmd+Shift+F` on macOS). Clustta resolves the linked dependency graph and shows the exact checkpoints it will restore, including downloads, conflicts, and locally modified files.
+
+Review the plan before selecting **Build**. Conflicting requirements must be resolved first. Locally modified files require the **Overwrite locally modified dependency files** confirmation; checkpoint any work you need to preserve before allowing replacement.
+
+Clustta downloads missing chunks and restores dependencies before the assets that use them. If requirements change after the preview was opened, the build is rejected so you can review a fresh plan.
+
 ## Visualizing dependencies
 
-Each task asset has a **dependency graph view**:
+Each asset has a **dependency graph view**:
 
 - Shows the asset and its direct dependencies (default)
 - Toggle **Full graph** to expand recursively and see every transitive dependency
 
-The right-side panel shows candidate assets you can add - filterable by type, tag, or search.
 
 ## Recursive resolution on assignment
 
-This is where dependencies pay off in production: **when you assign a task to a collaborator, all of its dependencies (and their dependencies, recursively) are made available to that collaborator automatically.**
+When you assign a task to a collaborator, its **linked dependencies** are made available to that collaborator. Resolution follows linked relationships recursively, including linked collections, so the collaborator can access the files needed for the task.
 
-Example:
+Example, with every relationship below using the **linked** type:
 
 ```
 Lighting (assigned to Adaeze)
@@ -58,17 +83,17 @@ Lighting (assigned to Adaeze)
     â””â”€â”€ ...
 ```
 
-Adaeze receives the complete pull-down she needs. No manual sharing. No "can you also send me the X" messages.
+Harry receives access to the linked inputs needed for Lighting, including the rig's own dependencies.
 
 ## Dependency types
 
-Dependencies can be **typed** so that intent is preserved. Typical types include:
+Clustta defines four built-in dependency types: **linked**, **waiting on**, **blocking**, and **working**.
 
-- **uses** - generic dependency
-- **references** - the asset is referenced (linked) but not embedded
-- **based-on** - the asset is a derivative of another
+Currently, only **linked** dependencies are used to resolve asset access and deliverability: they identify the files collaborators need to receive and build alongside an asset. A linked relationship in Clustta does not itself insert a reference into a Blender or Maya scene.
 
-Dependency types are configurable per project in **Project Settings â†’ Dependency Types**.
+**Waiting on**, **blocking**, and **working** are intended for assignment and status workflows. They are not currently used to resolve file access or delivery, and should not be treated as automatic assignment or status rules. Use **linked** when an artist needs another asset's files.
+
+Dependency types describe the relationship. **Latest**, **Pinned**, and **Tag** describe which checkpoint a linked asset dependency resolves to; they are separate settings.
 
 ## Removing dependencies
 

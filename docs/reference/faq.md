@@ -21,7 +21,7 @@ No. You save in your DCC tool exactly as you always have. Clustta watches for ch
 
 ## Does Clustta auto-sync to the cloud?
 
-No, and intentionally so. Sync is **manual** - you press Sync (or `Ctrl+S`) when you're ready. Auto-sync of binary creative files is a recipe for corruption and overwrites. We don't ship that footgun.
+File and checkpoint transfers are controlled through **Sync** (`Ctrl+Alt+S`, or `Cmd+Alt+S` on macOS). Some collaboration metadata, including status and assignment changes, updates immediately when connected. Background metadata updates do not replace your working files. See [Sync & Conflicts](../features/sync-and-conflicts.md).
 
 ## Do I need an internet connection?
 
@@ -93,9 +93,11 @@ Yes. The studio server is open source and ships as a Docker image. The [Self-Hos
 
 Open source means you're never locked in to the cloud product.
 
+You can review plans, manage billing, and schedule or reverse a subscription cancellation in the app. See [Subscription management](../getting-started/studios.md#subscription-management).
+
 ## Does Clustta use AI?
 
-Optionally. Clustta includes a built-in AI agent that can answer questions about your project structure, statuses, and assignments. It's **bring-your-own-key** and supports OpenAI, Anthropic, Gemini, Groq, and Ollama (local). The agent is **read-only** - it doesn't modify your project. See [AI Agent](../features/ai-agent.md).
+Optionally. Clustta includes a built-in AI agent that can answer questions and make project changes within your permissions. It is **bring-your-own-key** and supports OpenAI, Anthropic, Gemini, Groq, and Ollama (local). Scoped batch changes and destructive operations require approval. See [AI Agent](../features/ai-agent.md) for capabilities and review controls.
 
 ## Does Clustta train on my files?
 

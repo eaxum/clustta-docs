@@ -32,21 +32,21 @@ The toolbar above the browser lets you stack filters in addition to text search:
 
 - **Type** filter - restrict to assets of a certain Asset Type (Animation, Texture, etc.)
 - **Tag** filter - restrict to assets with specific tags
+- **No Tags** - select this option in the tag filter to find assets without tags
 - **Status** filter - restrict by status (Todo / WIP / WFA / Retake / Done)
 - **Assignee** filter - restrict to one user's tasks
 - **Extension** filter - restrict to specific file types (`.blend`, `.psd`, etc.)
 
 Filters combine - applying type + status + assignee gives you "all Animation tasks in WFA assigned to Adaeze" instantly.
 
-## Saved views (My Tasks, Assigned, custom)
+## Saved views
 
 The browser has built-in tabs:
 
-- **Default** - everything in the current scope
+- **Project** - everything in the current scope
 - **My Tasks** - tasks assigned to you across the whole project
-- **Assigned tasks** - every assigned task (filter further by user)
 
-You can open additional filtered tabs (e.g. "All Characters") and they persist for the session.
+Use the assignee filter for other collaborators' tasks. You can save a custom workspace from the Project tab to retain its filters, search, navigation, and view mode. Custom tabs can be updated with the current settings, reset to their saved state, or deleted.
 
 ## Tips
 

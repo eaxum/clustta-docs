@@ -104,6 +104,10 @@ Types make filtering and visual scanning trivial - you can immediately see which
 
 Tags are free-form labels you can apply to any asset. Use them for cross-cutting concerns that don't fit a type - *needs-review*, *external-asset*, *placeholder*, *deliverable-001*. Filter by tag from the toolbar.
 
+Manage the project tag list in **Project Settings > Tags**, where you can create, rename, and delete labels. Renaming a tag updates its shared definition. Use **No Tags** in the tag filter to find assets that still need categorization.
+
+Tags can also identify checkpoints for versioned dependencies. A checkpoint tag appears on its asset as well. See [Checkpoints & Versioning](./checkpoints.md#browsing-history) for assignment behavior and deletion restrictions.
+
 ## The browser views
 
 The browser has multiple ways to see the same data:
@@ -113,6 +117,8 @@ The browser has multiple ways to see the same data:
 - **Kanban view** - Columns by status, ideal for production tracking
 
 Switch views from the icons in the top-right of the browser.
+
+The View menu lets you show or hide extensions, full paths, untracked items, and type icons. **File type icons** are a separate preference from the custom asset and collection type icons, so you can choose the information most useful for your work.
 
 <!-- TODO: screenshot of view switcher -->
 
@@ -125,6 +131,20 @@ This means you can scan deep project hierarchies without navigating folder-to-fo
 ## Drag, drop, multi-select
 
 Standard `Shift+click` and `Ctrl+click` for multi-select. Drag items onto each other to move them between collections, or to create dependencies (drop on a Task asset to add a dependency).
+
+In the desktop app, hover over a local asset and use the **Drag into other app** handle to drag its working file into another application or your system file manager. If that asset is part of a selection, the handle uses the selected assets.
+
+Every selected item must be an available local asset. Normal, Modified, and Outdated files are eligible; the drag uses the local working file, which may differ from the latest checkpoint. Collections, links, pointers, untracked or trashed items, and files that still need rebuilding are excluded. Native dragging supports Windows, macOS, and Linux; the Linux backend offers copy-only export. The receiving application determines how it imports the files.
+
+## Export project data
+
+Use the browser's export action to review a table of assets in the current browser view. Check the preview and total before saving, especially when filters or navigation have narrowed the view. This action exports metadata; use the drag handle above when you need the working files themselves.
+
+Choose **CSV**, **JSON**, or **Plain Text**, then select the columns to include. Name, extension, and parent are required. Other fields include status, assignee, tags, and asset type. The preview is paginated, but the export includes all matching rows.
+
+The name-format selector supports the original names, kebab-case, snake_case, camelCase, PascalCase, uppercase, lowercase, and title case. Formatting changes the exported names without renaming project assets.
+
+The [Agent](./ai-agent.md) also provides `/export all assets`, `/export all tasks`, `/export all blender tasks`, and `/export all assets here` to open a preview for those scopes.
 
 ## Quick actions
 

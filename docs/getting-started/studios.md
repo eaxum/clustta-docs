@@ -76,7 +76,10 @@ Once a user is in the studio, you can add them to specific projects (from either
 
 You can add multiple collaborators at once by separating emails with commas.
 
+Hosted personal projects and studios enforce the collaborator limits of their current plan. If adding collaborators exceeds the available allowance, review existing membership or choose a plan with sufficient capacity. Dedicated private servers do not use these cloud plan limits.
+
 Each project has its own set of roles. Six defaults ship out of the box (Admin, Production Manager, Supervisor, Assistant Supervisor, Artist, Vendor) and you can add, remove or edit them freely (except **Admin**, which is fixed). Read more in [Roles & Permissions](../features/roles-and-permissions.md).
+
 
 ## Switching studios
 

@@ -32,9 +32,15 @@ This works without a plugin/add-on. Blender also has deeper automation through C
 
 ## Example Workflow
 
+The **Maya 3D Animation Production** template provides a starting structure for shared assets, episodes, sequences, and shots. It includes a workspace configuration and a launch hook that prepares Maya when you open a scene, helping collaborators work with consistent project paths.
+
+The template includes a tracked `workspace.mel` and a script that opens and validates the project workspace before loading a scene. Keep that configuration available to collaborators, and review the script when Clustta asks for launch permission. You can adjust the hook in **Project Settings > Hooks**. See [DCC launch configuration](../features/integrations.md#dcc-launch-configuration) for scripts, application versions, and environments.
+
 A team might begin with Clustta's **3D Animation** project template and a studio `.blend` or `.ma` asset template. A concept artist is assigned the character design, a model/rig artist receives that approved design as a dependency, and an animator receives the approved rig. The animator's checkpoint becomes an input for lighting and comp, with review renders and final shots collected under `Outputs`.
 
 The Blender or Maya ignore preset can keep backup files, incremental saves, caches, and temporary renders out of the project. Approved renders should live in `Outputs` rather than the ignored cache folder.
+
+For review handoffs, use a checkpoint tag such as *approved* and let downstream assets follow that tag. Pin a specific checkpoint when a shot needs to stay on a fixed rig or animation version. Review **Build with dependencies** before replacing local files.
 
 Suggested collection layout; labels in brackets are asset or collection types:
 

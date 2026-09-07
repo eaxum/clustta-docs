@@ -64,7 +64,7 @@ Because of chunked storage, a checkpoint of a 2 GB scene where you tweaked one m
 
 ### 4. (Online studios & ClusttaCloud™ personal projects) Sync
 
-Checkpoints are local until you sync. When you press **Sync** (or `Ctrl+S`), Clustta uploads your new checkpoints to the studio server (or, for ClusttaCloud™ personal projects, to your account). Collaborators - or your other machines - can then pull them down.
+Checkpoints are local until you sync. When you press **Sync** (`Ctrl+Alt+S`, or `Cmd+Alt+S` on macOS), Clustta uploads your new checkpoints to the studio server (or, for ClusttaCloud™ personal projects, to your account). Collaborators - or your other machines - can then pull them down.
 
 If someone else has changed something you also changed, Clustta surfaces it as a **conflict** with two clear options:
 

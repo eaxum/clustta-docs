@@ -53,6 +53,10 @@ After signing in for the first time, you'll land in your **Personal studio** - y
 Personal projects stay on your machine by default. Sign in to ClusttaCloud™ whenever you want to sync them between your own computers or share them with collaborators.
 :::
 
+During storage setup, Clustta suggests locations for its data and your working projects. Review both paths before continuing: the data location holds Clustta project data, while the working-projects location holds the files you edit in creative applications. You can accept the suggested folders or browse to suitable locations on another drive.
+
+In the Mac App Store app, selecting folders in the system picker also grants the app permission to access them. A typed path alone does not grant that permission. If folder selection is cancelled, complete the requested selection before continuing setup.
+
 ## Switching studios
 
 Once you have access to more than one studio (your Personal studio + any team studios you create or get added to), use the dropdown at the top-left of the app - labelled with the current studio name - to switch.

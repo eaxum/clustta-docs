@@ -33,8 +33,8 @@ The six built-ins are starting points; you can change anything except the Admin 
 
 Permissions are organized by domain. Each role has independent toggles per category:
 
-- **Assets** - View, Create, Update, Delete, Manage Dependencies
-- **Collections** - View, Create, Update, Delete
+- **Assets** - View All Assets, Create, Update, Delete, Manage Dependencies
+- **Collections** - View All Collections, Create, Update, Delete
 - **Templates** - Create, Update, Delete
 - **Checkpoints** - Create, Delete, Revert
 - **Assignments** - Assign, Unassign
@@ -58,6 +58,8 @@ Existing assignees of that role gain/lose permissions immediately.
 
 ## Creating a role
 
+To start from an existing role, hover its row in **Project Settings > Roles** and select **Duplicate**. Enter a new name, then adjust the copied permissions as needed. Duplicating requires permission to change roles; the fixed Admin role cannot be duplicated.
+
 1. Click **Add Role**.
 2. Give it a name (e.g. *External Reviewer*, *Junior Lighter*, *Audio Lead*).
 3. Toggle the permissions you want.
@@ -74,16 +76,13 @@ When adding collaborators (see [Studios & Collaboration](../getting-started/stud
 
 To change someone's role later, find them in the collaborators list and pick a new role from their dropdown.
 
-## What permissions don't control
+## Visibility and operation permissions
 
-Permissions gate *operations*. They do **not** gate *visibility of files*:
+The role editor labels the visibility controls **View All Assets** and **View All Collections** to distinguish broad project visibility from access through assignments, dependencies, and Shared collections.
 
-- **Visibility is driven by Shared collections + Assignment**, not by role.
-  - Collections marked as **Shared** (formerly *Library* - the term still appears in the underlying database) are visible to everyone in the project.
-  - Non-shared collections are visible to a user only if they're assigned to an asset inside (or a transitive dependency reaches in).
-- **A user with broad permissions still can't see assets they're not assigned to** unless those assets are in a Shared collection.
+Shared collections make common resources available to collaborators. Assignments and their dependencies provide access to the work a collaborator needs. Review the role's visibility settings alongside those relationships when configuring restricted access.
 
-This separation is intentional: roles control *what you can do*; assignment controls *what you can see and download*.
+Seeing an item does not automatically grant permission to edit, delete, checkpoint, or manage its dependencies. Those operations have separate requirements, which also apply to keyboard shortcuts and Agent actions.
 
 ## Server-enforced permissions
 

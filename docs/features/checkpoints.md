@@ -48,7 +48,7 @@ Three ways:
 
 In the dialog:
 
-- Add a meaningful **comment** ("blocking pass complete", "fixed obinna's anim").
+- Add a meaningful **comment** ("blocking pass complete", "revised character animation"). Leaving it blank generates the next asset version as the comment, starting at `v0001`.
 - Optionally change the **status**.
 - Optionally attach or capture a **preview image**.
 - Optionally toggle **Use image as task cover** so the asset card shows it.
@@ -70,11 +70,17 @@ Click a checkpoint to expand its actions:
 
 <!-- TODO: screenshot of checkpoint history in details pane -->
 
+Checkpoint tags identify versions for review and dependency selection. Use **Manage checkpoint tags** on a checkpoint to select an existing project tag or create one. A tag such as *approved* identifies at most one checkpoint in each asset's history. Assigning it to another checkpoint moves that asset's tag assignment; it does not create a second approved version.
+
+Checkpoint tags also appear on the asset, making tagged work available through normal tag filters. They require permission to manage dependencies. A dependency can follow a tag as described in [Dependencies](./dependencies.md#choosing-a-dependency-version).
+
+Checkpoints created together share an operation group. Group tag assignment applies the tag to the latest checkpoint for each asset in that group. A checkpoint carrying a tag cannot be trashed, and a tag assignment referenced by a dependency cannot be removed. Update the dependency or move the tag before removing protected history.
+
 ## Reverting
 
-Reverting writes a previous checkpoint's contents back to the working file. Your current working state is *not* lost unless you've already overwritten it without checkpointing first - so as long as you've checkpointed, revert is safe.
+Reverting replaces the working file with a previous checkpoint. Create a checkpoint first if you need to preserve your current edits, and handle unsaved changes in your creative application before restoring the file.
 
-A progress dialog shows the operation; large files reconstruct quickly because chunks are local.
+A progress dialog shows the operation. Clustta uses local chunks where available and downloads missing content when the project has a remote copy.
 
 ## Best practices
 

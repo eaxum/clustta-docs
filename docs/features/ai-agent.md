@@ -8,7 +8,7 @@ It's optional, **bring-your-own-key**, and supports running entirely locally if 
 
 ## What it can do
 
-The agent has full access to your project's metadata and can both **answer questions** and **make changes** through a set of tools. Destructive actions (deletes, removing collaborators) require your explicit confirmation; everything else runs immediately.
+The agent can answer questions about project metadata and make changes within your permissions. Scoped batch changes are presented as approval plans, including moves, renames, copies, edits, and dependency changes. Review the affected items and proposed results, select the items you want to include, and approve the plan before it runs. Destructive operations also require confirmation.
 
 ### Read & explore
 
@@ -38,6 +38,8 @@ The agent has full access to your project's metadata and can both **answer quest
 - Assign or unassign an asset (single, bulk, or randomly distributed across users round-robin)
 - Add or remove tags on assets (single or batched)
 - Remove dependencies
+
+Batch renames can add or remove prefixes and suffixes, replace text, and strip characters. Batch moves can map different source groups to different destinations, while paired dependency operations can connect corresponding assets. Describe both the scope and intended mapping so the approval preview is easy to check.
 
 ### Delete (with confirmation)
 
@@ -70,7 +72,7 @@ You bring your own API key from any of these:
 
 | Provider | Notes |
 |----------|-------|
-| **OpenAI** | GPT-4 family models |
+| **OpenAI** | Select an available model in the app |
 | **Anthropic** | Claude family models |
 | **Google Gemini** | Gemini family models |
 | **Groq** | Fast inference, supported open models |
@@ -86,7 +88,15 @@ The agent is provider-agnostic - pick the one that fits your privacy and cost pr
 4. Pick a model.
 5. Save.
 
-The agent panel becomes available in the project view.
+The agent panel becomes available in the project view. Open or close it with `Ctrl+I` (`Cmd+I` on macOS).
+
+Use the composer menus to make requests more precise:
+
+- **`/`** opens quick commands for common operations, including scoped exports.
+- **`@`** references an asset or collection. Browse the hierarchy to distinguish items with similar names.
+- **`~`** references a project script. Configure its directory and allowed extensions in **Project Settings > Advanced > Scripts**.
+
+Script references are resolved and validated against the selected scope before execution. For preparation that should happen whenever an asset opens, configure a [DCC launch hook](./integrations.md#dcc-launch-configuration).
 
 ## What it doesn't do
 

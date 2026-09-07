@@ -20,7 +20,7 @@ Sync moves data both ways in a single operation:
 - **Push** - Local changes since last sync go to the server.
 - **Pull** - Server changes since last sync come down.
 
-You don't run them separately; the unified `Ctrl+S` (or Sync button) does both.
+You don't run them separately; the unified `Ctrl+Alt+S` (`Cmd+Alt+S` on macOS), or Sync button, does both.
 
 ## Selective sync
 
@@ -31,7 +31,7 @@ The visibility rules:
 - **Shared collections** - chunks pulled for everyone in the project.
 - **Assigned assets** - chunks pulled for the assignee.
 - **Transitive dependencies** - chunks pulled for the assignee of any task that depends on them, recursively.
-- **Everything else** - metadata only. The user sees the asset exists but doesn't have its content locally.
+- **Restricted work** - the server filters metadata and content according to the user's access. Metadata sync does not make every asset visible.
 
 If you're an animator on Shot 020, you pull:
 
@@ -41,7 +41,7 @@ If you're an animator on Shot 020, you pull:
 - The textures the rig depends on
 - ...transitively, all the way down
 
-But you don't pull Shot 010, Shot 030, or someone else's WIP scene - even though you can *see* they exist.
+Other shots and work in progress are only available if the project's visibility rules grant you access.
 
 ## How clients receive project changes
 
@@ -69,7 +69,7 @@ This background merge is the direction Clustta is moving toward. Polling is an i
 
 ## Local-first files, manual full sync
 
-File and checkpoint transfer remains user-controlled. A user presses Sync or uses `Ctrl+S` to reconcile local edits, transfer chunks, and download file content selected by the project's sync rules. Reasons include:
+File and checkpoint transfer remains user-controlled. A user presses Sync or uses `Ctrl+Alt+S` (`Cmd+Alt+S` on macOS) to reconcile local edits, transfer chunks, and download file content selected by the project's sync rules. Reasons include:
 
 - A teammate's half-broken intermediate save shouldn't auto-replace what you have open.
 - A multi-GB upload shouldn't kick off mid-render.
