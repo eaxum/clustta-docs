@@ -62,7 +62,11 @@ Clustta is in active development and used in production at [Eaxum](https://eaxum
 - Cross-platform desktop client (Windows, macOS, Linux) via the [Microsoft Store](https://apps.microsoft.com/detail/9PNRGHGP3LGX), [Mac App Store](https://apps.apple.com/us/app/clustta/id6748349288) and [direct download](https://clustta.com/download)
 - Personal and Studio modes (with optional ClusttaCloud™ sync for personal projects)
 - Checkpointing, chunked storage, selective sync, conflict resolution
+- Checkpoint provenance, checkpoint tags, and grouped checkpoint creation
 - Roles & permissions, dependencies, workflows, asset templates
+- Background activity tracking, portable project import, and desktop backups
+- Client, server, and project-schema compatibility checks
+- Multiple saved desktop accounts with account switching
 - Self-hosted studio server (Docker) and managed ClusttaCloud™
 - Kitsu integration, DCC bridge, AI assistant
 - Shareable download links (ClusttaCloud™ only)

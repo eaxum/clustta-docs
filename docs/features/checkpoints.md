@@ -13,6 +13,7 @@ A checkpoint is a saved snapshot of an asset at a point in time. Every checkpoin
 - An optional **preview image** (auto-generated or user-supplied)
 - A **status** at the time of the checkpoint (Todo / WIP / WFA / Retake / Done)
 - The **chunks** that make up the file at that version
+- An optional **source checkpoint** that records where the work came from
 
 Think of it as a smart "Save As v2" that doesn't clutter your folder, costs almost nothing, and includes context.
 
@@ -52,9 +53,25 @@ In the dialog:
 - Optionally change the **status**.
 - Optionally attach or capture a **preview image**.
 - Optionally toggle **Use image as task cover** so the asset card shows it.
+- Optionally assign a **checkpoint tag**. If the tag is already assigned to another checkpoint for this asset, it moves to the new checkpoint.
+- Optionally select a **source asset and checkpoint** to record provenance. Choose **Latest** to resolve the source asset's latest checkpoint when you create the checkpoint, or select a specific checkpoint.
 - Optionally toggle **Sync after checkpoint** to push immediately.
 
 Click **Create**.
+
+### Source checkpoints
+
+A source checkpoint records that one checkpoint was derived from another. For example, a compositing render can identify the lighting checkpoint it used, or a converted file can identify the source artwork it came from.
+
+The source is provenance only. It does not copy files, create a dependency, or make the new checkpoint update when the source changes. Use [Dependencies](./dependencies.md) when an asset must continue to follow another asset's files.
+
+The latest checkpoint's source appears in the asset details pane. You can also add, change, or remove the source when editing checkpoint metadata. The source checkpoint must still be available and accessible in the same project.
+
+### Creating multiple checkpoints
+
+Select multiple modified or untracked items and choose **Create Checkpoints**, or use the checkpoint action on a collection. Review the candidate list before confirming. You can remove individual items and, when both kinds are present, filter between modified and new files or exclude untracked files.
+
+The comment, source, and optional checkpoint tag apply to the created checkpoint group. A group tag is assigned to the newest checkpoint created for each asset in that operation.
 
 <!-- TODO: screenshot of Create Checkpoint modal -->
 

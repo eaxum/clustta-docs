@@ -178,6 +178,7 @@ export default defineConfig({
         text: 'Reference',
         items: [
           { text: icon(icons.keyboard, 'Keyboard Shortcuts'), link: '/reference/keymap' },
+          { text: icon(icons.shieldCheck, 'Project Compatibility'), link: '/reference/project-compatibility' },
           { text: icon(icons.circleGauge, 'Benchmarks'), link: '/reference/benchmarks' },
           { text: icon(icons.helpCircle, 'FAQ'), link: '/reference/faq' },
         ],

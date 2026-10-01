@@ -15,6 +15,17 @@ This walks you through creating a project, adding files, and creating your first
 The working folder is just a regular folder. Your DCC tools (Blender, Photoshop, Maya, etc.) read and write files here as if Clustta didn't exist. Clustta watches the folder and tracks changes in the background.
 :::
 
+## Import an existing project
+
+If you already have a `.clst` project archive, use **Import Projects** on the projects page instead of creating an empty project:
+
+1. Open the projects page and choose **Import Projects**.
+2. Select one or more `.clst` files. You can add more files or remove a selection before importing.
+3. Click **Import**.
+4. When the import finishes, reveal an imported archive in your file manager or close the dialog to refresh the project list.
+
+Import copies the selected archives into Clustta's configured project data location. Keep the original archive until you have opened and checked the imported project. See [Storage & Versioning](../architecture/storage.md#desktop-backups-and-imports) for backup and remote-project considerations.
+
 ## Open the project
 
 Double-click the project in the list to open it. You'll see the Clustta browser - empty, since you haven't added anything yet.
@@ -60,7 +71,8 @@ To preserve this version:
 3. Add a **comment** describing what changed ("blocking pass", "color tweak", "fixed UVs").
 4. Optionally set the **status** (Todo, WIP, WFA, Retake, Done).
 5. Optionally attach or capture a **preview image**.
-6. Click **Create**.
+6. Optionally assign a checkpoint tag or record a source checkpoint.
+7. Click **Create**.
 
 <!-- TODO: screenshot of Create Checkpoint modal -->
 

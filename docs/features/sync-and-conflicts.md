@@ -84,6 +84,20 @@ Local asset and collection renames remain usable while awaiting sync. Remote pat
 
 Project downloads show preparation, receiving, and finishing phases. **Cancel** requests cancellation while the transfer is active; allow it to finish cancelling before retrying. Cancellation is no longer available during the final setup phase.
 
+## Activity panel
+
+The activity button in the bottom information bar shows project downloads and other background operations. While work is running, the compact indicator shows the current operation and its progress. Open it to see activity across projects.
+
+From the panel you can:
+
+- Search operations by name or project.
+- Review progress, transferred data, and content reused from local storage.
+- Open operation details and navigate to an affected asset or collection when available.
+- Request cancellation while an operation is queued or running. Some operations become non-cancellable after their final phase begins.
+- Dismiss an individual finished operation or clear all finished activity.
+
+Closing or minimizing the panel does not cancel an operation. If an operation fails, open its details for the actionable error before retrying.
+
 If a session expires, sign in again to resume authenticated operations. The desktop app preserves the open project's context during reauthentication, so an expired session does not require closing your local project.
 
 ## Conflicts
@@ -139,3 +153,4 @@ Both are easy to resolve, and Clustta never auto-decides for you.
 | Pull updates only | Click Sync (will both push and pull) |
 | Resolve conflicts | Modal appears automatically when conflicts detected |
 | See sync state | Title bar status indicator |
+| Monitor background work | Activity button in the bottom information bar |

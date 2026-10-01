@@ -113,6 +113,14 @@ For now, the recommended path is:
 
 There aren't yet first-party migration tools from Perforce, SVN, or Git LFS, but for most studios the simplest move is "start fresh on the next production." Past history can be archived in its old system or imported flat.
 
+## How do I move a Clustta project to another computer?
+
+Use **Backup Project** in the project's details, then use **Import Projects** on the destination computer's projects page. Move the working folder separately if it contains uncheckpointed files. Connected projects may also need a full sync before backup so the local replica has the content you expect. See [Desktop backups and imports](../architecture/storage.md#desktop-backups-and-imports).
+
+## Why does Clustta say a project update is required?
+
+The desktop app, Studio server, and project archive use explicit compatibility versions. Clustta blocks opening or syncing when those versions cannot safely work together instead of attempting an unsafe conversion. The message identifies whether the client, server, or local replica needs attention. Local changes are preserved when a replica update is required. See [Project Compatibility](./project-compatibility.md) for the appropriate recovery steps.
+
 ## Where do I report bugs?
 
 GitHub:

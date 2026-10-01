@@ -77,6 +77,21 @@ For an experiment, checkpoint the current state first. Keep the result as a new 
 
 Deleting a checkpoint or asset does not immediately delete its chunks. A chunk can be removed only after no remaining checkpoint references it. Clustta cleans up unreferenced content when trash is purged, the project is compacted, or the server performs cleanup during sync.
 
+## Desktop backups and imports
+
+Open a project, show its project details, and choose **Backup Project** to copy its local `.clst` archive to another folder. For a connected project, the backup dialog also offers a full sync before the copy. Use it when you need the local replica to receive all currently available project data before creating the backup.
+
+A desktop backup copies the local archive as it exists on that computer. In metadata-only mode, or when a connected project has content that has not been downloaded, the archive may rely on the studio server for missing file chunks. A server disaster-recovery backup is separate: Compact projects require the server `.clst` archive, while Deflated projects require both the archive and its external blob storage.
+
+To restore or move a portable archive into the desktop app:
+
+1. Open the projects page and choose **Import Projects**.
+2. Select one or more `.clst` archives.
+3. Review the selected files and click **Import**.
+4. Open each imported project and verify its working folder and remote connection.
+
+Import copies archives into the configured Clustta project data location. It does not import a working folder containing uncheckpointed files. Preserve that folder separately when moving computers, and do not discard the source archive until the imported project has been verified.
+
 ## Where content lives
 
 Client storage preferences and server storage modes are separate settings:
@@ -87,4 +102,4 @@ Client storage preferences and server storage modes are separate settings:
 | **Connected, normal client storage** | Metadata and cached file chunks | Canonical chunks in the project's selected server storage mode |
 | **Connected, metadata only** | Metadata; synced chunks are discarded after transfer | Canonical chunks in the project's selected server storage mode |
 
-For Compact projects, a complete server backup includes the `.clst` archive. For Deflated projects, both the `.clst` archive and its external blob storage are required.
+For Compact projects, a complete server backup includes the `.clst` archive. For Deflated projects, both the `.clst` archive and its external blob storage are required. See [Project Compatibility](../reference/project-compatibility.md) before opening an archive created by a newer Clustta release or reconnecting an older local replica.
