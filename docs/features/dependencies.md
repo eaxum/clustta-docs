@@ -25,13 +25,13 @@ Dependency relationships are stored in the project database - they're real metad
 Several ways:
 
 - **Drag and drop** - In the browser, drag one asset over another and it registers it as a dependency.
-
-
 - **From the asset details pane** - Add or remove dependencies from the dependency section.
+- **From an asset row or card** - Open the dependency graph using the dependency quick action.
+- **From the dependency graph** - Use the searchable picker beside the graph to find and add an asset or collection without leaving the view.
 
 You can also drop a *collection* over an asset to add the entire collection as a dependency - useful for "this character depends on the entire textures collection".
 
-<!-- TODO: screenshot of dependency graph view -->
+<!-- TODO: screenshot of the dependency graph and inline dependency picker -->
 
 The browser creates **linked** dependencies. Links between assets can also specify which checkpoint to use. Linked collection dependencies bring a group of assets into the graph.
 
@@ -46,7 +46,7 @@ Dependencies can follow the latest checkpoint, remain pinned to a specific versi
 | **Pinned** | Keeps the exact checkpoint selected for that dependency. New checkpoints do not change the pin. |
 | **Tag** | Uses the checkpoint currently carrying that tag on the dependency asset. Moving the tag changes the version this dependency resolves to. |
 
-Use the pin control in the dependency list or graph to pin the current checkpoint. Unpin it to return to Latest, or open the version selector to choose an available checkpoint tag. Changing a selector requires permission to manage dependencies. A **Fix selector** label means the selected checkpoint or tag cannot currently be resolved.
+Open the searchable version selector on a dependency node to choose **Latest**, an available checkpoint tag, or an individual checkpoint. The selected option is shown on the node. Changing a selector requires permission to manage dependencies. A **Fix selector** warning means the selected checkpoint or tag cannot currently be resolved and must be replaced.
 
 Tags are shared project labels, but each asset has its own checkpoint assignment for a tag. See [Checkpoints & Versioning](./checkpoints.md#browsing-history) for assigning and moving them. Selector and tag changes travel through project sync; changing a selector does not itself replace a working file.
 
@@ -60,10 +60,23 @@ Clustta downloads missing chunks and restores dependencies before the assets tha
 
 ## Visualizing dependencies
 
-Each asset has a **dependency graph view**:
+For remote projects, users with permission to manage dependencies can open an asset's **dependency graph view**. The graph:
 
-- Shows the asset and its direct dependencies (default)
-- Toggle **Full graph** to expand recursively and see every transitive dependency
+- Shows the asset and its direct dependencies by default.
+- Displays asset or collection type, selected version, assignee, and status where applicable.
+- Surfaces unresolved selectors and other dependency warnings on the affected node.
+- Provides node actions to navigate to an item, assign an asset where permitted, change its version, or remove the relationship.
+- Includes a fit-view action for recentering the graph.
+- Provides a **Full graph** toggle to expand recursively and show transitive dependencies.
+- Opens a searchable dependency picker beside the graph for adding relationships in place.
+
+The graph and details pane represent the same project relationships. Changes made in either place appear in the other.
+
+## Compatibility with older studios
+
+Versioned dependency selectors require the **versioned dependencies** capability provided by API v2. When connected through API v1, basic dependency relationships continue to work, but Latest, checkpoint, and tag selector controls are unavailable.
+
+Update both Clustta Desktop and the Studio server to use version selectors. See [Project Compatibility](../reference/project-compatibility.md) for details.
 
 
 ## Recursive resolution on assignment
@@ -83,7 +96,7 @@ Lighting (assigned to Adaeze)
     \-- ...
 ```
 
-Harry receives access to the linked inputs needed for Lighting, including the rig's own dependencies.
+Adaeze receives access to the linked inputs needed for Lighting, including the rig's own dependencies.
 
 ## Dependency types
 
@@ -97,7 +110,7 @@ Dependency types describe the relationship. **Latest**, **Pinned**, and **Tag** 
 
 ## Removing dependencies
 
-From the graph view, click the **`-`** button on any dependency node, or remove it from the asset details pane.
+Use the remove action on a dependency node, or remove the relationship from the asset details pane.
 
 Removing a dependency does **not** revoke access to anyone who is currently assigned to the parent - they keep what they've already pulled. Future assignments use the new graph.
 

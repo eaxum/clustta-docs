@@ -102,4 +102,4 @@ Client storage preferences and server storage modes are separate settings:
 | **Connected, normal client storage** | Metadata and cached file chunks | Canonical chunks in the project's selected server storage mode |
 | **Connected, metadata only** | Metadata; synced chunks are discarded after transfer | Canonical chunks in the project's selected server storage mode |
 
-For Compact projects, a complete server backup includes the `.clst` archive. For Deflated projects, both the `.clst` archive and its external blob storage are required. See [Project Compatibility](../reference/project-compatibility.md) before opening an archive created by a newer Clustta release or reconnecting an older local replica.
+For Compact projects, a complete server backup includes the `.clst` archive. For Deflated projects, both the `.clst` archive and its external blob storage are required. See [Project Compatibility](../reference/project-compatibility.md#project-archive-schemas) before opening an archive created by a newer Clustta release.

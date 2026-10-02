@@ -1,80 +1,93 @@
 # Roles & Permissions
 
-Roles and permissions control who can do what in a project. Clustta's model is **granular, customizable, and additive** - you can build exactly the access policy your studio needs without fighting against fixed buckets.
+Roles and permissions control who can do what in a project. Clustta's model is **granular, customizable, and additive**, so studios can match access to the way their teams work.
 
 ## Two levels of roles
 
 There are two layers:
 
-- **Studio role** - Set when adding a user to the studio. Controls studio-wide access (creating projects, adding studio collaborators).
+- **Studio role** - Set when adding a user to the studio. Controls studio-wide access such as creating projects and adding studio collaborators.
   - **Admin** - Full studio control
-  - **User** - Can only access projects they're added to
+  - **User** - Can only access projects they are added to
+- **Project role** - Set when adding a user to a project. Controls what they can do inside that project.
+  - Six defaults ship with Clustta: Admin, Production Manager, Supervisor, Assistant Supervisor, Artist, and Vendor
+  - Roles are customizable except for the fixed Admin role
 
-- **Project role** - Set when adding a user to a project. Controls what they can do *inside* that project.
-  - Six defaults ship out of the box (Admin, Production Manager, Supervisor, Assistant Supervisor, Artist, Vendor)
-  - Fully customizable - add, edit or remove (except Admin which is fixed)
-
-The same user can have **different project roles in different projects** - e.g. Artist on Project A, Supervisor on Project B.
+The same user can have different project roles in different projects.
 
 ## Default project roles
 
-The six built-ins are starting points; you can change anything except the Admin role.
+The built-in roles are starting points. You can change anything except the Admin role.
 
 | Role | Typical permissions |
 |------|--------------------|
 | **Admin** | Everything. Cannot be modified or deleted. |
-| **Production Manager** | Manage assets, collections, assignments, statuses, dependencies. Manage users. |
-| **Supervisor** | View everything. Approve checkpoints, assign tasks, change statuses. Limited create/delete. |
-| **Assistant Supervisor** | Like Supervisor, narrower scope. |
-| **Artist** | Create checkpoints on assigned tasks. View dependencies. Limited self-assign. |
-| **Vendor** | Most restricted. View and checkpoint only what's explicitly assigned. |
+| **Production Manager** | Manage assets, collections, assignments, statuses, dependencies, users, and project configuration. |
+| **Supervisor** | View work, approve checkpoints, assign tasks, and change statuses, with limited create and delete access. |
+| **Assistant Supervisor** | Similar to Supervisor with a narrower scope. |
+| **Artist** | Create checkpoints on assigned tasks, view dependencies, and use limited assignment actions. |
+| **Vendor** | View and checkpoint only explicitly available work. |
 
 ## Permission categories
 
-Permissions are organized by domain. Each role has independent toggles per category:
+The role editor groups independent permissions by domain:
 
-- **Assets** - View All Assets, Create, Update, Delete, Manage Dependencies
-- **Collections** - View All Collections, Create, Update, Delete
-- **Templates** - Create, Update, Delete
-- **Checkpoints** - Create, Delete, Revert
-- **Assignments** - Assign, Unassign
-- **Status** - Change status
-- **Users** - Manage project collaborators and their roles
-- **Workflows** - Create, Update, Delete
+- **Assets** - View all, create, update, delete, and manage dependencies
+- **Assignments** - Assign and unassign work
+- **Collections** - View all, create, update, and delete
+- **Users** - Add or remove project collaborators, change collaborator roles, and manage role definitions
+- **Status** - View completed work, change status, and set Done or Retake
+- **Templates** - Create, update, and delete templates
+- **Checkpoints** - View, create, delete, and pull checkpoint content
+- **Sharing** - Manage share links
+- **Project configuration** - Manage collection types, asset types, dependency types, statuses, tags, workflows, and general project settings
+- **Integrations** - Manage project integrations
 
-The number of distinct permission toggles is intentionally high so you can express things like *"can change status but not delete checkpoints"*.
+This separation allows a role to change a collaborator's assigned role without also editing the role definitions themselves, or to manage tags without gaining access to every project setting.
+
+Some project configuration permissions may exist before a corresponding settings screen is available. They keep authorization explicit as those management tools are added.
 
 <!-- TODO: screenshot of Edit Role modal showing permission toggles -->
 
-## Editing a role
+## Managing roles
 
-In **Project Settings → Roles**:
+Creating, editing, duplicating, and deleting role definitions requires **Manage Roles** permission.
 
-1. Hover the role row → click the pen icon.
-2. Toggle permissions on/off in the editor.
-3. Click **Update**.
+In **Project Settings > Roles**:
 
-Existing assignees of that role gain/lose permissions immediately.
+1. Click **Add Role**, or hover an existing role and choose Edit or Duplicate.
+2. Enter a name and select its permissions.
+3. Click **Create** or **Update**.
 
-## Creating a role
+Existing collaborators with an edited role receive the new permissions immediately. The fixed Admin role cannot be edited, duplicated, or deleted.
 
-To start from an existing role, hover its row in **Project Settings > Roles** and select **Duplicate**. Enter a new name, then adjust the copied permissions as needed. Duplicating requires permission to change roles; the fixed Admin role cannot be duplicated.
+## Assigning roles to collaborators
 
-1. Click **Add Role**.
-2. Give it a name (e.g. *External Reviewer*, *Junior Lighter*, *Audio Lead*).
-3. Toggle the permissions you want.
-4. Click **Create**.
+Adding or removing project collaborators and changing their assigned role are separate from managing role definitions.
 
-## Assigning a role to a user
+To add someone:
 
-When adding collaborators (see [Studios & Collaboration](../getting-started/studios.md)):
+1. Open **Project Settings > Collaborators**.
+2. Click **Add Collaborator**.
+3. Search by name or email.
+4. Choose a role in the role selector.
+5. Click **Add**.
 
-1. **Project Settings → Collaborators → Add Collaborator**.
-2. Enter user(s) by name or email.
-3. Pick the role from the dropdown.
-4. Click **Add**.
+To change someone's role later, select their current role in the collaborators list and choose another. This requires **Change Role** permission, while changing the available role definitions requires **Manage Roles**.
 
-To change someone's role later, find them in the collaborators list and pick a new role from their dropdown.
+## Settings access
+
+Project Settings only shows management areas the current role can use. For example:
+
+- **Tags** requires Manage Tags.
+- **Roles** requires Manage Roles.
+- **Asset Types** requires Manage Asset Types.
+- **Collection Types** requires Manage Collection Types.
+- **Workflows** requires Manage Workflows.
+- **Ignore List** and other general configuration require Manage Project Settings.
+- **Integrations** require Manage Integrations.
+
+The exact tabs available can vary as new project configuration tools are introduced.
 
 ## Visibility and operation permissions
 
@@ -84,26 +97,33 @@ Shared collections make common resources available to collaborators. Assignments
 
 Seeing an item does not automatically grant permission to edit, delete, checkpoint, or manage its dependencies. Those operations have separate requirements, which also apply to keyboard shortcuts and Agent actions.
 
+## Compatibility with older studios
+
+Granular project-management permissions require the **project permissions** capability provided by API v2. When connected through API v1, Clustta keeps the established permissions available but does not expose the newer project configuration controls.
+
+Update both Clustta Desktop and the Studio server to use these permissions. See [Project Compatibility](../reference/project-compatibility.md) for details.
+
 ## Server-enforced permissions
 
-Clustta projects are SQLite files on each collaborator's disk - which means a determined user could try to edit their local copy directly to grant themselves more access. Clustta is built so this never gains anything.
+The Studio server is the source of truth for project roles, permissions, and membership. It checks the authenticated user's current permissions for mutations and synchronization rather than trusting a local project database.
 
-- **The studio server is the source of truth.** Roles, permissions and project membership are stored on the server and re-verified on every sync.
-- **Sync operations are authorized server-side.** When a client pushes changes, the server checks the *current* role of the authenticated user against each operation. Tampered local permissions are ignored.
-- **Tampered changes are rejected.** Pushes that try to apply changes the user isn't allowed to make are refused; the local DB is reconciled with the server's authoritative state on the next pull.
-- **Visibility is enforced at the bandwidth level.** The server only ships chunks the user is entitled to receive, so a tampered local DB can't trick it into sending content the user isn't assigned to or that isn't in a Shared collection.
+- **Operations are authorized server-side.** The server checks the user's current role before accepting project changes.
+- **Tampered changes are rejected.** Local edits that exceed the user's permissions are refused and reconciled with server state.
+- **Newer permissions are preserved.** When an API v1 client synchronizes, the server keeps the API v2 permission fields that the older client cannot represent.
+- **Visibility affects transfer.** The server only sends content the user is entitled to receive through visibility, assignments, dependencies, or Shared collections.
 
-The practical implication: editing your local `.clst` is harmless. Anything that doesn't match what the server already knows about your role is dropped at sync time.
+Editing a local `.clst` archive does not grant additional server access.
 
 ## Best practices
 
-- **Start with the defaults.** They cover ~80% of typical studios.
-- **Add custom roles when there's a real distinct workflow** (external reviewer, IO operator, junior with limited rights). Don't multiply roles for marginal differences.
-- **Be sparing with delete permissions.** Trash + sync-pending recovery covers most accidents, but tighter is safer.
-- **The Admin role is non-negotiable.** Always have at least two project Admins so you don't lock yourself out.
+- Start with the default roles and customize them only when the workflow requires it.
+- Keep **Change Role** and **Manage Roles** limited to people responsible for access policy.
+- Grant project configuration permissions independently instead of giving broad administrative access.
+- Be sparing with delete permissions.
+- Keep at least two project Admins so the team cannot be locked out.
 
 ## Audit & accountability
 
-Today, checkpoints record their author, so any change committed to an asset is traceable to a specific user.
+Checkpoints record their author, so committed asset changes are traceable to a user.
 
-A full audit log - capturing who assigned what, who changed which status, and when - is on the roadmap as part of the **Enterprise** tier. Until then, treat checkpoint authorship as the primary accountability signal.
+A full audit log for assignment, status, and settings changes is planned for the Enterprise tier. Until then, checkpoint authorship is the primary accountability signal.

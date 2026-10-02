@@ -36,7 +36,7 @@ A self-hosted studio in **Private** mode runs only the studio server - no depend
 - **Storage format:** SQLite metadata per project (`.clst` files), with configurable chunk storage
 - **Wire format:** Protocol Buffers for efficient sync
 - **Cloud bulk transfer:** Managed S3-compatible object storage (Cloudflare R2)
-- **Server runtime:** Docker
+- **Server runtime:** Docker on Linux or a native Windows binary
 
 The choice of Go everywhere (client backend + both servers) means a single language across the stack. The choice of Vue + Wails means the same UI runs on Windows, macOS and Linux from one codebase.
 

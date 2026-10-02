@@ -117,9 +117,11 @@ There aren't yet first-party migration tools from Perforce, SVN, or Git LFS, but
 
 Use **Backup Project** in the project's details, then use **Import Projects** on the destination computer's projects page. Move the working folder separately if it contains uncheckpointed files. Connected projects may also need a full sync before backup so the local replica has the content you expect. See [Desktop backups and imports](../architecture/storage.md#desktop-backups-and-imports).
 
-## Why does Clustta say a project update is required?
+## Why is a newer feature missing from my studio?
 
-The desktop app, Studio server, and project archive use explicit compatibility versions. Clustta blocks opening or syncing when those versions cannot safely work together instead of attempting an unsafe conversion. The message identifies whether the client, server, or local replica needs attention. Local changes are preserved when a replica update is required. See [Project Compatibility](./project-compatibility.md) for the appropriate recovery steps.
+Clustta Desktop and the Studio server negotiate the highest API version they both support. Versioned dependency selectors and granular project-management permissions require API v2. Older installations can continue through the API v1 compatibility baseline, but those controls remain unavailable. Check the negotiated API in Studio Settings and update the older component if needed.
+
+An `API version unsupported` or `426 Upgrade Required` response means the client and server have no API in common. A `.clst` archive that will not open is a separate schema issue and may require a newer Clustta release. Preserve the archive and working folder before troubleshooting. See [Project Compatibility](./project-compatibility.md).
 
 ## Where do I report bugs?
 

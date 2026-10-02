@@ -65,9 +65,9 @@ Clustta is in active development and used in production at [Eaxum](https://eaxum
 - Checkpoint provenance, checkpoint tags, and grouped checkpoint creation
 - Roles & permissions, dependencies, workflows, asset templates
 - Background activity tracking, portable project import, and desktop backups
-- Client, server, and project-schema compatibility checks
+- Versioned client-server API negotiation with backward-compatible sync
 - Multiple saved desktop accounts with account switching
-- Self-hosted studio server (Docker) and managed ClusttaCloud™
+- Self-hosted studio server (Docker or native Windows) and managed ClusttaCloud™
 - Kitsu integration, DCC bridge, AI assistant
 - Shareable download links (ClusttaCloud™ only)
 
@@ -85,4 +85,4 @@ Clustta is in active development and used in production at [Eaxum](https://eaxum
 | Windows 10/11 | ✅ Stable |
 | macOS (Intel & Apple Silicon) | ✅ Stable |
 | Linux (Ubuntu/Debian-based, also on [Flathub](https://flathub.org)) | ✅ Stable |
-| Studio Server | ✅ Docker (any Linux host) |
+| Studio Server | ✅ Docker on Linux or native Windows binary |

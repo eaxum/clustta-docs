@@ -1,65 +1,75 @@
 # Project Compatibility
 
-Clustta checks compatibility before it opens or synchronizes a project. These checks prevent an older client, server, or local project replica from writing data it does not understand.
+Clustta Desktop and a Studio server negotiate a supported API version when they connect. This lets newer releases continue to work with older installations while only exposing features that both sides understand.
 
-## What is checked
+## API negotiation
 
-Three versions work together:
+The client asks the server which API versions it supports and selects the highest version they share. API versions describe the data and features exchanged between the desktop app and Studio server; they are not project versions or checkpoint labels.
 
-- **Protocol** - the contract used by the client and Studio server to exchange project data.
-- **Project schema** - the structure of the project's `.clst` database.
-- **Local replica schema** - the schema of a downloaded project copy on the current computer.
+The current APIs are:
 
-Clustta compares the desktop client's supported contract with the Studio server and the selected project. Compatibility versions are internal safety markers, not project version numbers or checkpoint labels.
+| API | Behavior |
+|-----|----------|
+| **API v1** | The compatibility baseline for older clients and servers. |
+| **API v2** | Adds versioned dependency selectors and granular project-management permissions. |
 
-## What the messages mean
+Servers treat requests without an API version as API v1. A new desktop client can therefore connect to a server that predates API negotiation, but controls that depend on API v2 remain unavailable.
 
-| Message | Meaning | Action |
-|---------|---------|--------|
-| **Update Clustta to access this project** | The Studio server or project uses a newer contract than this desktop app supports. | Install the latest Clustta Desktop release, then refresh the studio and reopen the project. |
-| **Update the Studio/server to access this project** | The server is older than the client expects, reports an incomplete contract, or hosts a project on a different schema. | Ask a studio administrator to update the server, then refresh the project list. |
-| **This local replica uses a different project schema** | The downloaded `.clst` replica does not match the confirmed server project schema. | Keep the replica and working folder intact. Reconnect to the server and let Clustta update the replica before syncing. |
+If the client and server have no API version in common, the server returns an update-required error instead of attempting an unsafe request.
 
-The sync control is disabled while an active project has a compatibility problem. Clustta keeps compatibility failures separate from ordinary connection errors so retrying a network request cannot bypass the check.
+## Capability-dependent features
 
-## Local replica updates
+Clustta enables features from the capabilities returned for the negotiated API:
 
-For a connected project, the Studio server is the authority for the project contract. Once Clustta can confirm that contract, it can apply supported schema migrations to the local replica before synchronization.
+- **Versioned dependencies** - Select Latest, a checkpoint tag, or a specific checkpoint for a linked asset dependency.
+- **Project permissions** - Use separate permissions for roles, tags, types, workflows, integrations, and project settings.
 
-When a replica update is required:
+On API v1, basic dependencies and the established role permissions continue to work. Version selectors and the newer project-management permission controls are hidden or unavailable until both the client and server support API v2.
 
-1. Do not replace or manually edit the `.clst` archive.
-2. Preserve the working folder, especially files with uncheckpointed changes.
-3. Update Clustta Desktop or the Studio server if the message requests it.
-4. Reconnect to the studio and refresh the project list.
-5. Open the project and sync after the compatibility warning clears.
+## Protecting newer project data
 
-Clustta preserves local changes when it reports a replica mismatch. A schema migration changes project metadata structures; it does not intentionally discard the working files you edit in creative applications. Create a [desktop backup](../architecture/storage.md#desktop-backups-and-imports) before recovery if the archive contains important unsynced work.
+The Studio server keeps the canonical project data. When serving an API v1 client, it omits fields that client does not understand, including checkpoint tags, checkpoint provenance, versioned dependency selectors, and newer project-management permissions.
 
-## Offline behavior
+If a legacy client writes project data, the server preserves those newer canonical fields. Using an older client therefore does not erase metadata created through API v2.
 
-Clustta can use the last compatibility contract it successfully verified for that account, studio, and project. A previously verified, readable replica can remain available while the server is temporarily unreachable.
+## Checking the connection
 
-If this computer has never verified the remote contract, Clustta cannot prove that an offline replica is safe to open or sync. Reconnect to the Studio server once so the app can verify the project. A cached compatibility result is scoped to the account and studio; switching accounts does not reuse another user's verification.
+Studio Settings shows the information needed to diagnose compatibility:
 
-## Local-only projects
+- Studio server version
+- Negotiated API version
+- APIs supported by the server
+- Project schema version
 
-Local-only Personal projects do not need a Studio server contract. Clustta still checks whether the archive schema is readable by the installed client. An archive created by a newer client requires updating Clustta Desktop before it can be opened safely.
+If a feature is missing, check the negotiated API before changing project settings. Update the Studio server and desktop client when you need capabilities that are not available in their shared API.
+
+## Project archive schemas
+
+API compatibility is separate from the schema inside a `.clst` project archive. Clustta migrates older supported archives when they are opened. An archive created with a newer, unsupported schema requires a newer desktop client or Studio server.
+
+Before opening or moving an important archive:
+
+1. Preserve the `.clst` file and any working folder containing uncheckpointed changes.
+2. Create a [desktop backup](../architecture/storage.md#desktop-backups-and-imports) when possible.
+3. Update Clustta if the archive was created by a newer release.
+4. Reopen the project and allow any supported migration to complete.
+
+Schema migration changes project metadata structures. It does not intentionally discard working files.
 
 ## Troubleshooting
 
-### The warning remains after updating Clustta
+### A newer feature is missing
 
-Refresh the studio and project list so the client can fetch a new server contract. If the message requests a server update, updating only the desktop app is not enough.
+Open Studio Settings and check the negotiated API. Features such as dependency version selectors and granular project-management permissions require API v2. Update the older component, then reconnect to the studio.
 
-### The server was updated but the project still will not sync
+### Clustta says the API version is unsupported
 
-Confirm that the server update completed and the project itself uses the server's current schema. Reopen Clustta Desktop, refresh the studio, and allow the local replica update to finish before starting another sync.
+The client and server have no API version in common. Update Clustta Desktop, the Studio server, or both. Reconnect after the update so they can negotiate again.
 
-### The studio is offline
+### A project archive will not open
 
-Treat a compatibility warning differently from a connectivity warning. Restore the server connection first. If Clustta has never verified this project on the current account and computer, it cannot safely infer compatibility while offline.
+This is usually an archive-schema issue rather than API negotiation. Do not replace or manually edit the archive. Preserve the archive and working folder, then open it with a Clustta release that supports its schema.
 
 ### I need to preserve unsynced work
 
-Do not delete the local replica or working folder. Back up both before reinstalling, re-downloading, or asking an administrator to repair the project. The compatibility guard is designed to preserve local changes until the required component can be updated.
+Do not delete the local archive or working folder. Back up both before reinstalling, importing another archive, or asking an administrator to repair the project.

@@ -117,6 +117,17 @@ Metadata is exchanged in **Protocol Buffers** for efficiency. Chunk transfer use
 
 ClusttaCloud™ already uses managed Cloudflare R2 internally and can issue presigned URLs so clients transfer chunks without proxying their contents through the studio server. The coming Object Storage mode will bring that storage model to the selectable project modes. Direct access matters at scale because storage bandwidth can scale independently of studio server CPU.
 
+### API negotiation
+
+Before exchanging project data, the desktop client and Studio server select the highest API version they both support. The selected version is sent in the `Clustta-API-Version` header.
+
+- **API v1** is the compatibility baseline. Requests without a version use API v1 so clients and servers from before negotiation can still connect.
+- **API v2** adds versioned dependency selectors and granular project-management permissions.
+
+For API v1 clients, the server projects canonical data into the legacy shape and omits fields the client cannot interpret. If that client later writes project data, the server preserves the newer checkpoint, dependency, and permission fields rather than replacing them with empty legacy values.
+
+If the requested API is unsupported, the server returns HTTP `426 Upgrade Required`. No project mutation is applied. See [Project Compatibility](../reference/project-compatibility.md).
+
 ## Atomicity
 
 A sync is logically atomic from the client's perspective:

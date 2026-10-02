@@ -21,7 +21,7 @@ When you assign a task to a user, they get:
 
 Three ways:
 
-- **From the asset itself** - Click the assignee avatar/icon on the asset row.
+- **From the asset itself** - Click the assignee avatar or assignment quick action on an asset row or card.
 - **From the details pane** - Pick the assignee from the dropdown.
 - **From the Kanban board** - Click the assignee slot on the card.
 

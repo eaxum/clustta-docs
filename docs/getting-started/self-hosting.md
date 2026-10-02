@@ -2,7 +2,7 @@
 
 Run your own Clustta studio server on your own infrastructure.
 
-This is the **Dedicated** studio mode - same Docker image we ship for ClusttaCloud™, deployed on infrastructure you own. Self-hosting is fully supported, fully open-source, and a first-class deployment target.
+This is the **Dedicated** studio mode - the Studio server deployed on infrastructure you own. Run it as a Docker service on Linux or install the native Windows server. Self-hosting is fully supported, fully open-source, and a first-class deployment target.
 
 ## When you should self-host
 
@@ -18,13 +18,14 @@ If none of those apply, [ClusttaCloud™](./studios.md) is faster to set up and 
 
 ## What you'll need
 
-- A Linux host (Ubuntu/Debian recommended) with:
-  - 2+ CPU cores
-  - 4 GB+ RAM
-  - Disk space sized to your projects (chunked storage helps a lot)
-  - Ports `80` / `443` open (with Traefik) or `7774` (standalone)
-- Docker (the install script sets this up if needed)
-- Optional: a domain name pointing at the host (for HTTPS via Traefik)
+- 2+ CPU cores
+- 4 GB+ RAM
+- Disk space sized to your projects
+- Port `7774` open for a standalone server, or ports `80` / `443` when using a reverse proxy
+- One of these hosts:
+  - A 64-bit Windows host for the native installer
+  - A Linux host, preferably Ubuntu or Debian, with Docker
+- Optional: a domain name pointing at the host for HTTPS
 
 ## Hosting modes
 
@@ -35,11 +36,41 @@ The studio server can authenticate users two ways:
 | **Cloud-connected** | Clustta global auth server | Easiest. Users sign in with their existing Clustta accounts. The studio appears in their app's switcher automatically. |
 | **Private** | A local user database on your server | Fully air-gapped. Zero outbound dependency on Clustta. You manage your own users. |
 
-Both modes use the same Docker image - you toggle the difference with one env var (`PRIVATE`).
+Both authentication modes are available in the Windows binary and Docker image. The Windows installer writes the choice to `studio_config.json`; Docker deployments use the `PRIVATE` environment variable.
 
 ---
 
-## One-line install (recommended)
+## Install on Windows
+
+Run the Clustta Studio Windows installer and complete the server configuration wizard. The installer creates the data directories and writes `studio_config.json` beside the server executable. New installations start in **console** mode, and upgrades preserve the existing Windows UI mode.
+
+Start Clustta Studio from its Start Menu shortcut. Unless you changed the port during installation, clients can connect at `http://<machine-ip>:7774`.
+
+### Windows UI modes
+
+The native Windows server supports three UI modes:
+
+| Mode | Behavior | Best for |
+|------|----------|----------|
+| **Console** | Shows the server console and provides a system tray icon. | Initial setup and active troubleshooting. |
+| **Tray** | Hides the console and provides a system tray icon with Restart and Quit actions. | A server running in a signed-in desktop session. |
+| **Headless** | Runs without a console or tray icon. | Unattended operation managed outside the app. |
+
+Set the mode in `studio_config.json`:
+
+```json
+{
+  "windows_ui_mode": "tray"
+}
+```
+
+You can instead set `WINDOWS_UI_MODE` to `console`, `tray`, or `headless`. The environment variable overrides the JSON setting. Restart the server after changing the mode.
+
+The setting is ignored on non-Windows hosts. An invalid value falls back to console behavior. Windows builds append logs to `studio_server.log` in the installation directory, including when the server is running headless.
+
+---
+
+## One-line Linux install (recommended)
 
 The fastest way to get a Clustta studio server running. The script installs Docker if missing, downloads the right Compose file, walks you through configuration, and starts the container.
 
@@ -93,7 +124,7 @@ docker compose pull && docker compose up -d    # update
 
 ---
 
-## Manual install with Docker
+## Manual Docker install
 
 If you prefer to do it yourself or you're on an OS the script doesn't support:
 
@@ -215,7 +246,7 @@ Your studio now appears in the switcher and you can start creating projects.
 
 ## Backups
 
-Back up all three server data locations:
+For Docker, back up all three server data locations:
 
 - The `./data` directory - sessions, user database, server state.
 - The `./projects` directory - every project's `.clst` metadata database and, for Compact projects, its file chunks.
@@ -223,7 +254,11 @@ Back up all three server data locations:
 
 A Compact project can be recovered from its `.clst` archive. A Deflated project requires both its `.clst` archive and the matching external blobs, so snapshot the projects and storage directories together. A nightly `rsync` or `restic` snapshot of all three locations provides a complete disaster-recovery set.
 
+On Windows, use the paths recorded in `studio_config.json`. Back up the configured project directory and the server data stored with the installation. Include the configured external storage directory when using Deflated storage.
+
 ## Updating
+
+On Windows, run the newer installer over the existing installation. The installer preserves the configured Windows UI mode. For Docker:
 
 ```bash
 cd ~/clustta-studio
@@ -231,7 +266,9 @@ docker compose pull
 docker compose up -d
 ```
 
-Studio server releases are backwards-compatible with current desktop clients within the same major version.
+Clustta Desktop and the Studio server negotiate the highest API version they both support. Older installations use the API v1 compatibility baseline, while API v2 enables versioned dependencies and granular project-management permissions.
+
+After updating, reconnect the desktop app and open **Studio Settings** to confirm the server version, negotiated API, supported APIs, and project schema. Update both components when you need a feature that is unavailable in their shared API. See [Project Compatibility](../reference/project-compatibility.md).
 
 ## Troubleshooting
 
@@ -243,6 +280,11 @@ Studio server releases are backwards-compatible with current desktop clients wit
 | Deflated is unavailable | Configure `HOST_STORAGE_DIR`, create the directory, and make it writable by the container |
 | Permission denied writing Deflated blobs | Run `sudo chmod a+w ./storage/` or correct the permissions on your custom storage path |
 | Users can't sign in (cloud-connected) | `CLUSTTA_STUDIO_API_KEY` is wrong, or the Clustta global server can't reach your `CLUSTTA_SERVER_URL` |
+| Windows console is not visible | Check `windows_ui_mode`; `tray` hides the console and `headless` disables both console and tray |
+| Windows tray icon is missing | `headless` mode intentionally has no tray icon; change the mode and restart if interactive controls are needed |
+| Need logs from a Windows server | Open `studio_server.log` in the installation directory |
+| New dependency or permission controls are missing | Check the negotiated API in Studio Settings; these controls require API v2 on both the desktop client and server |
+| Server returns `426 Upgrade Required` | The client and server have no API version in common; update the older component and reconnect |
 
 For more, file an issue at [github.com/eaxum/clustta-studio](https://github.com/eaxum/clustta-studio/issues).
 
